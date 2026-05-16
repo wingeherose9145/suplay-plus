@@ -9,7 +9,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.system.helper.new"   // ← 改成这个
+        applicationId "com.system.helper.calc"
         minSdk 24
         targetSdk 34
 
