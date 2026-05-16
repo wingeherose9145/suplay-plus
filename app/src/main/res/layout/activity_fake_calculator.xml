@@ -163,9 +163,11 @@
         <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSigma" android:text="Σ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:background="@drawable/bg_orange_button" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPageIntegral" android:text="∫"
+        
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnIntegral" android:text="∫"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:background="@drawable/bg_orange_button" android:textColor="#FFFFFF" android:textSize="22sp"/>
+            
         <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDiff" android:text="∂x"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:background="@drawable/bg_orange_button" android:textColor="#FFFFFF" android:textSize="22sp"/>
