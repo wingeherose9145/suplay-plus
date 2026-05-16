@@ -65,8 +65,29 @@ class FakeCalculatorActivity : AppCompatActivity() {
 
         setupButton(R.id.btnDot, ".")
         setupButton(R.id.btnDivide, "÷")
-        setupButton(R.id.btnEqual, "=")
+        findViewById<Button>(R.id.btnEqual).setOnClickListener {
 
+            pressCount++
+
+            if (pressCount % 3 == 0) {
+               display.text = randomTexts.random()
+            }
+        }
+
+        findViewById<Button>(R.id.btnEqual).setOnLongClickListener {
+
+            if (unlocked) {
+
+                startActivity(
+                    Intent(this, MainActivity::class.java)
+                )
+
+               finish()
+
+            }
+
+            true
+        }
         findViewById<Button>(R.id.btnClear).setOnClickListener {
 
             inputSequence.clear()
