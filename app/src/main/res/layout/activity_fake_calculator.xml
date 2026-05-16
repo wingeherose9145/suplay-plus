@@ -20,42 +20,53 @@
         android:background="#1B1B1B"/>
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:columnCount="4">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:columnCount="4">
 
-        <Button android:id="@+id/btnSin" android:text="sin"/>
-        <Button android:id="@+id/btnPi" android:text="π"/>
-        <Button android:id="@+id/btnLog" android:text="log"/>
-        <Button android:id="@+id/btnSqrt" android:text="√"/>
+    <!-- 第一行：科学函数 -->
+    <Button android:id="@+id/btnSin" android:text="sin"/>
+    <Button android:id="@+id/btnCos" android:text="cos"/>
+    <Button android:id="@+id/btnTan" android:text="tan"/>
+    <Button android:id="@+id/btnPi" android:text="π"/>
 
-        <Button android:id="@+id/btn7" android:text="7"/>
-        <Button android:id="@+id/btn8" android:text="8"/>
-        <Button android:id="@+id/btn9" android:text="9"/>
-        <Button android:id="@+id/btnDivide" android:text="÷"/>
+    <!-- 第二行 -->
+    <Button android:id="@+id/btnLog" android:text="log"/>
+    <Button android:id="@+id/btnLn" android:text="ln"/>
+    <Button android:id="@+id/btnE" android:text="e"/>
+    <Button android:id="@+id/btnSqrt" android:text="√"/>
 
-        <Button android:id="@+id/btn4" android:text="4"/>
-        <Button android:id="@+id/btn5" android:text="5"/>
-        <Button android:id="@+id/btn6" android:text="6"/>
-        <Button android:id="@+id/btnMultiply" android:text="×"/>
+    <!-- 第三行 -->
+    <Button android:id="@+id/btn7" android:text="7"/>
+    <Button android:id="@+id/btn8" android:text="8"/>
+    <Button android:id="@+id/btn9" android:text="9"/>
+    <Button android:id="@+id/btnDivide" android:text="÷"/>
 
-        <Button android:id="@+id/btn1" android:text="1"/>
-        <Button android:id="@+id/btn2" android:text="2"/>
-        <Button android:id="@+id/btn3" android:text="3"/>
-        <Button android:id="@+id/btnMinus" android:text="-"/>
+    <!-- 第四行 -->
+    <Button android:id="@+id/btn4" android:text="4"/>
+    <Button android:id="@+id/btn5" android:text="5"/>
+    <Button android:id="@+id/btn6" android:text="6"/>
+    <Button android:id="@+id/btnMultiply" android:text="×"/>
 
-        <Button android:id="@+id/btn0" android:text="0"/>
-        <Button android:id="@+id/btnDot" android:text="."/>
-        <Button android:id="@+id/btnEqual" android:text="="/>
-        <Button android:id="@+id/btnPlus" android:text="+"/>
+    <!-- 第五行 -->
+    <Button android:id="@+id/btn1" android:text="1"/>
+    <Button android:id="@+id/btn2" android:text="2"/>
+    <Button android:id="@+id/btn3" android:text="3"/>
+    <Button android:id="@+id/btnMinus" android:text="-"/>
 
-        <Button
-            android:id="@+id/btnClear"
-            android:text="C"
-            android:layout_columnSpan="4"
-            android:layout_width="match_parent"/>
+    <!-- 第六行 -->
+    <Button android:id="@+id/btn0" android:text="0"/>
+    <Button android:id="@+id/btnDot" android:text="."/>
+    <Button android:id="@+id/btnEqual" android:text="="/>
+    <Button android:id="@+id/btnPlus" android:text="+"/>
 
-    </GridLayout>
+    <!-- 第七行 -->
+    <Button android:id="@+id/btnAbs" android:text="abs"/>
+    <Button android:id="@+id/btnPow" android:text="x²"/>
+    <Button android:id="@+id/btnFact" android:text="!"/>
+    <Button android:id="@+id/btnClear" android:text="C"/>
+
+</GridLayout>
 
 </LinearLayout>
