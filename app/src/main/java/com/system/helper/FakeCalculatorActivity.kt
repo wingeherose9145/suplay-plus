@@ -17,7 +17,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         listOf("sin", "π", "7", "log", "√")
 
     private var pressCount = 0
-
+    private var unlocked = false
     private val randomTexts = listOf(
 
         "E = mc²",
@@ -95,11 +95,10 @@ class FakeCalculatorActivity : AppCompatActivity() {
             // 密码正确
             if (inputSequence == secretSequence) {
 
-                startActivity(
-                    Intent(this, MainActivity::class.java)
-                )
+                unlocked = true
 
-                finish()
+                display.text = "Scientific Mode"
+
             }
         }
     }
