@@ -1,192 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#000000"
-    android:padding="12dp">
+    android:padding="10dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@+id/display"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginBottom="16dp"
-        android:background="#151515"
-        android:gravity="center_vertical|end"
-        android:padding="16dp"
+        android:layout_height="90dp"
+        android:gravity="end|center_vertical"
+        android:textSize="26sp"
         android:textColor="#FFFFFF"
-        android:maxLines="1"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMinTextSize="14sp"
-        app:autoSizeMaxTextSize="40sp"
-        app:autoSizeStepGranularity="2sp" />
+        android:padding="16dp"
+        android:background="#111111"
+        android:maxLines="1" />
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:columnCount="4"
-        android:rowCount="12">
+        android:rowCount="12"
+        android:paddingTop="12dp">
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn7" android:text="7"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn8" android:text="8"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn9" android:text="9"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDivide" android:text="÷"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn7" android:text="7" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn8" android:text="8" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn9" android:text="9" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnDivide" android:text="÷" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn4" android:text="4"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn5" android:text="5"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn6" android:text="6"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMultiply" android:text="×"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn4" android:text="4" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn5" android:text="5" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn6" android:text="6" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnMultiply" android:text="×" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn1" android:text="1"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn2" android:text="2"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn3" android:text="3"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMinus" android:text="-"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn1" android:text="1" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn2" android:text="2" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn3" android:text="3" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnMinus" android:text="-" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn0" android:text="0"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDot" android:text="."
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp" android:textStyle="bold"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEqual" android:text="="
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPlus" android:text="+"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#C1E1C1" android:textColor="#1C352D" android:textSize="26sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btn0" android:text="0" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnDot" android:text="." android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnEqual" android:text="=" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnPlus" android:text="+" android:backgroundTint="#D2F1E4" android:textColor="#113322"/>
 
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSin" android:text="sin"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnCos" android:text="cos"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTan" android:text="tan"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRad" android:text="rad"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnSin" android:text="sin" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnCos" android:text="cos" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnTan" android:text="tan" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnRad" android:text="rad" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAsin" android:text="sin⁻¹"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAcos" android:text="cos⁻¹"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAtan" android:text="tan⁻¹"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDeg" android:text="deg"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnAsin" android:text="sin⁻¹" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnAcos" android:text="cos⁻¹" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnAtan" android:text="tan⁻¹" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnDeg" android:text="deg" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLog" android:text="log"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLn" android:text="ln"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLn2" android:text="ln2"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMod" android:text="mod"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnLog" android:text="log" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnLn" android:text="ln" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnLn2" android:text="ln2" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnMod" android:text="mod" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPow" android:text="x²"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPowY" android:text="xʸ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTenPow" android:text="10ˣ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEPow" android:text="eˣ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#77DD77" android:textColor="#1C352D" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnPow" android:text="x²" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnPowY" android:text="xʸ" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnTenPow" android:text="10ˣ" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnEPow" android:text="eˣ" android:backgroundTint="#8CD8BD" android:textColor="#113322"/>
 
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSigma" android:text="Σ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRomIntegral" android:text="∫"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDiff" android:text="d/dx"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSqrt" android:text="√"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnSigma" android:text="Σ" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnIntegral" android:text="∫" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnDiff" android:text="d/dx" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnSqrt" android:text="√" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAbs" android:text="abs"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAbsX" android:text="|x|"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnFact" android:text="!"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnInf" android:text="∞"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnAbs" android:text="abs" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnAbsX" android:text="|x|" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnFact" android:text="!" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnInf" android:text="∞" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPi" android:text="π"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnE" android:text="e"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPhi" android:text="φ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRand" android:text="rand"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnPi" android:text="π" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnE" android:text="e" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnPhi" android:text="φ" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnRand" android:text="rand" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
 
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMatrix" android:text="matrix"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnVector" android:text="vector"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClear" android:text="C"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
-        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClose" android:text="CLOSE"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1" android:layout_margin="5dp"
-            android:background="@drawable/bg_calculator_button" android:backgroundTint="#3B7A57" android:textColor="#FFFFFF" android:textSize="22sp"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnMatrix" android:text="matrix" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnVector" android:text="vector" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnClear" android:text="C" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
+        <Button style="@style/CalcBtn" android:id="@+id/btnClose" android:text="CLOSE" android:backgroundTint="#2D745A" android:textColor="#FFFFFF"/>
 
     </GridLayout>
 
