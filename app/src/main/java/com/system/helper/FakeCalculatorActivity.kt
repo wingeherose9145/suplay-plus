@@ -12,25 +12,26 @@ class FakeCalculatorActivity : AppCompatActivity() {
 
     private val inputSequence = mutableListOf<String>()
 
-    // 隐藏密码组合
+    private var pressCount = 0
+
+    private var unlocked = false
+
+    // 隐藏进入序列
     private val secretSequence =
         listOf("sin", "π", "7", "log", "√")
 
-    private var pressCount = 0
-    private var unlocked = false
+    // 顶部随机显示内容（伪科学/名言）
     private val randomTexts = listOf(
-
         "E = mc²",
         "F = ma",
         "PV = nRT",
         "ΔG = ΔH - TΔS",
         "sin²θ + cos²θ = 1",
+        "∫ f(x)dx",
         "Reality is merely an illusion.",
-        "Knowledge is power.",
         "Time is relative.",
         "The universe is under no obligation to make sense.",
-        "∫(a→b) f(x)dx"
-
+        "Energy is conserved."
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,88 +40,93 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
 
         display = findViewById(R.id.display)
-
         display.text = randomTexts.random()
 
-        setupButton(R.id.btnSin, "sin")
-        setupButton(R.id.btnPi, "π")
-        setupButton(R.id.btn7, "7")
-        setupButton(R.id.btnLog, "log")
-        setupButton(R.id.btnSqrt, "√")
-
-        setupButton(R.id.btn1, "1")
-        setupButton(R.id.btn2, "2")
-        setupButton(R.id.btn3, "3")
-        setupButton(R.id.btnPlus, "+")
-
-        setupButton(R.id.btn4, "4")
-        setupButton(R.id.btn5, "5")
-        setupButton(R.id.btn6, "6")
-        setupButton(R.id.btnMinus, "-")
-
-        setupButton(R.id.btn8, "8")
-        setupButton(R.id.btn9, "9")
-        setupButton(R.id.btn0, "0")
-        setupButton(R.id.btnMultiply, "×")
-
-        setupButton(R.id.btnDot, ".")
-        setupButton(R.id.btnDivide, "÷")
-        findViewById<Button>(R.id.btnEqual).setOnClickListener {
-
-            pressCount++
-
-            if (pressCount % 3 == 0) {
-               display.text = randomTexts.random()
+        // 统一绑定函数
+        fun bind(id: Int, value: String) {
+            findViewById<Button>(id).setOnClickListener {
+                press(value)
             }
         }
 
+        // 第一行
+        bind(R.id.btnSin, "sin")
+        bind(R.id.btnCos, "cos")
+        bind(R.id.btnTan, "tan")
+        bind(R.id.btnPi, "π")
+
+        // 第二行
+        bind(R.id.btnLog, "log")
+        bind(R.id.btnLn, "ln")
+        bind(R.id.btnE, "e")
+        bind(R.id.btnSqrt, "√")
+
+        // 第三行
+        bind(R.id.btn7, "7")
+        bind(R.id.btn8, "8")
+        bind(R.id.btn9, "9")
+        bind(R.id.btnDivide, "÷")
+
+        // 第四行
+        bind(R.id.btn4, "4")
+        bind(R.id.btn5, "5")
+        bind(R.id.btn6, "6")
+        bind(R.id.btnMultiply, "×")
+
+        // 第五行
+        bind(R.id.btn1, "1")
+        bind(R.id.btn2, "2")
+        bind(R.id.btn3, "3")
+        bind(R.id.btnMinus, "-")
+
+        // 第六行
+        bind(R.id.btn0, "0")
+        bind(R.id.btnDot, ".")
+        bind(R.id.btnEqual, "=")
+        bind(R.id.btnPlus, "+")
+
+        // 第七行
+        bind(R.id.btnAbs, "abs")
+        bind(R.id.btnPow, "x²")
+        bind(R.id.btnFact, "!")
+        bind(R.id.btnClear, "C")
+
+        // 长按 "=" 才进入播放器（核心隐藏入口）
         findViewById<Button>(R.id.btnEqual).setOnLongClickListener {
-
             if (unlocked) {
-
-                startActivity(
-                    Intent(this, MainActivity::class.java)
-                )
-
-               finish()
-
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
-
             true
         }
+
+        // 清空
         findViewById<Button>(R.id.btnClear).setOnClickListener {
-
             inputSequence.clear()
-
             display.text = randomTexts.random()
         }
     }
 
-    private fun setupButton(buttonId: Int, value: String) {
+    private fun press(value: String) {
 
-        findViewById<Button>(buttonId).setOnClickListener {
+        inputSequence.add(value)
 
-            inputSequence.add(value)
+        // 只保留最近5步
+        if (inputSequence.size > 5) {
+            inputSequence.removeAt(0)
+        }
 
-            if (inputSequence.size > 5) {
-                inputSequence.removeAt(0)
-            }
+        pressCount++
 
-            pressCount++
+        // 每3次输入刷新一次“伪科学内容”
+        if (pressCount % 3 == 0) {
+            display.text = randomTexts.random()
+        }
 
-            // 每3次切换随机内容
-            if (pressCount % 3 == 0) {
-                display.text = randomTexts.random()
-            }
-
-            // 密码正确
-            if (inputSequence == secretSequence) {
-
-                unlocked = true
-
-                display.text = "Scientific Mode"
-
-            }
+        // 判断隐藏序列
+        if (inputSequence == secretSequence) {
+            unlocked = true
+            display.text = "Scientific Mode"
         }
     }
 }
