@@ -72,34 +72,113 @@
         <Button style="@style/CalcBtn" android:text="C" android:id="@+id/btnClear"/>
 
         <!-- ===== 第八行 ===== -->
-        <Button style="@style/CalcBtn" android:text="mod"/>
-        <Button style="@style/CalcBtn" android:text="rad"/>
-        <Button style="@style/CalcBtn" android:text="deg"/>
-        <Button style="@style/CalcBtn" android:text="ln2"/>
+        <Button
+    android:id="@+id/btnMod"
+    style="@style/CalcBtn"
+    android:text="mod"/>
 
-        <!-- ===== 第九行 ===== -->
-        <Button style="@style/CalcBtn" android:text="sin⁻¹"/>
-        <Button style="@style/CalcBtn" android:text="cos⁻¹"/>
-        <Button style="@style/CalcBtn" android:text="tan⁻¹"/>
-        <Button style="@style/CalcBtn" android:text="φ"/>
+<Button
+    android:id="@+id/btnRad"
+    style="@style/CalcBtn"
+    android:text="rad"/>
 
-        <!-- ===== 第十行 ===== -->
-        <Button style="@style/CalcBtn" android:text="xʸ"/>
-        <Button style="@style/CalcBtn" android:text="10ˣ"/>
-        <Button style="@style/CalcBtn" android:text="eˣ"/>
-        <Button style="@style/CalcBtn" android:text="|x|"/>
+<Button
+    android:id="@+id/btnDeg"
+    style="@style/CalcBtn"
+    android:text="deg"/>
 
-        <!-- ===== 第十一行 ===== -->
-        <Button style="@style/CalcBtn" android:text="Σ"/>
-        <Button style="@style/CalcBtn" android:text="∫"/>
-        <Button style="@style/CalcBtn" android:text="d/dx"/>
-        <Button style="@style/CalcBtn" android:text="∞"/>
+<Button
+    android:id="@+id/btnLn2"
+    style="@style/CalcBtn"
+    android:text="ln2"/>
 
-        <!-- ===== 第十二行 ===== -->
-        <Button style="@style/CalcBtn" android:text="matrix"/>
-        <Button style="@style/CalcBtn" android:text="vector"/>
-        <Button style="@style/CalcBtn" android:text="rand"/>
-        <Button style="@style/CalcBtn" android:text="CLOSE"/>
+
+<!-- ===== 第九行 ===== -->
+<Button
+    android:id="@+id/btnAsin"
+    style="@style/CalcBtn"
+    android:text="sin⁻¹"/>
+
+<Button
+    android:id="@+id/btnAcos"
+    style="@style/CalcBtn"
+    android:text="cos⁻¹"/>
+
+<Button
+    android:id="@+id/btnAtan"
+    style="@style/CalcBtn"
+    android:text="tan⁻¹"/>
+
+<Button
+    android:id="@+id/btnPhi"
+    style="@style/CalcBtn"
+    android:text="φ"/>
+
+
+<!-- ===== 第十行 ===== -->
+<Button
+    android:id="@+id/btnPowY"
+    style="@style/CalcBtn"
+    android:text="xʸ"/>
+
+<Button
+    android:id="@+id/btnTenPow"
+    style="@style/CalcBtn"
+    android:text="10ˣ"/>
+
+<Button
+    android:id="@+id/btnEPow"
+    style="@style/CalcBtn"
+    android:text="eˣ"/>
+
+<Button
+    android:id="@+id/btnAbsX"
+    style="@style/CalcBtn"
+    android:text="|x|"/>
+
+
+<!-- ===== 第十一行 ===== -->
+<Button
+    android:id="@+id/btnSigma"
+    style="@style/CalcBtn"
+    android:text="Σ"/>
+
+<Button
+    android:id="@+id/btnIntegral"
+    style="@style/CalcBtn"
+    android:text="∫"/>
+
+<Button
+    android:id="@+id/btnDiff"
+    style="@style/CalcBtn"
+    android:text="d/dx"/>
+
+<Button
+    android:id="@+id/btnInf"
+    style="@style/CalcBtn"
+    android:text="∞"/>
+
+
+<!-- ===== 第十二行 ===== -->
+<Button
+    android:id="@+id/btnMatrix"
+    style="@style/CalcBtn"
+    android:text="matrix"/>
+
+<Button
+    android:id="@+id/btnVector"
+    style="@style/CalcBtn"
+    android:text="vector"/>
+
+<Button
+    android:id="@+id/btnRand"
+    style="@style/CalcBtn"
+    android:text="rand"/>
+
+<Button
+    android:id="@+id/btnClose"
+    style="@style/CalcBtn"
+    android:text="CLOSE"/>
 
     </GridLayout>
 
