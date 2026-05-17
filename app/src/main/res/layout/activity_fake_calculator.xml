@@ -30,35 +30,41 @@
         android:columnCount="4"
         android:rowCount="12">
 
-        <Button android:id="@+id/btnSin" android:text="sin"
+        <Button android:id="@+id/btnSin" android:text="𝑠θ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnCos" android:text="cos"
+
+        <Button android:id="@+id/btnCos" android:text="𝑐θ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnTan" android:text="tan"
+
+        <Button android:id="@+id/btnTan" android:text="𝑡θ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnPi" android:text="π"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <Button android:id="@+id/btnLog" android:text="log"
+        <Button android:id="@+id/btnLog" android:text="㏒"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnLn" android:text="ln"
+
+        <Button android:id="@+id/btnLn" android:text="ℓn"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnE" android:text="e"
+
+        <Button android:id="@+id/btnE" android:text="ℯ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnSqrt" android:text="√"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
@@ -68,14 +74,17 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn8" android:text="8"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn9" android:text="9"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnDivide" android:text="÷"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
@@ -85,14 +94,17 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn5" android:text="5"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn6" android:text="6"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnMultiply" android:text="×"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
@@ -102,15 +114,18 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn2" android:text="2"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btn3" android:text="3"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnMinus" android:text="-"
+
+        <Button android:id="@+id/btnMinus" android:text="−"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
@@ -119,65 +134,77 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnDot" android:text="."
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnEqual" android:text="="
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnPlus" android:text="+"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <Button android:id="@+id/btnAbs" android:text="abs"
+        <Button android:id="@+id/btnAbs" android:text="‖x‖"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnPow" android:text="x²"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnFact" android:text="!"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnClear" android:text="C"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <Button android:id="@+id/btnMod" android:text="mod"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnRad" android:text="rad"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnDeg" android:text="deg"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnLn2" android:text="ln2"
+        <Button android:id="@+id/btnMod" android:text="%"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <Button android:id="@+id/btnAsin" android:text="s⁻¹"
+        <Button android:id="@+id/btnRad" android:text="∡r"
+            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
+        <Button android:id="@+id/btnDeg" android:text="°"
+            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
+        <Button android:id="@+id/btnLn2" android:text="㏑2"
+            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
+        <Button android:id="@+id/btnAsin" android:text="𝑠⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnAcos" android:text="c⁻¹"
+
+        <Button android:id="@+id/btnAcos" android:text="𝑐⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnAtan" android:text="t⁻¹"
+
+        <Button android:id="@+id/btnAtan" android:text="𝑡⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnPhi" android:text="φ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
@@ -187,14 +214,17 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnTenPow" android:text="10ˣ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnEPow" android:text="eˣ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnAbsX" android:text="|x|"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
@@ -204,14 +234,17 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnIntegral" android:text="∫"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnDiff" android:text="∂x"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnInf" android:text="∞"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
@@ -221,14 +254,17 @@
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnVector" android:text="[V]"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
-        <Button android:id="@+id/btnRand" android:text="Rnd"
+
+        <Button android:id="@+id/btnRand" android:text="∿"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
             android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+
         <Button android:id="@+id/btnClose" android:text="OFF"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
             android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
