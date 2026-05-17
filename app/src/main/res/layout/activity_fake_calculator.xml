@@ -30,209 +30,209 @@
         android:columnCount="4"
         android:rowCount="12">
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSin" android:text="sin"
+        <Button android:id="@+id/btnSin" android:text="sin"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnCos" android:text="cos"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnCos" android:text="cos"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnTan" android:text="tan"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnTan" android:text="tan"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPi" android:text="π"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnPi" android:text="π"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLog" android:text="log"
+        <Button android:id="@+id/btnLog" android:text="log"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLn" android:text="ln"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnLn" android:text="ln"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnE" android:text="e"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnE" android:text="e"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSqrt" android:text="√"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnSqrt" android:text="√"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn7" android:text="7"
+        <Button android:id="@+id/btn7" android:text="7"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn8" android:text="8"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn8" android:text="8"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn9" android:text="9"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn9" android:text="9"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDivide" android:text="÷"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnDivide" android:text="÷"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn4" android:text="4"
+        <Button android:id="@+id/btn4" android:text="4"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn5" android:text="5"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn5" android:text="5"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn6" android:text="6"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn6" android:text="6"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMultiply" android:text="×"
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnMultiply" android:text="×"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#D2F1E4" android:textColor="#113322" android:textSize="26sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn1" android:text="1"
+        <Button android:id="@+id/btn1" android:text="1"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn2" android:text="2"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn2" android:text="2"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn3" android:text="3"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btn3" android:text="3"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMinus" android:text="-"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnMinus" android:text="-"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn0" android:text="0"
+        <Button android:id="@+id/btn0" android:text="0"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDot" android:text="."
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnDot" android:text="."
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnEqual" android:text="="
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp" android:textStyle="bold"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnEqual" android:text="="
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPlus" android:text="+"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnPlus" android:text="+"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="26sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAbs" android:text="abs"
+        <Button android:id="@+id/btnAbs" android:text="abs"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPow" android:text="x²"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnPow" android:text="x²"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnFact" android:text="!"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnFact" android:text="!"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnClear" android:text="C"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnClear" android:text="C"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMod" android:text="mod"
+        <Button android:id="@+id/btnMod" android:text="mod"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnRad" android:text="rad"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnRad" android:text="rad"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDeg" android:text="deg"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnDeg" android:text="deg"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLn2" android:text="ln2"
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnLn2" android:text="ln2"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#B2EAD1" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAsin" android:text="s⁻¹"
+        <Button android:id="@+id/btnAsin" android:text="s⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAcos" android:text="c⁻¹"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnAcos" android:text="c⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAtan" android:text="t⁻¹"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnAtan" android:text="t⁻¹"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPhi" android:text="φ"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnPhi" android:text="φ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPowY" android:text="xʸ"
+        <Button android:id="@+id/btnPowY" android:text="xʸ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnTenPow" android:text="10ˣ"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnTenPow" android:text="10ˣ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnEPow" android:text="eˣ"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnEPow" android:text="eˣ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAbsX" android:text="|x|"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnAbsX" android:text="|x|"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSigma" android:text="Σ"
+        <Button android:id="@+id/btnSigma" android:text="Σ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnIntegral" android:text="∫"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnIntegral" android:text="∫"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDiff" android:text="∂x"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnDiff" android:text="∂x"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnInf" android:text="∞"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnInf" android:text="∞"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMatrix" android:text="[M]"
+        <Button android:id="@+id/btnMatrix" android:text="[M]"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnVector" android:text="[V]"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnVector" android:text="[V]"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnRand" android:text="Rnd"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnRand" android:text="Rnd"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnClose" android:text="OFF"
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+        <Button android:id="@+id/btnClose" android:text="OFF"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" app:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
-            app:cornerRadius="12dp" app:insetTop="0dp" app:insetBottom="0dp"/>
+            android:layout_margin="5dp" android:backgroundTint="#8CD8BD" android:textColor="#113322" android:textSize="22sp"
+            android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
 
     </GridLayout>
 </LinearLayout>
