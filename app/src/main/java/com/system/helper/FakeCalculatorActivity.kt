@@ -16,7 +16,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private var pressCount = 0
     private var unlocked = false
 
-    private val secretSequence = listOf("π", "π", "π", "π", "π")
+    // 💡 已同步修复：按键映射变更后，此处彩蛋密码也改为对应的新符号
+    private val secretSequence = listOf("∞", "π", "∇", "∫", "Δ")
 
     private val randomTexts = listOf(
     "E = mc²",
@@ -65,7 +66,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     // =========================
-    // 统一按钮映射（核心优化）
+    // 统一按钮映射
     // =========================
     private fun setupButtons() {
 
