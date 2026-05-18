@@ -16,7 +16,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private var pressCount = 0
     private var unlocked = false
 
-    private val secretSequence = listOf("𝑠θ", "π", "7", "㏒", "√")
+    private val secretSequence = listOf("π", "π", "π", "π", "π")
 
     private val randomTexts = listOf(
     "E = mc²",
@@ -70,65 +70,65 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private fun setupButtons() {
 
         val map = mapOf(
-            R.id.btnSin to "𝑠θ",
-            R.id.btnCos to "𝑐θ",
-            R.id.btnTan to "𝑡θ",
-            R.id.btnPi to "π",
+            R.id.btnSin to "∞",
+            R.id.btnCos to "π",
+            R.id.btnTan to "∑",
+            R.id.btnPi to "∏",
 
-            R.id.btnLog to "㏒",
-            R.id.btnLn to "ℓn",
-            R.id.btnE to "ℯ",
-            R.id.btnSqrt to "√",
+            R.id.btnLog to "∫",
+            R.id.btnLn to "∂",
+            R.id.btnE to "√",
+            R.id.btnSqrt to "Δ",
 
-            R.id.btn7 to "7",
-            R.id.btn8 to "8",
-            R.id.btn9 to "9",
-            R.id.btnDivide to "÷",
+            R.id.btn7 to "∇",
+            R.id.btn8 to "∀",
+            R.id.btn9 to "∃",
+            R.id.btnDivide to "Ω",
 
-            R.id.btn4 to "4",
-            R.id.btn5 to "5",
-            R.id.btn6 to "6",
-            R.id.btnMultiply to "×",
+            R.id.btn4 to "λ",
+            R.id.btn5 to "Φ",
+            R.id.btn6 to "ρ",
+            R.id.btnMultiply to "ω",
 
-            R.id.btn1 to "1",
-            R.id.btn2 to "2",
-            R.id.btn3 to "3",
-            R.id.btnMinus to "−",
+            R.id.btn1 to "ν",
+            R.id.btn2 to "ℏ",
+            R.id.btn3 to "Ψ",
+            R.id.btnMinus to "α",
 
-            R.id.btn0 to "0",
-            R.id.btnDot to ".",
-            R.id.btnEqual to "=",
-            R.id.btnPlus to "+",
+            R.id.btn0 to "β",
+            R.id.btnDot to "γ",
+            R.id.btnEqual to "μ",
+            R.id.btnPlus to "⇌",
 
-            R.id.btnAbs to "‖x‖",
-            R.id.btnPow to "x²",
-            R.id.btnFact to "!",
-            R.id.btnClear to "C",
+            R.id.btnAbs to "→",
+            R.id.btnPow to "↑",
+            R.id.btnFact to "↓",
+            R.id.btnClear to "♂",
 
-            R.id.btnMod to "%",
-            R.id.btnRad to "∡r",
-            R.id.btnDeg to "°",
-            R.id.btnLn2 to "㏑2",
+            R.id.btnMod to "♀",
+            R.id.btnRad to "☉",
+            R.id.btnDeg to "⊕",
+            R.id.btnLn2 to "☾",
 
-            R.id.btnAsin to "𝑠⁻¹",
-            R.id.btnAcos to "𝑐⁻¹",
-            R.id.btnAtan to "𝑡⁻¹",
-            R.id.btnPhi to "φ",
+            R.id.btnAsin to "♃",
+            R.id.btnAcos to "♄",
+            R.id.btnAtan to "☄",
+            R.id.btnPhi to "Å",
 
-            R.id.btnPowY to "xʸ",
-            R.id.btnTenPow to "10ˣ",
-            R.id.btnEPow to "eˣ",
-            R.id.btnAbsX to "|x|",
+            R.id.btnPowY to "℃",
+            R.id.btnTenPow to "‰",
+            R.id.btnEPow to "∅",
+            R.id.btnAbsX to "∈",
 
-            R.id.btnSigma to "Σ",
-            R.id.btnIntegral to "∫",
-            R.id.btnDiff to "∂x",
-            R.id.btnInf to "∞",
+            R.id.btnSigma to "∉",
+            R.id.btnIntegral to "⊂",
+            R.id.btnDiff to "∩",
+            R.id.btnInf to "∪",
 
-            R.id.btnMatrix to "[M]",
-            R.id.btnVector to "[V]",
-            R.id.btnRand to "∿",
-            R.id.btnClose to "OFF"
+            R.id.btnMatrix to "∧",
+            R.id.btnVector to "∨",
+            R.id.btnRand to "⇔",
+            R.id.btnClose to "σ"
         )
 
         map.forEach { (id, value) ->
