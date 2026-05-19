@@ -15,98 +15,87 @@ class FakeCalculatorActivity : AppCompatActivity() {
 
     private lateinit var display: TextView
     private val inputSequence = mutableListOf<String>()
-    private var pressCount = 0
     private var unlocked = false
 
-    // 解锁暗号序列
+    // 解锁暗号序列（保留后门功能：顺序输入这5个音解锁）
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
-    // 内容库列表（从TXT读取）
-    private var randomTexts = listOf<String>()
+    // 内容库全量列表
+    private var allTexts = listOf<String>()
+    
+    // ================= 新增：匹配与检索状态 =================
+    private var currentInput = ""          // 当前输入的假名序列
+    private var filteredTexts = listOf<String>() // 筛选后的内容子集
+    private var filteredIndex = 0          // 当前处于筛选列表的第几页
 
     // 50音图字符定义（10行5列）
-    // 为了方便维护，直接定义平假名和片假名两套数组
     private val hiraganaList = listOf(
-        "あ", "い", "う", "え", "お", // 行1
-        "か", "き", "く", "け", "こ", // 行2
-        "さ", "し", "す", "せ", "そ", // 行3
-        "た", "ち", "つ", "て", "と", // 行4
-        "な", "に", "ぬ", "ね", "の", // 行5
-        "は", "ひ", "ふ", "へ", "ほ", // 行6
-        "ま", "み", "む", "め", "も", // 行7
-        "や", "ゆ", "よ", "◀", "▶", // 行8 (后两格为功能键)
-        "ら", "り", "る", "れ", "ろ", // 行9
-        "わ", "を", "ん", "假名", "预留" // 行10 (后两格为功能键)
+        "あ", "い", "う", "え", "お", // 1
+        "か", "き", "く", "け", "こ", // 2
+        "さ", "し", "す", "せ", "そ", // 3
+        "た", "ち", "つ", "て", "と", // 4
+        "な", "に", "ぬ", "ね", "の", // 5
+        "は", "ひ", "ふ", "へ", "ほ", // 6
+        "ま", "み", "む", "め", "も", // 7
+        "や", "◀", "よ", "▶", "よ", // 8 (第2位是◀，第4位是▶) 注：原本的ゆ/よ位置腾出，这里填补占位
+        "ら", "り", "る", "れ", "ろ", // 9
+        "わ", "を", "ん", "假名", "预留" // 10
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "ウ", "エ", "オ",
+        "ア", "イ", "乌", "エ", "オ",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
         "ナ", "ニ", "ヌ", "ネ", "ノ",
         "ハ", "ヒ", "フ", "ヘ", "ホ",
         "マ", "ミ", "ム", "メ", "モ",
-        "ヤ", "ユ", "ヨ", "◀", "▶",
-        "ラ", "リ", "ル", "レ", "ろ",
+        "ヤ", "◀", "ヨ", "▶", "ヨ",
+        "ラ", "リ", "ル", "レ", "ロ",
         "ワ", "ヲ", "ン", "假名", "预留"
     )
 
-    private var isHiragana = true // 状态锁：当前是否为平假名
-    private val buttonList = mutableListOf<MaterialButton>() // 存放扫描到的50个按钮
+    private var isHiragana = true
+    private val buttonList = mutableListOf<MaterialButton>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 全屏沉浸式无状态栏遮挡
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN 
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
         setContentView(R.layout.activity_fake_calculator)
-
         display = findViewById(R.id.display)
         
-        // 初始化TXT内容库
         loadTextLibrary()
-        if (randomTexts.isNotEmpty()) {
-            display.text = randomTexts.random()
-        }
-
-        // 1. 递归扫描并按顺序收集所有的 MaterialButton
-        scanAllButtons(window.decorView.findViewById(android.R.id.content))
         
-        // 2. 刷新按钮上显示的文字并绑定事件（默认平假名）
+        // 初始状态显示提示或清空
+        display.text = "请输入假名检索..."
+
+        scanAllButtons(window.decorView.findViewById(android.R.id.content))
         refreshButtonLabels()
     }
 
-    /**
-     * 从 assets 目录中读取 txt 文件
-     */
     private fun loadTextLibrary() {
         try {
-            // 请确保在 app/src/main/assets/ 目录下创建了 random_texts.txt 文件
             val inputStream = assets.open("random_texts.txt")
             val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
             val list = mutableListOf<String>()
             var line: String?
             while (reader.readLine().also { line = it } != null) {
-                if (!line!!.trim().startsWith("#") && line!!.isNotEmpty()) { // 过滤注释和空行
+                if (!line!!.trim().startsWith("#") && line!!.isNotEmpty()) {
                     list.add(line!!)
                 }
             }
             reader.close()
-            randomTexts = list
+            allTexts = list
         } catch (e: Exception) {
             e.printStackTrace()
-            // 如果读取失败，保底数据
-            randomTexts = listOf("E = mc²", "こんにちは", "さようなら")
+            allTexts = listOf("あさ（朝）", "いぬ（犬）", "うえ（上）", "えき（駅）", "おかし（お菓子）")
         }
     }
 
-    /**
-     * 深度优先遍历：将布局里的所有按钮按【代码/XML中的声明顺序】加入到集合中
-     */
     private fun scanAllButtons(view: View) {
         if (view is MaterialButton) {
             buttonList.add(view)
@@ -117,91 +106,104 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 刷新10行5列按钮的文字，并统一绑定点击逻辑
-     */
     private fun refreshButtonLabels() {
         val currentAlphabet = if (isHiragana) hiraganaList else katakanaList
-
-        // 防止XML里按钮数量和50个对不上导致崩溃
         val maxIndex = minOf(buttonList.size, currentAlphabet.size)
 
         for (i in 0 until maxIndex) {
             val button = buttonList[i]
             val textValue = currentAlphabet[i]
-            
-            // 设置按钮文字
             button.text = textValue
+            button.setOnClickListener { handleButtonClick(textValue, i) }
+        }
+    }
 
-            // 解绑之前的事件重新绑定
-            button.setOnClickListener {
-                handleButtonClick(textValue, i)
+    private fun handleButtonClick(value: String, index: Int) {
+        switch (index) {
+            // 第8行第2位 (索引 36) -> 上一个
+            36 -> {
+                if (filteredTexts.isNotEmpty()) {
+                    filteredIndex = if (filteredIndex - 1 < 0) filteredTexts.size - 1 else filteredIndex - 1
+                    updateDisplayResult()
+                }
+            }
+            // 第8行第4位 (索引 38) -> 下一个
+            38 -> {
+                if (filteredTexts.isNotEmpty()) {
+                    filteredIndex = (filteredIndex + 1) % filteredTexts.size
+                    updateDisplayResult()
+                }
+            }
+            // 第10行第4位 (索引 48) -> 切换假名
+            48 -> {
+                isHiragana = !isHiragana
+                refreshButtonLabels()
+            }
+            // 第10行第5位 (索引 49) -> 预留/退格/解锁
+            49 -> {
+                if (unlocked) {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    // 预留功能：这里我们先定义为【退格键】，方便输错时回退
+                    if (currentInput.isNotEmpty()) {
+                        currentInput = currentInput.substring(0, currentInput.length - 1)
+                        matchAndFilter()
+                    }
+                }
+            }
+            // 普通50音输入键
+            else -> {
+                // 排除功能键冲突导致的误输入
+                if (value != "◀" && value != "▶" && value != "假名" && value != "预留") {
+                    currentInput += value
+                    
+                    // 暗号流检测（保留后门）
+                    inputSequence.add(value)
+                    if (inputSequence.size > 5) inputSequence.removeAt(0)
+                    if (inputSequence == secretSequence) unlocked = true
+
+                    matchAndFilter()
+                }
             }
         }
     }
 
     /**
-     * 统一处理按钮点击事件
-     * @param value 按钮当前的文本
-     * @param index 按钮在50个格子中的绝对索引（0-49）
+     * 根据当前输入的 currentInput 去内容库全量筛选
      */
-    private fun handleButtonClick(value: String, index: Int) {
-        // 根据索引或字符判断是否为特殊键
-        when {
-            // 第8行最后两格 (第39和第40个按键，索引为38, 39)
-            index == 38 -> { // ◀ 上一个 键
-                // TODO: 以后在此处定义"上一个"的切换功能
-                showToast("触发：上一个")
-            }
-            index == 39 -> { // ▶ 下一个 键
-                // TODO: 以后在此处定义"下一个"的切换功能
-                showToast("触发：下一个")
-            }
-            
-            // 第10行最后两格 (第49和第50个按键，索引为48, 49)
-            index == 48 -> { // 切换键
-                isHiragana = !isHiragana
-                refreshButtonLabels() // 刷新键盘
-            }
-            index == 49 -> { // 预留键
-                // TODO: 以后在此处定义新增功能
-                showToast("触发：预留功能")
-                
-                // 顺便保留你原本的长按进主页逻辑（可以改成短按或长按，这里先做个后门示范）
-                if (unlocked) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
-                }
-            }
-            
-            // 普通50音字符键
-            else -> {
-                press(value)
-            }
+    private fun matchAndFilter() {
+        if (currentInput.isEmpty()) {
+            filteredTexts = listOf()
+            filteredIndex = 0
+            display.text = "请输入假名检索..."
+            return
         }
+
+        // 核心匹配算法：筛选出内容库里包含当前输入字符，或者以当前输入开头的文本
+        // 这里采用 contains(包含)，如果你需要严格的开头匹配，可以改成 startsWith
+        filteredTexts = allTexts.filter { it.contains(currentInput) }
+        filteredIndex = 0 // 重置到第一条
+
+        updateDisplayResult()
     }
 
-    private fun press(value: String) {
-        inputSequence.add(value)
-        if (inputSequence.size > 5) {
-            inputSequence.removeAt(0)
+    /**
+     * 将当前的输入信息和匹配结果渲染到屏幕上
+     */
+    private fun updateDisplayResult() {
+        val builder = StringBuilder()
+        // 第一行：显示用户当前打出来的假名
+        builder.append("输入: $currentInput\n")
+        
+        // 第二、三行：显示匹配到的内容库文本和页码
+        if (filteredTexts.isNotEmpty()) {
+            val matchText = filteredTexts[filteredIndex]
+            builder.append("匹配 [${filteredIndex + 1}/${filteredTexts.size}]:\n$matchText")
+        } else {
+            builder.append("\n(未找到匹配内容)")
         }
-        pressCount++
 
-        // 没解锁时，每按3次随机从TXT内容库刷新一下文本
-        if (pressCount % 3 == 0 && randomTexts.isNotEmpty()) {
-            display.text = randomTexts.random()
-        }
-
-        // 检测暗号（根据你输入的假名序列）
-        if (inputSequence == secretSequence) {
-            unlocked = true
-            display.text = "Scientific Mode"
-        }
-    }
-
-    // 辅助提示函数
-    private fun showToast(msg: String) {
-        android.widget.Toast.makeText(this, msg, android.widget.Toast.LENGTH_SHORT).show()
+        display.text = builder.toString()
     }
 }
