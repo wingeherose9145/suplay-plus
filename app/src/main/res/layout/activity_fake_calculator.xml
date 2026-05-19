@@ -17,13 +17,11 @@
         android:gravity="bottom|end"
         android:padding="16dp"
         android:textColor="#FF9800"
-        
         android:maxLines="3"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="12sp"
         app:autoSizeMaxTextSize="40sp"
         app:autoSizeStepGranularity="1sp"
-        
         android:fontFamily="@font/geek_font_bold"
         android:textStyle="bold" />
 
@@ -31,345 +29,68 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:columnCount="4"
-        android:rowCount="12">
+        android:columnCount="5"
+        android:rowCount="10">
 
-      
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSin" android:text="∞"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_1_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_1_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_1_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_1_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_1_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnCos" android:text="π"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_2_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_2_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_2_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_2_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_2_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnTan" android:text="∑"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_3_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_3_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_3_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_3_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_3_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPi" android:text="∏"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_4_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_4_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_4_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_4_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_4_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLog" android:text="∫"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_5_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_5_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_5_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_5_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_5_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLn" android:text="∂"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_6_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_6_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_6_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_6_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_6_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnE" android:text="√"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSqrt" android:text="Δ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_4" android:text="◀" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_5" android:text="▶" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn7" android:text="∇"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_4" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_5" style="@style/FiftyToneButtonStyle"/>
 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn8" android:text="∀"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn9" android:text="∃"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDivide" android:text="Ω"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn4" android:text="λ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn5" android:text="Φ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn6" android:text="ρ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMultiply" android:text="ω"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn1" android:text="ν"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn2" android:text="ℏ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn3" android:text="Ψ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMinus" android:text="α"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn0" android:text="β"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDot" android:text="γ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnEqual" android:text="μ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPlus" android:text="⇌"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAbs" android:text="→"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPow" android:text="↑"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnFact" android:text="↓"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnClear" android:text="⌫"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMod" android:text="％"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnRad" android:text="☉"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDeg" android:text="⊕"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnLn2" android:text="☾"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAsin" android:text="♃"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAcos" android:text="♄"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAtan" android:text="☄"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPhi" android:text="ℵ"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnPowY" android:text="⊠"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnTenPow" android:text="‰"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnEPow" android:text="∅"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnAbsX" android:text="∈"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnSigma" android:text="∉"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnIntegral" android:text="⊂"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnDiff" android:text="∩"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnInf" android:text="∪"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnMatrix" android:text="∧"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnVector" android:text="∨"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnRand" android:text="⇔"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
-
-        <com.google.android.material.button.MaterialButton android:id="@+id/btnClose" android:text="⏻"
-            android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            android:fontFamily="@font/geek_font_bold" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"
-            android:gravity="center" android:includeFontPadding="false"
-            app:strokeColor="#2C2C2C" app:strokeWidth="1.5dp" app:rippleColor="#40FF9800"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_10_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_10_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_10_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_10_4" android:text="假名" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_10_5" android:text="预留" style="@style/FiftyToneButtonStyle"/>
 
     </GridLayout>
 </LinearLayout>
