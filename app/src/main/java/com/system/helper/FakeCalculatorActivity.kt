@@ -17,13 +17,13 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private val inputSequence = mutableListOf<String>()
     private var unlocked = false
 
-    // 解锁暗号序列（保留后门功能：顺序输入这5个音解锁）
+    // 解锁暗号序列（顺序输入这5个音解锁进入主页）
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
     // 内容库全量列表
     private var allTexts = listOf<String>()
     
-    // ================= 新增：匹配与检索状态 =================
+    // 匹配与检索状态
     private var currentInput = ""          // 当前输入的假名序列
     private var filteredTexts = listOf<String>() // 筛选后的内容子集
     private var filteredIndex = 0          // 当前处于筛选列表的第几页
@@ -37,13 +37,13 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "な", "に", "ぬ", "ね", "の", // 5
         "は", "ひ", "ふ", "へ", "ほ", // 6
         "ま", "み", "む", "め", "も", // 7
-        "や", "◀", "よ", "▶", "よ", // 8 (第2位是◀，第4位是▶) 注：原本的ゆ/よ位置腾出，这里填补占位
+        "や", "◀", "よ", "▶", "よ", // 8 (第2位是◀，第4位是▶) 
         "ら", "り", "る", "れ", "ろ", // 9
         "わ", "を", "ん", "假名", "预留" // 10
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "乌", "エ", "オ",
+        "ア", "イ", "ウ", "电", "オ",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
@@ -70,7 +70,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         
         loadTextLibrary()
         
-        // 初始状态显示提示或清空
+        // 初始状态显示提示
         display.text = "请输入假名检索..."
 
         scanAllButtons(window.decorView.findViewById(android.R.id.content))
@@ -119,7 +119,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     private fun handleButtonClick(value: String, index: Int) {
-        switch (index) {
+        // 🛠️ 彻底修复：将 Java 的 switch 修正为 Kotlin 标准的 when 语法
+        when (index) {
             // 第8行第2位 (索引 36) -> 上一个
             36 -> {
                 if (filteredTexts.isNotEmpty()) {
@@ -145,7 +146,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    // 预留功能：这里我们先定义为【退格键】，方便输错时回退
+                    // 默认赋予【退格】功能，方便回退
                     if (currentInput.isNotEmpty()) {
                         currentInput = currentInput.substring(0, currentInput.length - 1)
                         matchAndFilter()
@@ -154,11 +155,10 @@ class FakeCalculatorActivity : AppCompatActivity() {
             }
             // 普通50音输入键
             else -> {
-                // 排除功能键冲突导致的误输入
                 if (value != "◀" && value != "▶" && value != "假名" && value != "预留") {
                     currentInput += value
                     
-                    // 暗号流检测（保留后门）
+                    // 暗号流检测
                     inputSequence.add(value)
                     if (inputSequence.size > 5) inputSequence.removeAt(0)
                     if (inputSequence == secretSequence) unlocked = true
@@ -170,7 +170,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 根据当前输入的 currentInput 去内容库全量筛选
+     * 根据当前输入的字符前缀/包含关系，去内容库全量筛选
      */
     private fun matchAndFilter() {
         if (currentInput.isEmpty()) {
@@ -180,10 +180,9 @@ class FakeCalculatorActivity : AppCompatActivity() {
             return
         }
 
-        // 核心匹配算法：筛选出内容库里包含当前输入字符，或者以当前输入开头的文本
-        // 这里采用 contains(包含)，如果你需要严格的开头匹配，可以改成 startsWith
+        // 默认包含匹配，如果你需要严格的【必须以输入文字开头】，请把 contains 改为 startsWith
         filteredTexts = allTexts.filter { it.contains(currentInput) }
-        filteredIndex = 0 // 重置到第一条
+        filteredIndex = 0 
 
         updateDisplayResult()
     }
@@ -193,10 +192,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
      */
     private fun updateDisplayResult() {
         val builder = StringBuilder()
-        // 第一行：显示用户当前打出来的假名
         builder.append("输入: $currentInput\n")
         
-        // 第二、三行：显示匹配到的内容库文本和页码
         if (filteredTexts.isNotEmpty()) {
             val matchText = filteredTexts[filteredIndex]
             builder.append("匹配 [${filteredIndex + 1}/${filteredTexts.size}]:\n$matchText")
