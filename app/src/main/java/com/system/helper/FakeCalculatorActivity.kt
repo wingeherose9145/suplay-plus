@@ -16,30 +16,16 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private var pressCount = 0
     private var unlocked = false
 
-    // 💡 已同步修复：按键映射变更后，此处彩蛋密码也改为对应的新符号
+    // 💡 已同步：彩蛋解码按键序列保持与映射相同
     private val secretSequence = listOf("∞", "π", "∇", "∫", "Δ")
 
     private val randomTexts = listOf(
-    "E = mc²",
-    "F = ma",
-    "PV = nRT",
-    "ΔG = ΔH - TΔS",
-    "sin²θ + cos²θ = 1",
-    "∫ f(x)dx = F(x) + C",
-    "lim(x→0) sinx/x = 1",
-    "d/dx (xⁿ) = n xⁿ⁻¹",
-    "∇·E = ρ/ε₀",
-    "∇×E = -∂B/∂t",
-    "iħ ∂ψ/∂t = Hψ",
-    "E = hf",
-    "c = λf",
-    "pV = NkT",
-    "a² + b² = c²",
-    "σ = εE",
-    "V = IR",
-    "Q = mcΔT",
-    "S = k lnΩ",
-    "λ = h/p"
+        "E = mc²", "F = ma", "PV = nRT", "ΔG = ΔH - TΔS",
+        "sin²θ + cos²θ = 1", "∫ f(x)dx = F(x) + C", "lim(x→0) sinx/x = 1",
+        "d/dx (xⁿ) = n xⁿ⁻¹", "∇·E = ρ/ε₀", "∇×E = -∂B/∂t",
+        "iħ ∂ψ/∂t = Hψ", "E = hf", "c = λf", "pV = NkT",
+        "a² + b² = c²", "σ = εE", "V = IR", "Q = mcΔT",
+        "S = k lnΩ", "λ = h/p"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,71 +51,20 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setupUnlock()
     }
 
-    // =========================
-    // 统一按钮映射
-    // =========================
     private fun setupButtons() {
-
         val map = mapOf(
-            R.id.btnSin to "∞",
-            R.id.btnCos to "π",
-            R.id.btnTan to "∑",
-            R.id.btnPi to "∏",
-
-            R.id.btnLog to "∫",
-            R.id.btnLn to "∂",
-            R.id.btnE to "√",
-            R.id.btnSqrt to "Δ",
-
-            R.id.btn7 to "∇",
-            R.id.btn8 to "∀",
-            R.id.btn9 to "∃",
-            R.id.btnDivide to "Ω",
-
-            R.id.btn4 to "λ",
-            R.id.btn5 to "Φ",
-            R.id.btn6 to "ρ",
-            R.id.btnMultiply to "ω",
-
-            R.id.btn1 to "ν",
-            R.id.btn2 to "ℏ",
-            R.id.btn3 to "Ψ",
-            R.id.btnMinus to "α",
-
-            R.id.btn0 to "β",
-            R.id.btnDot to "γ",
-            R.id.btnEqual to "μ",
-            R.id.btnPlus to "⇌",
-
-            R.id.btnAbs to "→",
-            R.id.btnPow to "↑",
-            R.id.btnFact to "↓",
-            R.id.btnClear to "♂",
-
-            R.id.btnMod to "♀",
-            R.id.btnRad to "☉",
-            R.id.btnDeg to "⊕",
-            R.id.btnLn2 to "☾",
-
-            R.id.btnAsin to "♃",
-            R.id.btnAcos to "♄",
-            R.id.btnAtan to "☄",
-            R.id.btnPhi to "Å",
-
-            R.id.btnPowY to "℃",
-            R.id.btnTenPow to "‰",
-            R.id.btnEPow to "∅",
-            R.id.btnAbsX to "∈",
-
-            R.id.btnSigma to "∉",
-            R.id.btnIntegral to "⊂",
-            R.id.btnDiff to "∩",
-            R.id.btnInf to "∪",
-
-            R.id.btnMatrix to "∧",
-            R.id.btnVector to "∨",
-            R.id.btnRand to "⇔",
-            R.id.btnClose to "σ"
+            R.id.btnSin to "∞", R.id.btnCos to "π", R.id.btnTan to "∑", R.id.btnPi to "∏",
+            R.id.btnLog to "∫", R.id.btnLn to "∂", R.id.btnE to "√", R.id.btnSqrt to "Δ",
+            R.id.btn7 to "∇", R.id.btn8 to "∀", R.id.btn9 to "∃", R.id.btnDivide to "Ω",
+            R.id.btn4 to "λ", R.id.btn5 to "Φ", R.id.btn6 to "ρ", R.id.btnMultiply to "ω",
+            R.id.btn1 to "ν", R.id.btn2 to "ℏ", R.id.btn3 to "Ψ", R.id.btnMinus to "α",
+            R.id.btn0 to "β", R.id.btnDot to "γ", R.id.btnEqual to "μ", R.id.btnPlus to "⇌",
+            R.id.btnAbs to "→", R.id.btnPow to "↑", R.id.btnFact to "↓", R.id.btnClear to "⌫",
+            R.id.btnMod to "％", R.id.btnRad to "☉", R.id.btnDeg to "⊕", R.id.btnLn2 to "☾",
+            R.id.btnAsin to "♃", R.id.btnAcos to "♄", R.id.btnAtan to "☄", R.id.btnPhi to "ℵ",
+            R.id.btnPowY to "⊠", R.id.btnTenPow to "‰", R.id.btnEPow to "∅", R.id.btnAbsX to "∈",
+            R.id.btnSigma to "∉", R.id.btnIntegral to "⊂", R.id.btnDiff to "∩", R.id.btnInf to "∪",
+            R.id.btnMatrix to "∧", R.id.btnVector to "∨", R.id.btnRand to "⇔", R.id.btnClose to "⏻"
         )
 
         map.forEach { (id, value) ->
@@ -147,6 +82,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     private fun setupUnlock() {
+        // 长按 “μ” 键解密
         findViewById<Button>(R.id.btnEqual).setOnLongClickListener {
             if (unlocked) {
                 startActivity(Intent(this, MainActivity::class.java))
@@ -157,19 +93,14 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     private fun press(value: String) {
-
         inputSequence.add(value)
-
         if (inputSequence.size > 5) {
             inputSequence.removeAt(0)
         }
-
         pressCount++
-
         if (pressCount % 3 == 0) {
             display.text = randomTexts.random()
         }
-
         if (inputSequence == secretSequence) {
             unlocked = true
             display.text = "Scientific Mode"
