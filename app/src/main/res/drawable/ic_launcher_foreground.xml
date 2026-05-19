@@ -11,12 +11,19 @@
 
     <path
         android:fillColor="#FF9800"
-        android:fillType="evenOdd"
-        android:pathData="M54,54 m-16,0 a16,20 0,1 1,32 0 a16,20 0,1 1,-32 0 
-                  M54,54 m-12,0 a12,16 0,1 1,24 0 a12,16 0,1 1,-24 0" />
+        android:pathData="M 54,36 
+                  C 68,36 71,44 71,54 
+                  C 71,64 68,72 54,72 
+                  C 40,72 37,64 37,54 
+                  C 37,44 40,36 54,36 Z 
+                  M 54,41 
+                  C 44,41 42,47 42,54 
+                  C 42,61 44,67 54,67 
+                  C 64,67 66,61 66,54 
+                  C 66,47 64,41 54,41 Z" />
 
     <path
         android:fillColor="#FF9800"
-        android:pathData="M44,24 h20 v4 h-7 v52 h7 v4 h-20 v-4 h7 v-52 h-7 Z" />
+        android:pathData="M44,23 h20 v4 h-7 v58 h7 v4 h-20 v-4 h7 v-58 h-7 Z" />
 
 </vector>
