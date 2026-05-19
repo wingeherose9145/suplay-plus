@@ -5,14 +5,18 @@
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- 绿色圆形背景 -->
     <path
-        android:fillColor="#3DDC84"
-        android:pathData="M54,54 m-40,0 a40,40 0,1 1,80 0 a40,40 0,1 1,-80 0" />
+        android:fillColor="#000000"
+        android:pathData="M54,54 m-45,0 a45,45 0,1 1,90 0 a45,45 0,1 1,-90 0" />
 
-    <!-- 白色大写 S -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M40,35 L40,45 L55,45 L55,55 L45,55 L45,65 L55,65 L55,75 L70,75 L70,35 Z" />
+        android:fillColor="#FF9800"
+        android:fillType="evenOdd"
+        android:pathData="M54,54 m-24,0 a24,24 0,1 1,48 0 a24,24 0,1 1,-48 0 
+                  M54,54 m-18,0 a18,18 0,1 1,36 0 a18,18 0,1 1,-36 0" />
+
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M51,20 h6 v50 h10 L54,84 L41,70 h10 Z" />
 
 </vector>
