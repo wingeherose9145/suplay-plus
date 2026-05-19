@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -16,7 +16,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private var pressCount = 0
     private var unlocked = false
 
-    // 💡 已同步：彩蛋解码按键序列保持与映射相同
+    // 🔒 极客专属硬核解锁密码序列
     private val secretSequence = listOf("∞", "π", "∇", "∫", "Δ")
 
     private val randomTexts = listOf(
@@ -52,6 +52,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
+        // 完美保留所有原生符号，有了内置字体支持，它们永远不会再乱码
         val map = mapOf(
             R.id.btnSin to "∞", R.id.btnCos to "π", R.id.btnTan to "∑", R.id.btnPi to "∏",
             R.id.btnLog to "∫", R.id.btnLn to "∂", R.id.btnE to "√", R.id.btnSqrt to "Δ",
@@ -68,22 +69,22 @@ class FakeCalculatorActivity : AppCompatActivity() {
         )
 
         map.forEach { (id, value) ->
-            findViewById<Button>(id).setOnClickListener {
+            findViewById<AppCompatButton>(id).setOnClickListener {
                 press(value)
             }
         }
     }
 
     private fun setupClear() {
-        findViewById<Button>(R.id.btnClear).setOnClickListener {
+        findViewById<AppCompatButton>(R.id.btnClear).setOnClickListener {
             inputSequence.clear()
             display.text = randomTexts.random()
         }
     }
 
     private fun setupUnlock() {
-        // 长按 “μ” 键解密
-        findViewById<Button>(R.id.btnEqual).setOnLongClickListener {
+        // 长按 “μ” 符号键触发解密逻辑
+        findViewById<AppCompatButton>(R.id.btnEqual).setOnLongClickListener {
             if (unlocked) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
