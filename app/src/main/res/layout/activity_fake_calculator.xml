@@ -18,6 +18,7 @@
         android:padding="16dp"
         android:textColor="#FF9800"
         android:maxLines="1"
+        android:fontFamily="@font/geek_font_bold"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="14sp"
         app:autoSizeMaxTextSize="40sp"
@@ -30,245 +31,245 @@
         android:columnCount="4"
         android:rowCount="12">
 
-        <Button android:id="@+id/btnSin" android:text="∞"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSin" android:text="∞"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnCos" android:text="π"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnCos" android:text="π"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnTan" android:text="∑"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTan" android:text="∑"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnPi" android:text="∏"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPi" android:text="∏"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnLog" android:text="∫"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLog" android:text="∫"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnLn" android:text="∂"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLn" android:text="∂"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnE" android:text="√"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnE" android:text="√"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnSqrt" android:text="Δ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSqrt" android:text="Δ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn7" android:text="∇"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn7" android:text="∇"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn8" android:text="∀"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn8" android:text="∀"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn9" android:text="∃"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn9" android:text="∃"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnDivide" android:text="Ω"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDivide" android:text="Ω"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn4" android:text="λ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn4" android:text="λ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn5" android:text="Φ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn5" android:text="Φ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn6" android:text="ρ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn6" android:text="ρ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnMultiply" android:text="ω"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMultiply" android:text="ω"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn1" android:text="ν"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn1" android:text="ν"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn2" android:text="ℏ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn2" android:text="ℏ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn3" android:text="Ψ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn3" android:text="Ψ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnMinus" android:text="α"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMinus" android:text="α"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btn0" android:text="β"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btn0" android:text="β"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnDot" android:text="γ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDot" android:text="γ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnEqual" android:text="μ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEqual" android:text="μ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnPlus" android:text="⇌"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPlus" android:text="⇌"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="26sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnAbs" android:text="→"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAbs" android:text="→"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnPow" android:text="↑"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPow" android:text="↑"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnFact" android:text="↓"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnFact" android:text="↓"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnClear" android:text="⌫"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClear" android:text="⌫"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnMod" android:text="％"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMod" android:text="％"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnRad" android:text="☉"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRad" android:text="☉"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnDeg" android:text="⊕"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDeg" android:text="⊕"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnLn2" android:text="☾"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnLn2" android:text="☾"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnAsin" android:text="♃"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAsin" android:text="♃"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnAcos" android:text="♄"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAcos" android:text="♄"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnAtan" android:text="☄"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAtan" android:text="☄"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnPhi" android:text="ℵ"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPhi" android:text="ℵ"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnPowY" android:text="⊠"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnPowY" android:text="⊠"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnTenPow" android:text="‰"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnTenPow" android:text="‰"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnEPow" android:text="∅"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnEPow" android:text="∅"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnAbsX" android:text="∈"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnAbsX" android:text="∈"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnSigma" android:text="∉"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnSigma" android:text="∉"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnIntegral" android:text="⊂"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnIntegral" android:text="⊂"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnDiff" android:text="∩"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnDiff" android:text="∩"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnInf" android:text="∪"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnInf" android:text="∪"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnMatrix" android:text="∧"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnMatrix" android:text="∧"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnVector" android:text="∨"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnVector" android:text="∨"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnRand" android:text="⇔"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnRand" android:text="⇔"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
-        <Button android:id="@+id/btnClose" android:text="⏻"
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnClose" android:text="⏻"
             android:layout_width="0dp" android:layout_height="0dp" android:layout_columnWeight="1" android:layout_rowWeight="1"
-            android:layout_margin="5dp" android:backgroundTint="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
-            app:strokeColor="#222222" app:strokeWidth="1dp" app:rippleColor="#40FF9800" android:insetTop="0dp" android:insetBottom="0dp" app:cornerRadius="12dp"/>
+            android:layout_margin="5dp" android:background="#000000" android:textColor="#FF9800" android:textSize="22sp" android:textStyle="bold"
+            android:fontFamily="@font/geek_font_bold" />
 
     </GridLayout>
 </LinearLayout>
