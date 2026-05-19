@@ -17,33 +17,33 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private val inputSequence = mutableListOf<String>()
     private var unlocked = false
 
-    // 解锁暗号序列（顺序输入这5个音解锁进入主页）
+    // 解锁暗号序列
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
-    // 内容库全量列表
+    // 全量内容库
     private var allTexts = listOf<String>()
     
-    // 匹配与检索状态
-    private var currentInput = ""          // 当前输入的假名序列
-    private var filteredTexts = listOf<String>() // 筛选后的内容子集
-    private var filteredIndex = 0          // 当前处于筛选列表的第几页
+    // 匹配检索相关变量
+    private var currentInput = ""          // 当前输入的假名
+    private var filteredTexts = listOf<String>() // 动态限制数量后的匹配子集
+    private var filteredIndex = 0          // 当前翻页指针
 
     // 50音图字符定义（10行5列）
     private val hiraganaList = listOf(
-        "あ", "い", "う", "え", "お", // 1
-        "か", "き", "く", "け", "こ", // 2
-        "さ", "し", "す", "せ", "そ", // 3
-        "た", "ち", "つ", "て", "と", // 4
-        "な", "に", "ぬ", "ね", "の", // 5
-        "は", "ひ", "ふ", "へ", "ほ", // 6
-        "ま", "み", "む", "め", "も", // 7
-        "や", "◀", "よ", "▶", "よ", // 8 (第2位是◀，第4位是▶) 
-        "ら", "り", "る", "れ", "ろ", // 9
-        "わ", "を", "ん", "假名", "预留" // 10
+        "あ", "い", "う", "え", "お", 
+        "か", "き", "く", "け", "こ", 
+        "さ", "し", "す", "せ", "そ", 
+        "た", "ち", "つ", "て", "と", 
+        "な", "に", "ぬ", "ね", "の", 
+        "は", "ひ", "ふ", "へ", "ほ", 
+        "ま", "み", "む", "め", "も", 
+        "や", "◀", "よ", "▶", "よ", // 第2位 ◀，第4位 ▶
+        "ら", "り", "る", "れ", "ろ", 
+        "わ", "を", "ん", "假名", "预留"
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "ウ", "电", "オ",
+        "ア", "イ", "ウ", "エ", "オ",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
@@ -70,8 +70,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
         
         loadTextLibrary()
         
-        // 初始状态显示提示
-        display.text = "请输入假名检索..."
+        // 初始状态完全空白，没有任何提示
+        display.text = ""
 
         scanAllButtons(window.decorView.findViewById(android.R.id.content))
         refreshButtonLabels()
@@ -84,15 +84,17 @@ class FakeCalculatorActivity : AppCompatActivity() {
             val list = mutableListOf<String>()
             var line: String?
             while (reader.readLine().also { line = it } != null) {
-                if (!line!!.trim().startsWith("#") && line!!.isNotEmpty()) {
-                    list.add(line!!)
+                val trimmed = line!!.trim()
+                if (!trimmed.startsWith("#") && trimmed.isNotEmpty()) {
+                    list.add(trimmed)
                 }
             }
             reader.close()
             allTexts = list
         } catch (e: Exception) {
             e.printStackTrace()
-            allTexts = listOf("あさ（朝）", "いぬ（犬）", "うえ（上）", "えき（駅）", "おかし（お菓子）")
+            // 保底模拟数据
+            allTexts = listOf("あさ", "あおい", "ありがとう", "いぬ", "うえ")
         }
     }
 
@@ -119,16 +121,15 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     private fun handleButtonClick(value: String, index: Int) {
-        // 🛠️ 彻底修复：将 Java 的 switch 修正为 Kotlin 标准的 when 语法
         when (index) {
-            // 第8行第2位 (索引 36) -> 上一个
+            // 第8行第2位 (索引 36) -> 上一个切换
             36 -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = if (filteredIndex - 1 < 0) filteredTexts.size - 1 else filteredIndex - 1
                     updateDisplayResult()
                 }
             }
-            // 第8行第4位 (索引 38) -> 下一个
+            // 第8行第4位 (索引 38) -> 下一个切换
             38 -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = (filteredIndex + 1) % filteredTexts.size
@@ -146,7 +147,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    // 默认赋予【退格】功能，方便回退
+                    // 退格功能
                     if (currentInput.isNotEmpty()) {
                         currentInput = currentInput.substring(0, currentInput.length - 1)
                         matchAndFilter()
@@ -158,7 +159,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
                 if (value != "◀" && value != "▶" && value != "假名" && value != "预留") {
                     currentInput += value
                     
-                    // 暗号流检测
+                    // 暗号检测
                     inputSequence.add(value)
                     if (inputSequence.size > 5) inputSequence.removeAt(0)
                     if (inputSequence == secretSequence) unlocked = true
@@ -170,37 +171,50 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 根据当前输入的字符前缀/包含关系，去内容库全量筛选
+     * 核心筛选算法（已按照最新要求调优）：
+     * 1. 使用 startsWith 严格限制必须以输入开头
+     * 2. 1个字限制3个，2个字以上限制4个结果
      */
     private fun matchAndFilter() {
         if (currentInput.isEmpty()) {
             filteredTexts = listOf()
             filteredIndex = 0
-            display.text = "请输入假名检索..."
+            display.text = ""
             return
         }
 
-        // 默认包含匹配，如果你需要严格的【必须以输入文字开头】，请把 contains 改为 startsWith
-        filteredTexts = allTexts.filter { it.contains(currentInput) }
-        filteredIndex = 0 
+        // 🛠️ 调整：改用 startsWith 进行严格的开头匹配。
+        // 这能保证如果 TXT 里顺序是 あさ、あおい... 那筛选出来排第一的永远是 あさ
+        val matchedList = allTexts.filter { it.startsWith(currentInput) }
 
+        // 动态判定最大允许数量限制
+        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
+        
+        // 截取前 N 个匹配项，后面的直接丢弃，不加入切换循环
+        filteredTexts = matchedList.take(maxAllowedSize)
+        
+        filteredIndex = 0 
         updateDisplayResult()
     }
 
     /**
-     * 将当前的输入信息和匹配结果渲染到屏幕上
+     * 单行最大化精简渲染
      */
     private fun updateDisplayResult() {
-        val builder = StringBuilder()
-        builder.append("输入: $currentInput\n")
-        
-        if (filteredTexts.isNotEmpty()) {
-            val matchText = filteredTexts[filteredIndex]
-            builder.append("匹配 [${filteredIndex + 1}/${filteredTexts.size}]:\n$matchText")
-        } else {
-            builder.append("\n(未找到匹配内容)")
+        if (currentInput.isEmpty()) {
+            display.text = ""
+            return
         }
 
-        display.text = builder.toString()
+        // 🛠️ 调整：如果库里完全没有以 currentInput 开头的单词，
+        // 则直接干净显示用户打出的内容本身，没有任何额外修饰
+        if (filteredTexts.isEmpty()) {
+            display.text = currentInput
+            return
+        }
+
+        // 匹配成功时：极简单行合并显示
+        val matchText = filteredTexts[filteredIndex]
+        display.text = "$currentInput → $matchText"
     }
 }
