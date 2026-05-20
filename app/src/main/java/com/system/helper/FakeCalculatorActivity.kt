@@ -43,7 +43,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "ウ", "电", "オ",
+        "ア", "イ", "ウ", "エ", "オ",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
@@ -68,15 +68,21 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
         display = findViewById(R.id.display)
         
-        // 触摸控制台：短按退格，长按完全清空
+        // 🛠️ 触摸控制台升级：处理退格、清空与平片切换
         display.setOnClickListener {
             if (currentInput.isNotEmpty()) {
+                // 1. 如果有字，短按是【退格键】
                 currentInput = currentInput.substring(0, currentInput.length - 1)
                 matchAndFilter()
+            } else {
+                // 2. 🌟 如果屏幕完全清空了，短按显示屏直接【切换平/片假名】
+                isHiragana = !isHiragana
+                refreshButtonLabels()
             }
         }
 
         display.setOnLongClickListener {
+            // 长按始终是【完全清空】
             currentInput = ""
             matchAndFilter()
             true
@@ -267,8 +273,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ョ" -> "ヨ"
             "ア" -> "ァ"
             "ァ" -> "ア"
-            "意" -> "ィ"
-            "ィ" -> "意"
+            "イ" -> "ィ"
+            "ィ" -> "イ"
             "ウ" -> "ゥ"
             "ゥ" -> "ウ"
             "エ" -> "ェ"
