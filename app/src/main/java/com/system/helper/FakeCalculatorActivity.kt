@@ -2,6 +2,9 @@ package com.system.helper
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -51,7 +54,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "マ", "ミ", "ム", "メ", "モ",
         "ヤ", "ユ", "ヨ", "◀", "▶",
         "ラ", "リ", "ル", "レ", "ロ",
-        "ワ", "ヲ", "ン", "ー", "号/促" // 🌟 片假名状态下，这里白纸黑字写着 "ー"
+        "ワ", "ヲ", "ン", "ー", "号/促"
     )
 
     private var isHiragana = true
@@ -67,7 +70,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
         display = findViewById(R.id.display)
         
-        // 方案一完美运行：触摸控制台
+        // 触摸控制台：短按退格，屏幕空白时切换平片假名
         display.setOnClickListener {
             if (currentInput.isNotEmpty()) {
                 currentInput = currentInput.substring(0, currentInput.length - 1)
@@ -101,7 +104,12 @@ class FakeCalculatorActivity : AppCompatActivity() {
             while (reader.readLine().also { line = it } != null) {
                 val trimmed = line!!.trim()
                 if (!trimmed.startsWith("#") && trimmed.isNotEmpty()) {
-                    val firstChar = trimmed.first().toString()
+                    val firstChar = if (trimmed.startsWith("{") && trimmed.length > 1) {
+                        trimmed.substring(1, 2)
+                    } else {
+                        trimmed.first().toString()
+                    }
+                    
                     if (!allTextsMap.containsKey(firstChar)) {
                         allTextsMap[firstChar] = mutableListOf()
                     }
@@ -132,15 +140,12 @@ class FakeCalculatorActivity : AppCompatActivity() {
             val button = buttonList[i]
             val textValue = currentAlphabet[i]
             button.text = textValue
-            // 🌟 核心修正：不传死板的 index 数字，直接把动态赋予的文本 value 传给点击事件处理
             button.setOnClickListener { handleButtonClick(textValue) }
         }
     }
 
-    // 绑定长按后门进播放器（针对最后一行的变音键）
     private fun setupSpecialLongClick() {
         for (button in buttonList) {
-            // 只要按键文字是“号/促”，就给它赋予长按后门，更加安全独立
             if (button.text == "号/促") {
                 button.setOnLongClickListener {
                     if (unlocked) {
@@ -153,31 +158,24 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 🌟 核心交互逻辑升级：完全采用行为文本(value)作为分支判定，从根本上杜绝错位
-     */
     private fun handleButtonClick(value: String) {
         when (value) {
-            // 1. 翻页键：上一个
             "◀" -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = if (filteredIndex - 1 < 0) filteredTexts.size - 1 else filteredIndex - 1
                     updateDisplayResult()
                 }
             }
-            // 2. 翻页键：下一个
             "▶" -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = (filteredIndex + 1) % filteredTexts.size
                     updateDisplayResult()
                 }
             }
-            // 3. 切换假名键：只有按钮文字明确显示为“假名”时，才会触发切换平片状态
             "假名" -> {
                 isHiragana = !isHiragana
                 refreshButtonLabels()
             }
-            // 4. 变音/变换键：短按进行清/浊/促循环变换
             "号/促" -> {
                 if (currentInput.isNotEmpty()) {
                     val lastChar = currentInput.last().toString()
@@ -186,13 +184,10 @@ class FakeCalculatorActivity : AppCompatActivity() {
                     matchAndFilter()
                 }
             }
-            // 5. 普通假名输入分支：包含所有的清音、以及动态变出来的长音符号 "ー"
             else -> {
-                // 防御拦截：确保不是遗留的功能字符
                 if (value.isNotEmpty()) {
                     currentInput += value
                     
-                    // 暗号队列检测
                     inputSequence.add(value)
                     if (inputSequence.size > 5) inputSequence.removeAt(0)
                     if (inputSequence == secretSequence) unlocked = true
@@ -203,9 +198,31 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
+    private fun matchAndFilter() {
+        if (currentInput.isEmpty()) {
+            filteredTexts = listOf()
+            filteredIndex = 0
+            display.text = ""
+            return
+        }
+
+        val firstChar = currentInput.first().toString()
+        val subList = allTextsMap[firstChar] ?: listOf<String>()
+
+        val matchedList = subList.filter { line ->
+            val cleanLine = line.replace("{", "").replace("}", "")
+            cleanLine.startsWith(currentInput)
+        }
+
+        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
+        filteredTexts = matchedList.take(maxAllowedSize)
+        
+        filteredIndex = 0 
+        updateDisplayResult()
+    }
+
     private fun convertToTransformChar(char: String): String {
         return when (char) {
-            // === 促音、小字、清音的闭环互转 (平假名) ===
             "つ" -> "っ"
             "っ" -> "つ"
             "や" -> "ゃ"
@@ -224,8 +241,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ぇ" -> "え"
             "お" -> "ぉ"
             "ぉ" -> "お"
-
-            // === 促音、小字、清音的闭环互转 (片假名) ===
             "ツ" -> "ッ"
             "ッ" -> "ツ"
             "ヤ" -> "ャ"
@@ -241,11 +256,9 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ウ" -> "ゥ"
             "ゥ" -> "ウ"
             "エ" -> "ェ"
-            "ェ" -> "エ"
+            "ェ" -> "电"
             "オ" -> "ォ"
             "ォ" -> "オ"
-
-            // === か行 <-> が行 闭环 ===
             "か" -> "が"
             "が" -> "か"
             "き" -> "ぎ"
@@ -256,7 +269,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "げ" -> "け"
             "こ" -> "ご"
             "ご" -> "こ"
-            
             "カ" -> "ガ"
             "ガ" -> "カ"
             "キ" -> "ギ"
@@ -267,8 +279,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ゲ" -> "ケ"
             "コ" -> "ゴ"
             "ゴ" -> "コ"
-
-            // === さ行 <-> ざ行 闭环 ===
             "さ" -> "ざ"
             "ざ" -> "さ"
             "し" -> "じ"
@@ -279,7 +289,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ぜ" -> "せ"
             "そ" -> "ぞ"
             "ぞ" -> "そ"
-            
             "サ" -> "ザ"
             "ザ" -> "サ"
             "シ" -> "ジ"
@@ -289,9 +298,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "セ" -> "ゼ"
             "ゼ" -> "セ"
             "ソ" -> "ゾ"
-            "ゾ" -> "ソ"
-
-            // === た行 <-> だ行 闭环 ===
+            "ゾ" -> "苏"
             "た" -> "だ"
             "だ" -> "た"
             "ち" -> "ぢ"
@@ -300,17 +307,14 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "で" -> "て"
             "と" -> "ど"
             "ど" -> "と"
-            
             "タ" -> "ダ"
-            "ダ" -> "タ"
+            "ダ" -> "单"
             "チ" -> "ヂ"
             "ヂ" -> "チ"
             "テ" -> "デ"
-            "送" -> "テ"
+            "デ" -> "テ"
             "ト" -> "ド"
             "ド" -> "ト"
-
-            // === は行 -> ば行 -> ぱ行 -> は行 三向循环 ===
             "は" -> "ば"
             "ば" -> "ぱ"
             "ぱ" -> "は"
@@ -326,77 +330,53 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ほ" -> "ぼ"
             "ぼ" -> "ぽ"
             "ぽ" -> "ほ"
-            
             "ハ" -> "バ"
             "バ" -> "パ"
             "パ" -> "ハ"
             "ヒ" -> "ビ"
             "ビ" -> "ピ"
             "ピ" -> "ヒ"
-            "フ" -> "ブ"
-            "ブ" -> "プ"
+            "フ" -> "布"
+            "布" -> "プ"
             "プ" -> "フ"
-            "ヘ" -> "ベ"
-            "ベ" -> "ベ"
-            "ヘ" -> "ヘ"
+            "へ" -> "ベ"
+            "ベ" -> "ペ"
+            "ペ" -> "ヘ"
             "ホ" -> "ボ"
             "ボ" -> "ポ"
             "ポ" -> "ホ"
-
             else -> char
         }
     }
 
-    private fun matchAndFilter() {
-        if (currentInput.isEmpty()) {
-            filteredTexts = listOf()
-            filteredIndex = 0
-            display.text = ""
-            return
-        }
-
-        val firstChar = currentInput.first().toString()
-        val subList = allTextsMap[firstChar] ?: listOf<String>()
-
-        val matchedList = subList.filter { it.startsWith(currentInput) }
-        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
-        filteredTexts = matchedList.take(maxAllowedSize)
-        
-        filteredIndex = 0 
-        /**
-     * 🌟 终极动态高亮重构：
-     * 金色高亮的长度完全由用户当前【实际输入了几个字符】动态决定！
+    /**
+     * 🌟 动态高亮逻辑：
+     * 去除大括号 {} 符号本体，高亮长度严格匹配用户当前已输入字符的长度
      */
     private fun updateDisplayResult() {
-        // 1. 如果当前没有输入任何内容，清空显示屏
         if (currentInput.isEmpty()) {
             display.text = ""
             return
         }
 
-        // 2. 如果没有匹配到任何词库，直接原色显示用户当前的输入
         if (filteredTexts.isEmpty()) {
             display.text = currentInput
             return
         }
 
-        // 3. 拿到词库里的原始文本，例如："{か}わ 川 [河流]"
         val matchText = filteredTexts[filteredIndex]
 
-        // 4. 将词库文本中为了Map检索而设计的隐藏大括号 {} 彻底抹去，还原成纯净的连贯文本
+        // 擦除隐藏标识符 {}
         val cleanDisplayStr = matchText.replace("{", "").replace("}", "")
 
-        // 5. 将纯净文本转化为可染色的富文本对象
         val spannable = SpannableString(cleanDisplayStr)
         
-        // 🌟 核心高亮逻辑：获取用户当前实际输入了几个字（例如输入了"か"就是1，输入"かわ"就是2）
+        // 动态根据当前已输入的假名长度进行高亮染色
         val highlightLength = currentInput.length
 
-        // 6. 防御性安全检查：确保高亮长度不会超出整行文本的总长度
         if (highlightLength <= cleanDisplayStr.length) {
-            val goldColor = 0xFFFFD700.toInt() // 🌟 亮金色
+            val goldColor = 0xFFFFD700.toInt() // 璀璨亮金色
             
-            // 动态染色：从 0 开始，到实际输入的长度位置结束，全部染成金色
             spannable.setSpan(
                 ForegroundColorSpan(goldColor),
                 0,
@@ -405,23 +385,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             )
         }
 
-        // 7. 将渲染好的双色连贯文本大字打在屏幕上
         display.text = spannable
-    }
-    }
-
-    private fun updateDisplayResult() {
-        if (currentInput.isEmpty()) {
-            display.text = ""
-            return
-        }
-
-        if (filteredTexts.isEmpty()) {
-            display.text = currentInput
-            return
-        }
-
-        val matchText = filteredTexts[filteredIndex]
-        display.text = "$currentInput → $matchText"
     }
 }
