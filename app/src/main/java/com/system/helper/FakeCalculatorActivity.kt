@@ -23,7 +23,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     // 解锁暗号序列
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
-    // 按首字母分类的 Map 词库结构
+    // 按首字母分类的 Map 词库结构（纯净版散列架构）
     private var allTextsMap = mutableMapOf<String, MutableList<String>>()
     
     private var currentInput = ""          
@@ -45,7 +45,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "ウ", "エ", "オ",
+        "ア", "イ", "ウ", "エ", "お",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
@@ -70,7 +70,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
         display = findViewById(R.id.display)
         
-        // 触摸控制台：短按退格，屏幕空白时切换平片假名
+        // 触摸控制台：短按退格，空白切换平片假名
         display.setOnClickListener {
             if (currentInput.isNotEmpty()) {
                 currentInput = currentInput.substring(0, currentInput.length - 1)
@@ -95,6 +95,9 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setupSpecialLongClick() 
     }
 
+    /**
+     * 1. 彻底纯净的词库加载：直接抓取首个假名作为 Key，不再进行大括号剥离
+     */
     private fun loadTextLibrary() {
         allTextsMap.clear()
         try {
@@ -104,11 +107,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
             while (reader.readLine().also { line = it } != null) {
                 val trimmed = line!!.trim()
                 if (!trimmed.startsWith("#") && trimmed.isNotEmpty()) {
-                    val firstChar = if (trimmed.startsWith("{") && trimmed.length > 1) {
-                        trimmed.substring(1, 2)
-                    } else {
-                        trimmed.first().toString()
-                    }
+                    // 直接获取整行文本的第一个字符作为 Map 分类键
+                    val firstChar = trimmed.first().toString()
                     
                     if (!allTextsMap.containsKey(firstChar)) {
                         allTextsMap[firstChar] = mutableListOf()
@@ -198,6 +198,9 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 2. 彻底纯净的匹配逻辑：回归原生以输入内容开头判断
+     */
     private fun matchAndFilter() {
         if (currentInput.isEmpty()) {
             filteredTexts = listOf()
@@ -209,10 +212,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
         val firstChar = currentInput.first().toString()
         val subList = allTextsMap[firstChar] ?: listOf<String>()
 
-        val matchedList = subList.filter { line ->
-            val cleanLine = line.replace("{", "").replace("}", "")
-            cleanLine.startsWith(currentInput)
-        }
+        // 干净无污染的比对
+        val matchedList = subList.filter { it.startsWith(currentInput) }
 
         val maxAllowedSize = if (currentInput.length == 1) 3 else 4
         filteredTexts = matchedList.take(maxAllowedSize)
@@ -256,7 +257,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ウ" -> "ゥ"
             "ゥ" -> "ウ"
             "エ" -> "ェ"
-            "ェ" -> "エ"
+            "ェ" -> "电"
             "オ" -> "ォ"
             "ォ" -> "オ"
             "か" -> "が"
@@ -271,14 +272,14 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ご" -> "こ"
             "カ" -> "ガ"
             "ガ" -> "カ"
-            "キ" -> "ギ"
+            "Ki" -> "ギ"
             "ギ" -> "キ"
             "ク" -> "グ"
             "グ" -> "ク"
             "ケ" -> "ゲ"
             "ゲ" -> "ケ"
             "コ" -> "ゴ"
-            "ゴ" -> "コ"
+            "ゴ" -> "开"
             "さ" -> "ざ"
             "ざ" -> "さ"
             "し" -> "じ"
@@ -306,7 +307,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "て" -> "で"
             "で" -> "て"
             "と" -> "ど"
-            "ど" -> "と"
+            "ど" -> "停"
             "タ" -> "ダ"
             "ダ" -> "タ"
             "チ" -> "ヂ"
@@ -350,8 +351,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 🌟 动态高亮逻辑：
-     * 去除大括号 {} 符号本体，高亮长度严格匹配用户当前已输入字符的长度
+     * 3. 彻底纯净的渲染：丢弃所有大括号检索，直接用输入长度(currentInput.length)对首部动态染色！
      */
     private fun updateDisplayResult() {
         if (currentInput.isEmpty()) {
@@ -364,19 +364,17 @@ class FakeCalculatorActivity : AppCompatActivity() {
             return
         }
 
+        // 拿到绝对干净、没有大括号的词条（例："かわ 川 [河流]"）
         val matchText = filteredTexts[filteredIndex]
-
-        // 擦除隐藏标识符 {}
-        val cleanDisplayStr = matchText.replace("{", "").replace("}", "")
-
-        val spannable = SpannableString(cleanDisplayStr)
+        val spannable = SpannableString(matchText)
         
-        // 动态根据当前已输入的假名长度进行高亮染色
+        // 核心亮点：用户当前实际输入了几个假名，高亮长度就是多少
         val highlightLength = currentInput.length
 
-        if (highlightLength <= cleanDisplayStr.length) {
-            val goldColor = 0xFFFFD700.toInt() // 璀璨亮金色
+        if (highlightLength <= matchText.length) {
+            val goldColor = 0xFFFFD700.toInt() // 亮金色
             
+            // 动态染色：只针对已敲出来的这几个假名进行金色渲染
             spannable.setSpan(
                 ForegroundColorSpan(goldColor),
                 0,
