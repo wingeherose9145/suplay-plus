@@ -363,7 +363,51 @@ class FakeCalculatorActivity : AppCompatActivity() {
         filteredTexts = matchedList.take(maxAllowedSize)
         
         filteredIndex = 0 
-        updateDisplayResult()
+        /**
+     * 🌟 终极动态高亮重构：
+     * 金色高亮的长度完全由用户当前【实际输入了几个字符】动态决定！
+     */
+    private fun updateDisplayResult() {
+        // 1. 如果当前没有输入任何内容，清空显示屏
+        if (currentInput.isEmpty()) {
+            display.text = ""
+            return
+        }
+
+        // 2. 如果没有匹配到任何词库，直接原色显示用户当前的输入
+        if (filteredTexts.isEmpty()) {
+            display.text = currentInput
+            return
+        }
+
+        // 3. 拿到词库里的原始文本，例如："{か}わ 川 [河流]"
+        val matchText = filteredTexts[filteredIndex]
+
+        // 4. 将词库文本中为了Map检索而设计的隐藏大括号 {} 彻底抹去，还原成纯净的连贯文本
+        val cleanDisplayStr = matchText.replace("{", "").replace("}", "")
+
+        // 5. 将纯净文本转化为可染色的富文本对象
+        val spannable = SpannableString(cleanDisplayStr)
+        
+        // 🌟 核心高亮逻辑：获取用户当前实际输入了几个字（例如输入了"か"就是1，输入"かわ"就是2）
+        val highlightLength = currentInput.length
+
+        // 6. 防御性安全检查：确保高亮长度不会超出整行文本的总长度
+        if (highlightLength <= cleanDisplayStr.length) {
+            val goldColor = 0xFFFFD700.toInt() // 🌟 亮金色
+            
+            // 动态染色：从 0 开始，到实际输入的长度位置结束，全部染成金色
+            spannable.setSpan(
+                ForegroundColorSpan(goldColor),
+                0,
+                highlightLength,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        // 7. 将渲染好的双色连贯文本大字打在屏幕上
+        display.text = spannable
+    }
     }
 
     private fun updateDisplayResult() {
