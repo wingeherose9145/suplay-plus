@@ -74,11 +74,11 @@
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_4" style="@style/FiftyToneButtonStyle"/>
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_7_5" style="@style/FiftyToneButtonStyle"/>
 
-       <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_1" style="@style/FiftyToneButtonStyle"/>
-       <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_2" android:text="◀" style="@style/FiftyToneButtonStyle"/> 
-       <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_3" style="@style/FiftyToneButtonStyle"/>
-       <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_4" android:text="▶" style="@style/FiftyToneButtonStyle"/> 
-        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_5" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_1" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_2" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_3" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_4" android:text="◀" style="@style/FiftyToneButtonStyle"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_8_5" android:text="▶" style="@style/FiftyToneButtonStyle"/>
 
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_1" style="@style/FiftyToneButtonStyle"/>
         <com.google.android.material.button.MaterialButton android:id="@+id/btn_9_2" style="@style/FiftyToneButtonStyle"/>
