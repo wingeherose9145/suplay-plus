@@ -17,7 +17,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private val inputSequence = mutableListOf<String>()
     private var unlocked = false
 
-    // 解锁暗号序列（顺序输入这5个音解锁）
+    // 解锁暗号序列
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
     // 全量内容库
@@ -39,11 +39,11 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "ま", "み", "む", "め", "も", 
         "や", "◀", "よ", "▶", "よ", 
         "ら", "り", "る", "れ", "ろ", 
-        "わ", "を", "ん", "假名", "号/促" // 右下角定义为 浊音/促音/小字 变换键
+        "わ", "を", "ん", "假名", "号/促" 
     )
 
     private val katakanaList = listOf(
-        "ア", "イ", "ウ", "电", "オ",
+        "ア", "イ", "ウ", "エ", "オ",
         "カ", "キ", "ク", "ケ", "コ",
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
@@ -68,7 +68,16 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
         display = findViewById(R.id.display)
         
-        // 【解决问题2】：长按显示屏区域，直接一键清空输入，进入下一个输入状态
+        // 🛠️【优化：触摸控制台】
+        // 1. 短按显示屏区域 -> 触发【退格键】（删掉最后一个输入的字）
+        display.setOnClickListener {
+            if (currentInput.isNotEmpty()) {
+                currentInput = currentInput.substring(0, currentInput.length - 1)
+                matchAndFilter()
+            }
+        }
+
+        // 2. 长按显示屏区域 -> 触发【完全清空】（进入下一个全新输入状态）
         display.setOnLongClickListener {
             currentInput = ""
             matchAndFilter()
@@ -80,7 +89,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
 
         scanAllButtons(window.decorView.findViewById(android.R.id.content))
         refreshButtonLabels()
-        setupSpecialLongClick() // 初始化长按后门
+        setupSpecialLongClick() 
     }
 
     private fun loadTextLibrary() {
@@ -125,7 +134,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
-    // 单独为右下角第50个按钮（索引49）绑定长按进播放器的后门
     private fun setupSpecialLongClick() {
         if (buttonList.size > 49) {
             buttonList[49].setOnLongClickListener {
@@ -159,12 +167,11 @@ class FakeCalculatorActivity : AppCompatActivity() {
                 isHiragana = !isHiragana
                 refreshButtonLabels()
             }
-            // 【解决问题1】：第10行第5位 (索引 49) 短按触发“浊音/促音/小字”变换
+            // 第10行第5位 -> 短按变音键
             49 -> {
                 if (currentInput.isNotEmpty()) {
                     val lastChar = currentInput.last().toString()
                     val converted = convertToTransformChar(lastChar)
-                    // 用变换后的字符替换掉最后一个字
                     currentInput = currentInput.substring(0, currentInput.length - 1) + converted
                     matchAndFilter()
                 }
@@ -185,54 +192,87 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 💡 浊音、半浊音、促音、小字转换核心算法表
+     * 🛠️【优化：完美闭环互转模式】
+     * 实现了：清音 <-> 浊音/半浊音 的无限双向循环，以及 正常字 <-> 小字 的无缝循环。
      */
     private fun convertToTransformChar(char: String): String {
         return when (char) {
-            // 促音与小字变换
+            // === 促音、小字、清音的闭环互转 ===
             "つ" -> "っ"
             "っ" -> "つ"
             "ツ" -> "ッ"
             "ッ" -> "ツ"
             "や" -> "ゃ"
+            "ゃ" -> "や"
             "ゆ" -> "ゅ"
+            "ゅ" -> "ゆ"
             "よ" -> "ょ"
+            "ょ" -> "よ"
             "ヤ" -> "ャ"
+            "ャ" -> "ヤ"
             "ユ" -> "ュ"
+            "ュ" -> "ユ"
             "ヨ" -> "ョ"
+            "ョ" -> "ヨ"
             "あ" -> "ぁ"
+            "ぁ" -> "あ"
             "い" -> "ぃ"
+            "ぃ" -> "い"
             "う" -> "ぅ"
+            "ぅ" -> "う"
             "え" -> "ぇ"
+            "ぇ" -> "え"
             "お" -> "ぉ"
+            "ぉ" -> "お"
 
-            // 假名浊音化 (か行 -> が行)
+            // === か行 <-> が行 闭环 ===
             "か" -> "が"
+            "が" -> "か"
             "き" -> "ぎ"
+            "ぎ" -> "き"
             "く" -> "ぐ"
+            "ぐ" -> "く"
             "け" -> "げ"
+            "げ" -> "け"
             "こ" -> "ご"
+            "ご" -> "こ"
+            
             "カ" -> "ガ"
+            "ガ" -> "カ"
             "キ" -> "ギ"
+            "ギ" -> "キ"
             "ク" -> "グ"
+            "ぐ" -> "ク"
             "ケ" -> "ゲ"
+            "ゲ" -> "ケ"
             "コ" -> "ゴ"
+            "ゴ" -> "打"
 
-            // さ行 -> ざ行
+            // === さ行 <-> ざ行 闭环 ===
             "さ" -> "ざ"
+            "ざ" -> "さ"
             "し" -> "じ"
+            "じ" -> "し"
             "す" -> "ず"
+            "ず" -> "す"
             "せ" -> "ぜ"
+            "ぜ" -> "せ"
             "そ" -> "ぞ"
+            "ぞ" -> "そ"
 
-            // た行 -> だ行
-            "た" -> "だ"
+            // === た行 <-> だ行 闭环 ===
+            "ta" -> "だ"
+            "だ" -> "た"
             "ち" -> "ぢ"
+            "ぢ" -> "ち"
             "つ" -> "づ"
+            "づ" -> "つ"
             "て" -> "で"
+            "で" -> "て"
             "と" -> "ど"
+            "ど" -> "と"
 
-            // は行 -> ば行 -> ぱ行 循环
+            // === は行 -> ば行 -> ぱ行 -> は行 三向完美大循环 ===
             "は" -> "ば"
             "ば" -> "ぱ"
             "ぱ" -> "は"
@@ -244,12 +284,12 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ぷ" -> "ふ"
             "へ" -> "べ"
             "べ" -> "ぺ"
-            "ぺ" -> "he"
+            "ぺ" -> "へ"
             "ほ" -> "ぼ"
             "ぼ" -> "ぽ"
             "ぽ" -> "ほ"
 
-            // 如果没有匹配的，保持原样
+            // 如果没有配置的，保持原样
             else -> char
         }
     }
