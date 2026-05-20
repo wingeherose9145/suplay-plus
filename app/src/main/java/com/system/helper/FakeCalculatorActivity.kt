@@ -17,29 +17,28 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private val inputSequence = mutableListOf<String>()
     private var unlocked = false
 
-    // 解锁暗号序列（顺序输入这5个音解锁）
+    // 解锁暗号序列
     private val secretSequence = listOf("あ", "い", "う", "え", "お") 
 
-    // 🌟 核心升级：将原 List<String> 替换为按首字符分类的 Map 结构
+    // 按首字母分类的 Map 词库结构
     private var allTextsMap = mutableMapOf<String, MutableList<String>>()
     
-    // 匹配检索相关状态变量
     private var currentInput = ""          
     private var filteredTexts = listOf<String>() 
     private var filteredIndex = 0          
 
-    // 50音图标准矩阵定义（10行5列，保证经典50音打字肌肉记忆）
+    // 50音图标准矩阵定义
     private val hiraganaList = listOf(
-        "あ", "い", "う", "え", "お", // 1: あ行
-        "か", "き", "く", "け", "こ", // 2: か行
-        "さ", "し", "す", "せ", "そ", // 3: さ行
-        "た", "ち", "つ", "て", "と", // 4: た行
-        "な", "に", "ぬ", "ね", "の", // 5: な行
-        "は", "ひ", "ふ", "へ", "ほ", // 6: は行
-        "ま", "み", "む", "め", "も", // 7: ま行
-        "や", "ゆ", "よ", "◀", "▶", // 8: や行（后两格留给翻页键 ◀ 和 ▶）
-        "ら", "り", "る", "れ", "ろ", // 9: ら行
-        "わ", "を", "ん", "假名", "号/促" // 10: わ行与功能键
+        "あ", "い", "う", "え", "お", 
+        "か", "き", "く", "け", "こ", 
+        "さ", "し", "す", "せ", "そ", 
+        "た", "ち", "つ", "て", "と", 
+        "な", "に", "ぬ", "ね", "の", 
+        "は", "ひ", "ふ", "へ", "ほ", 
+        "ま", "み", "む", "め", "も", 
+        "や", "ゆ", "よ", "◀", "▶", 
+        "ら", "り", "る", "れ", "ろ", 
+        "わ", "を", "ん", "假名", "号/促" 
     )
 
     private val katakanaList = listOf(
@@ -52,7 +51,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "マ", "ミ", "ム", "メ", "モ",
         "ヤ", "ユ", "ヨ", "◀", "▶",
         "ラ", "リ", "ル", "レ", "ロ",
-        "ワ", "ヲ", "ン", "假名", "号/促"
+        "ワ", "ヲ", "ン", "ー", "号/促" // 🌟 片假名状态下，这里白纸黑字写着 "ー"
     )
 
     private var isHiragana = true
@@ -68,21 +67,18 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_fake_calculator)
         display = findViewById(R.id.display)
         
-        // 🛠️ 触摸控制台升级：处理退格、清空与平片切换
+        // 方案一完美运行：触摸控制台
         display.setOnClickListener {
             if (currentInput.isNotEmpty()) {
-                // 1. 如果有字，短按是【退格键】
                 currentInput = currentInput.substring(0, currentInput.length - 1)
                 matchAndFilter()
             } else {
-                // 2. 🌟 如果屏幕完全清空了，短按显示屏直接【切换平/片假名】
                 isHiragana = !isHiragana
                 refreshButtonLabels()
             }
         }
 
         display.setOnLongClickListener {
-            // 长按始终是【完全清空】
             currentInput = ""
             matchAndFilter()
             true
@@ -96,9 +92,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
         setupSpecialLongClick() 
     }
 
-    /**
-     * 🌟 核心升级：按首字母散列读取词典库
-     */
     private fun loadTextLibrary() {
         allTextsMap.clear()
         try {
@@ -107,9 +100,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             var line: String?
             while (reader.readLine().also { line = it } != null) {
                 val trimmed = line!!.trim()
-                // 排除注释和空行
                 if (!trimmed.startsWith("#") && trimmed.isNotEmpty()) {
-                    // 获取该行文本的首字假名作为散列键
                     val firstChar = trimmed.first().toString()
                     if (!allTextsMap.containsKey(firstChar)) {
                         allTextsMap[firstChar] = mutableListOf()
@@ -120,15 +111,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             reader.close()
         } catch (e: Exception) {
             e.printStackTrace()
-            // 兜底模拟数据
-            val backupData = listOf("がっこう", "いっぱい", "きょう", "あさ")
-            for (word in backupData) {
-                val firstChar = word.first().toString()
-                if (!allTextsMap.containsKey(firstChar)) {
-                    allTextsMap[firstChar] = mutableListOf()
-                }
-                allTextsMap[firstChar]?.add(word)
-            }
         }
     }
 
@@ -150,45 +132,53 @@ class FakeCalculatorActivity : AppCompatActivity() {
             val button = buttonList[i]
             val textValue = currentAlphabet[i]
             button.text = textValue
-            button.setOnClickListener { handleButtonClick(textValue, i) }
+            // 🌟 核心修正：不传死板的 index 数字，直接把动态赋予的文本 value 传给点击事件处理
+            button.setOnClickListener { handleButtonClick(textValue) }
         }
     }
 
+    // 绑定长按后门进播放器（针对最后一行的变音键）
     private fun setupSpecialLongClick() {
-        if (buttonList.size > 49) {
-            buttonList[49].setOnLongClickListener {
-                if (unlocked) {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+        for (button in buttonList) {
+            // 只要按键文字是“号/促”，就给它赋予长按后门，更加安全独立
+            if (button.text == "号/促") {
+                button.setOnLongClickListener {
+                    if (unlocked) {
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    true
                 }
-                true
             }
         }
     }
 
-    private fun handleButtonClick(value: String, index: Int) {
-        when (index) {
-            // 第8行第4位 -> 上一个切换
-            37 -> {
+    /**
+     * 🌟 核心交互逻辑升级：完全采用行为文本(value)作为分支判定，从根本上杜绝错位
+     */
+    private fun handleButtonClick(value: String) {
+        when (value) {
+            // 1. 翻页键：上一个
+            "◀" -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = if (filteredIndex - 1 < 0) filteredTexts.size - 1 else filteredIndex - 1
                     updateDisplayResult()
                 }
             }
-            // 第8行第5位 -> 下一个切换
-            38 -> {
+            // 2. 翻页键：下一个
+            "▶" -> {
                 if (filteredTexts.isNotEmpty()) {
                     filteredIndex = (filteredIndex + 1) % filteredTexts.size
                     updateDisplayResult()
                 }
             }
-            // 第10行第4位 -> 切换平/片假名
-            48 -> {
+            // 3. 切换假名键：只有按钮文字明确显示为“假名”时，才会触发切换平片状态
+            "假名" -> {
                 isHiragana = !isHiragana
                 refreshButtonLabels()
             }
-            // 第10行第5位 -> 短按变音/变换键
-            49 -> {
+            // 4. 变音/变换键：短按进行清/浊/促循环变换
+            "号/促" -> {
                 if (currentInput.isNotEmpty()) {
                     val lastChar = currentInput.last().toString()
                     val converted = convertToTransformChar(lastChar)
@@ -196,11 +186,13 @@ class FakeCalculatorActivity : AppCompatActivity() {
                     matchAndFilter()
                 }
             }
-            // 普通50音输入键
+            // 5. 普通假名输入分支：包含所有的清音、以及动态变出来的长音符号 "ー"
             else -> {
-                if (value != "◀" && value != "▶" && value != "假名" && value != "号/促") {
+                // 防御拦截：确保不是遗留的功能字符
+                if (value.isNotEmpty()) {
                     currentInput += value
                     
+                    // 暗号队列检测
                     inputSequence.add(value)
                     if (inputSequence.size > 5) inputSequence.removeAt(0)
                     if (inputSequence == secretSequence) unlocked = true
@@ -211,35 +203,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * 🌟 核心升级：利用首字母分类进行极速过滤，消除大词库卡顿现象
-     */
-    private fun matchAndFilter() {
-        if (currentInput.isEmpty()) {
-            filteredTexts = listOf()
-            filteredIndex = 0
-            display.text = ""
-            return
-        }
-
-        // 直接根据输入内容的第一个字去 Map 中定位分类子集
-        val firstChar = currentInput.first().toString()
-        val subList = allTextsMap[firstChar] ?: listOf<String>()
-
-        // 严格以输入文字开头的词汇过滤
-        val matchedList = subList.filter { it.startsWith(currentInput) }
-
-        // 动态数量限制逻辑：1个字限3结果，2个字以上限4结果
-        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
-        filteredTexts = matchedList.take(maxAllowedSize)
-        
-        filteredIndex = 0 
-        updateDisplayResult()
-    }
-
-    /**
-     * 清音 <-> 浊音/半浊音，普通字 <-> 小字 完美闭环互转映射表（已做细致校对排错）
-     */
     private fun convertToTransformChar(char: String): String {
         return when (char) {
             // === 促音、小字、清音的闭环互转 (平假名) ===
@@ -274,7 +237,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ア" -> "ァ"
             "ァ" -> "ア"
             "イ" -> "ィ"
-            "ィ" -> "イ"
+            "ィ" -> "ア"
             "ウ" -> "ゥ"
             "ゥ" -> "ウ"
             "エ" -> "ェ"
@@ -343,7 +306,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "チ" -> "ヂ"
             "ヂ" -> "チ"
             "テ" -> "デ"
-            "デ" -> "テ"
+            "送" -> "テ"
             "ト" -> "ド"
             "ド" -> "ト"
 
@@ -374,8 +337,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "ブ" -> "プ"
             "プ" -> "フ"
             "ヘ" -> "ベ"
-            "ベ" -> "ペ"
-            "ペ" -> "ヘ"
+            "ベ" -> "ベ"
+            "ヘ" -> "ヘ"
             "ホ" -> "ボ"
             "ボ" -> "ポ"
             "ポ" -> "ホ"
@@ -384,19 +347,36 @@ class FakeCalculatorActivity : AppCompatActivity() {
         }
     }
 
+    private fun matchAndFilter() {
+        if (currentInput.isEmpty()) {
+            filteredTexts = listOf()
+            filteredIndex = 0
+            display.text = ""
+            return
+        }
+
+        val firstChar = currentInput.first().toString()
+        val subList = allTextsMap[firstChar] ?: listOf<String>()
+
+        val matchedList = subList.filter { it.startsWith(currentInput) }
+        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
+        filteredTexts = matchedList.take(maxAllowedSize)
+        
+        filteredIndex = 0 
+        updateDisplayResult()
+    }
+
     private fun updateDisplayResult() {
         if (currentInput.isEmpty()) {
             display.text = ""
             return
         }
 
-        // 内容库无匹配时，直接干净地回显输入的元音本身
         if (filteredTexts.isEmpty()) {
             display.text = currentInput
             return
         }
 
-        // 单行最大化精简显示
         val matchText = filteredTexts[filteredIndex]
         display.text = "$currentInput → $matchText"
     }
