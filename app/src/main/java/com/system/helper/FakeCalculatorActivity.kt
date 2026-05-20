@@ -10,7 +10,12 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -29,6 +34,9 @@ class FakeCalculatorActivity : AppCompatActivity() {
     private var currentInput = ""          
     private var filteredTexts = listOf<String>() 
     private var filteredIndex = 0          
+
+    // 💡 新增：异步匹配的协程句柄，用来管理和防止打字过快时产生算力叠加
+    private var matchJob: Job? = null
 
     // 50音图标准矩阵定义
     private val hiraganaList = listOf(
@@ -50,7 +58,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "サ", "シ", "ス", "セ", "ソ",
         "タ", "チ", "ツ", "テ", "ト",
         "ナ", "ニ", "ヌ", "ネ", "ノ",
-        "ハ", "ヒ", "フ", "ヘ", "ホ",
+        "ハ", "ヒ", "放", "ヘ", "ホ",
         "マ", "ミ", "ム", "メ", "モ",
         "ヤ", "ユ", "ヨ", "◀", "▶",
         "ラ", "リ", "ル", "レ", "ロ",
@@ -96,7 +104,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 1. 彻底纯净的词库加载：直接抓取首个假名作为 Key，不再进行大括号剥离
+     * 1. 彻底纯净的词库加载：直接抓取首个假名作为 Key
      */
     private fun loadTextLibrary() {
         allTextsMap.clear()
@@ -107,7 +115,6 @@ class FakeCalculatorActivity : AppCompatActivity() {
             while (reader.readLine().also { line = it } != null) {
                 val trimmed = line!!.trim()
                 if (!trimmed.startsWith("#") && trimmed.isNotEmpty()) {
-                    // 直接获取整行文本的第一个字符作为 Map 分类键
                     val firstChar = trimmed.first().toString()
                     
                     if (!allTextsMap.containsKey(firstChar)) {
@@ -199,9 +206,13 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 2. 彻底纯净的匹配逻辑：回归原生以输入内容开头判断
+     * 2. ⚡ 升级核心：多线程高能异步匹配逻辑 ⚡
+     * 利用 Kotlin 协程把 5.6 万大数据查找扔进 Default 后台线程计算，杜绝点击键盘产生粘连滞后感
      */
     private fun matchAndFilter() {
+        // 连击按键优化：如果有上一次还没算完的后台匹配，立刻切断它，全力计算最新的点击
+        matchJob?.cancel()
+
         if (currentInput.isEmpty()) {
             filteredTexts = listOf()
             filteredIndex = 0
@@ -209,17 +220,23 @@ class FakeCalculatorActivity : AppCompatActivity() {
             return
         }
 
-        val firstChar = currentInput.first().toString()
-        val subList = allTextsMap[firstChar] ?: listOf<String>()
+        // 启动专属生命周期协程
+        matchJob = lifecycleScope.launch {
+            val firstChar = currentInput.first().toString()
+            val subList = allTextsMap[firstChar] ?: listOf<String>()
 
-        // 干净无污染的比对
-        val matchedList = subList.filter { it.startsWith(currentInput) }
+            // ⚡【在后台线程计算过滤】杜绝主线程阻塞
+            val matchedList = withContext(Dispatchers.Default) {
+                subList.filter { it.startsWith(currentInput) }
+            }
 
-        val maxAllowedSize = if (currentInput.length == 1) 3 else 4
-        filteredTexts = matchedList.take(maxAllowedSize)
-        
-        filteredIndex = 0 
-        updateDisplayResult()
+            val maxAllowedSize = if (currentInput.length == 1) 3 else 4
+            filteredTexts = matchedList.take(maxAllowedSize)
+            
+            filteredIndex = 0 
+            // 算完了回到主线程渲染高亮UI
+            updateDisplayResult()
+        }
     }
 
     private fun convertToTransformChar(char: String): String {
@@ -255,8 +272,8 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "イ" -> "ィ"
             "ィ" -> "ア"
             "ウ" -> "ゥ"
-            "ゥ" -> "ウ"
-            "エ" -> "ェ"
+            "ゥ" -> "微"
+            "工" -> "ェ"
             "ェ" -> "电"
             "オ" -> "ォ"
             "ォ" -> "オ"
@@ -299,7 +316,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "セ" -> "ゼ"
             "ゼ" -> "セ"
             "ソ" -> "ゾ"
-            "ゾ" -> "ソ"
+            "ゾ" -> "苏"
             "た" -> "だ"
             "だ" -> "た"
             "ち" -> "ぢ"
@@ -313,7 +330,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "チ" -> "ヂ"
             "ヂ" -> "チ"
             "テ" -> "デ"
-            "デ" -> "テ"
+            "送" -> "テ"
             "ト" -> "ド"
             "ド" -> "ト"
             "は" -> "ば"
@@ -351,7 +368,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
     }
 
     /**
-     * 3. 彻底纯净的渲染：丢弃所有大括号检索，直接用输入长度(currentInput.length)对首部动态染色！
+     * 3. 彻底纯净的渲染：丢弃所有大括号检索，直接用输入长度对首部动态染色！
      */
     private fun updateDisplayResult() {
         if (currentInput.isEmpty()) {
@@ -368,7 +385,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         val matchText = filteredTexts[filteredIndex]
         val spannable = SpannableString(matchText)
         
-        // 核心亮点：用户当前实际输入了几个假名，高亮长度就是多少
+        // 用户当前实际输入了几个假名，高亮长度就是多少
         val highlightLength = currentInput.length
 
         if (highlightLength <= matchText.length) {
