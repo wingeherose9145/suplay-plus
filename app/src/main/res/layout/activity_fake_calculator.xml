@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#000000"
-    android:padding="12dp">
-
-    <androidx.appcompat.widget.AppCompatTextView
+    android:padding="12dp"
+    android:weightSum="10"> <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/display"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="0dp"
+        android:layout_weight="2.8"
         android:layout_marginBottom="8dp"
         android:background="#000000"
         android:gravity="bottom|end"
         android:padding="16dp"
         android:textColor="#FF9800"
-        android:maxLines="3"
+        android:maxLines="5"
         app:autoSizeTextType="uniform"
         app:autoSizeMinTextSize="12sp"
         app:autoSizeMaxTextSize="40sp"
@@ -28,7 +27,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="7.2"
         android:columnCount="5"
         android:rowCount="10">
 
