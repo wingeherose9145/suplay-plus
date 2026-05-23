@@ -357,7 +357,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
             "フ" -> "ブ"
             "ブ" -> "プ"
             "プ" -> "フ"
-            "へ" -> "ベ"
+            "ヘ" -> "ベ"
             "ベ" -> "ペ"
             "ペ" -> "ヘ"
             "ホ" -> "ボ"
