@@ -62,7 +62,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
         "マ", "ミ", "ム", "メ", "モ",
         "ヤ", "ユ", "ヨ", "◀", "▶",
         "ラ", "リ", "ル", "レ", "ロ",
-        "ワ", "ヲ", "ン", "ー", "号/促"
+        "ワ", "ヲ", "ン", "ー", "促"
     )
 
     private var isHiragana = true
@@ -153,7 +153,7 @@ class FakeCalculatorActivity : AppCompatActivity() {
 
     private fun setupSpecialLongClick() {
         for (button in buttonList) {
-            if (button.text == "号/促") {
+            if (button.text == "促") {
                 button.setOnLongClickListener {
                     if (unlocked) {
                         startActivity(Intent(this, MainActivity::class.java))
@@ -179,11 +179,11 @@ class FakeCalculatorActivity : AppCompatActivity() {
                     updateDisplayResult()
                 }
             }
-            "假名" -> {
+            "假" -> {
                 isHiragana = !isHiragana
                 refreshButtonLabels()
             }
-            "号/促" -> {
+            "促" -> {
                 if (currentInput.isNotEmpty()) {
                     val lastChar = currentInput.last().toString()
                     val converted = convertToTransformChar(lastChar)
