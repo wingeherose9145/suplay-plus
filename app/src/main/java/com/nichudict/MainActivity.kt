@@ -38,7 +38,7 @@ fun NichuDictApp(viewModel: DictViewModel) {
 
 @Composable
 fun DictScreen(viewModel: DictViewModel) {
-    var text by remember { mutableStateOf(viewModel.searchText.value) }
+    var text by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -49,8 +49,16 @@ fun DictScreen(viewModel: DictViewModel) {
         Text(
             text = "日中离线词典",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
+
+        Text(
+            text = "完全离线 · 高质量日中词典",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
             value = text,
@@ -58,29 +66,42 @@ fun DictScreen(viewModel: DictViewModel) {
                 text = it
                 viewModel.search(it)
             },
-            label = { Text("输入日语单词（如 食べる）") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
+            label = { Text("搜索日语单词（汉字/假名）") },
+            modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
 
-        if (viewModel.results.isEmpty() && text.isNotBlank()) {
-            Text("没有找到匹配的词条", color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        if (viewModel.isLoading.value) {
+            CircularProgressIndicator()
+        } else if (viewModel.results.isEmpty() && text.isNotBlank()) {
+            Text("没有找到相关词条", color = MaterialTheme.colorScheme.onSurfaceVariant)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(viewModel.results) { entry ->
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(4.dp)
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(entry.word, style = MaterialTheme.typography.titleLarge)
-                            Text("读音: ${entry.reading}", style = MaterialTheme.typography.bodyMedium)
-                            Text("释义: ${entry.meaning}", style = MaterialTheme.typography.bodyLarge)
+                            Text(
+                                text = entry.word,
+                                style = MaterialTheme.typography.headlineSmall
+                            )
+                            Text(
+                                text = "📖 ${entry.reading}",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = entry.meaning,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
                         }
                     }
                 }
