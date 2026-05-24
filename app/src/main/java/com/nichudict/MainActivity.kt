@@ -27,10 +27,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NichuDictApp(viewModel: DictViewModel) {
     MaterialTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             DictScreen(viewModel)
         }
     }
@@ -39,6 +36,7 @@ fun NichuDictApp(viewModel: DictViewModel) {
 @Composable
 fun DictScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
+    val gojuon = listOf("あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ")
 
     Column(
         modifier = Modifier
@@ -46,19 +44,10 @@ fun DictScreen(viewModel: DictViewModel) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "日中离线词典",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
+        Text("日中离线词典", style = MaterialTheme.typography.headlineMedium)
+        Text("SQLite 预置词典", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
 
-        Text(
-            text = "完全离线 · 高质量日中词典",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = text,
@@ -66,42 +55,49 @@ fun DictScreen(viewModel: DictViewModel) {
                 text = it
                 viewModel.search(it)
             },
-            label = { Text("搜索日语单词（汉字/假名）") },
+            label = { Text("搜索日语单词") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // 五十音快速输入
+        Text("五十音快速输入", style = MaterialTheme.typography.titleSmall)
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            gojuon.forEach { kana ->
+                Button(
+                    onClick = {
+                        text += kana
+                        viewModel.search(text)
+                    },
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    Text(kana)
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         if (viewModel.isLoading.value) {
             CircularProgressIndicator()
         } else if (viewModel.results.isEmpty() && text.isNotBlank()) {
-            Text("没有找到相关词条", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text("没有找到匹配词条", color = MaterialTheme.colorScheme.onSurfaceVariant)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(viewModel.results) { entry ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-                    ) {
+                    Card(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = entry.word,
-                                style = MaterialTheme.typography.headlineSmall
-                            )
-                            Text(
-                                text = "📖 ${entry.reading}",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = entry.meaning,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                            Text(entry.word, style = MaterialTheme.typography.headlineSmall)
+                            Text("📖 ${entry.reading}", color = MaterialTheme.colorScheme.primary)
+                            Text(entry.meaning)
                         }
                     }
                 }
