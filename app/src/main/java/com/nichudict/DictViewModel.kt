@@ -31,16 +31,27 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val db = dbHelper.openDatabase()
                 
-                // 执行查询，查询 word 或 content
-                val cursor = db.rawQuery(
-                    """
+                // 【逻辑优化】：SQL 排序逻辑
+                // 1. 完全匹配结果 (Rank 1)
+                // 2. 以搜索词开头的结果 (Rank 2)
+                // 3. 包含搜索词的结果 (Rank 3)
+                val sql = """
                     SELECT word, content 
                     FROM entries 
                     WHERE word LIKE ? OR content LIKE ? 
+                    ORDER BY 
+                        (CASE 
+                            WHEN word = ? THEN 1 
+                            WHEN word LIKE ? THEN 2 
+                            ELSE 3 
+                        END), 
+                        word ASC
                     LIMIT 50
-                    """.trimIndent(),
-                    arrayOf("%$query%", "%$query%")
-                )
+                """.trimIndent()
+                
+                // 参数对应：Like模糊匹配1，Like模糊匹配2，完全匹配，开头匹配
+                val args = arrayOf("%$query%", "%$query%", query, "$query%")
+                val cursor = db.rawQuery(sql, args)
 
                 val tempResults = mutableListOf<DictionaryEntry>()
                 while (cursor.moveToNext()) {
@@ -48,7 +59,7 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                         DictionaryEntry(
                             word = cursor.getString(0) ?: "",
                             reading = "", 
-                            content = cursor.getString(1) ?: "" // 【关键修改】：这里现在是 content
+                            content = cursor.getString(1) ?: "" // 使用 content 字段
                         )
                     )
                 }
@@ -66,14 +77,6 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                 withContext(Dispatchers.Main) {
                     isLoading.value = false
                     results.clear()
-                    // 报错时显示信息
-                    results.add(
-                        DictionaryEntry(
-                            word = "查询失败",
-                            reading = "",
-                            content = "错误原因: ${e.localizedMessage ?: "未知错误"}" // 【关键修改】：这里也必须是 content
-                        )
-                    )
                 }
             }
         }
