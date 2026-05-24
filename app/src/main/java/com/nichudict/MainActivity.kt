@@ -1,3 +1,10 @@
+@file:OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+
+package com.nichudict
+
+import android.os.Bundle
+// ... 你原有的其他代码保持不变 ...
+
 package com.nichudict
 
 import android.os.Bundle
