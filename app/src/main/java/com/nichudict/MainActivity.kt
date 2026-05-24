@@ -73,6 +73,8 @@ fun convertKana(text: String, toKatakana: Boolean): String {
     }.joinToString("")
 }
 
+// ... (之前的导入和函数保持不变，仅替换下方两个组件) ...
+
 @Composable
 fun DictScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
@@ -81,29 +83,29 @@ fun DictScreen(viewModel: DictViewModel) {
     val context = LocalContext.current
 
     val baseKeys = listOf(
-        "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", 
+        "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
         "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
         "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ",
         "ま", "み", "む", "め", "も", "や", "ー", "ゆ", "DEL", "よ",
         "ら", "り", "る", "れ", "ろ", "わ", "を", "ん", "KANA", "CYC"
     )
 
-    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp)) {
-        // 搜索框：高度固定，字号放大
+    Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
+        // 1. 搜索框：加大内边距，确保文字完整
         OutlinedTextField(
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
-            placeholder = { Text("搜索...", fontSize = 18.sp) },
-            modifier = Modifier.fillMaxWidth().height(55.dp),
+            placeholder = { Text("搜索...", fontSize = 16.sp) },
+            modifier = Modifier.fillMaxWidth().height(52.dp),
             singleLine = true,
-            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp)
         )
 
-        // 结果显示区：使用 weight(0.4f) 缩小，给下方键盘留出更多空间
-        LazyColumn(modifier = Modifier.weight(0.4f).padding(vertical = 4.dp)) {
+        // 2. 结果显示区：使用 weight(1f) 占据大部分空间
+        LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             items(viewModel.results) { entry ->
                 Card(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)
                         .pointerInput(Unit) {
                             detectTapGestures(onLongPress = {
                                 clipboardManager.setText(AnnotatedString(entry.word + ": " + entry.content))
@@ -112,29 +114,29 @@ fun DictScreen(viewModel: DictViewModel) {
                         },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
-                    Column(modifier = Modifier.padding(10.dp)) {
+                    Column(modifier = Modifier.padding(12.dp)) {
                         Text(entry.word, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.height(4.dp))
                         Text(entry.content, style = MaterialTheme.typography.bodyMedium, fontSize = 16.sp)
                     }
                 }
             }
         }
 
-        // 键盘区：固定高度，圆角外观
-        Box(modifier = Modifier.height(400.dp).fillMaxWidth()) {
+        // 3. 键盘区：固定高度，但不再使用过大的 dp 值，防止挤压上部
+        // 使用 Column 的权重分配，键盘占据底部约 35% 的高度
+        Box(modifier = Modifier.fillMaxWidth().height(320.dp)) { 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 modifier = Modifier.fillMaxSize(),
-                userScrollEnabled = false,
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                userScrollEnabled = false
             ) {
                 items(baseKeys.size) { index ->
                     val rawKey = baseKeys[index]
                     val displayKey = if (rawKey.length == 1) convertKana(rawKey, isKatakana) else rawKey
                     
-                    // 按钮内部逻辑
-                    Box(modifier = Modifier.padding(2.dp)) { // 增加 padding 营造独立感
+                    // 将 KeyButton 放在 item 作用域内
+                    Box(modifier = Modifier.fillMaxSize().padding(2.dp)) { // 外层 padding 制造间隙
                         when (rawKey) {
                             "DEL" -> KeyButton("←", isSpecial = true, onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } }, onDoubleTap = { text = ""; viewModel.search("") })
                             "KANA" -> KeyButton(if(isKatakana) "片" else "平", true, onClick = { isKatakana = !isKatakana })
@@ -153,15 +155,17 @@ fun DictScreen(viewModel: DictViewModel) {
 fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {}, onDoubleTap: () -> Unit = {}) {
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(36.dp) // 高度缩小，确保护航 10 行不溢出
-            .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface, RoundedCornerShape(6.dp))
-            .border(0.5.dp, Color.Gray, RoundedCornerShape(6.dp)) // 圆角边框
+            .fillMaxSize()
+            .background(
+                color = if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(8.dp) // 圆角
+            )
+            .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp)) // 边框
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { onClick() }, onDoubleTap = { onDoubleTap() })
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(label, fontSize = 16.sp)
+        Text(label, fontSize = 16.sp, style = MaterialTheme.typography.labelLarge)
     }
 }
