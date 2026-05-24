@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.ExperimentalFoundationApi   // 新增
 
 class MainActivity : ComponentActivity() {
     private val viewModel: DictViewModel by viewModels()
@@ -28,22 +28,25 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NichuDictApp(viewModel: DictViewModel) {
     MaterialTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
             DictScreen(viewModel)
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)   // 新增这行
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DictScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
     
-    // 五十音示例（可以继续扩展）
     val gojuon = listOf(
         "あ", "い", "う", "え", "お",
         "か", "き", "く", "け", "こ",
-        "さ", "し", "す", "せ", "そ"
+        "さ", "し", "す", "せ", "そ",
+        "た", "ち", "つ", "て", "と"
     )
 
     Column(
@@ -57,7 +60,7 @@ fun DictScreen(viewModel: DictViewModel) {
             style = MaterialTheme.typography.headlineMedium
         )
         Text(
-            text = "SQLite 版",
+            text = "SQLite 预置词典",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -77,10 +80,9 @@ fun DictScreen(viewModel: DictViewModel) {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // 五十音快速输入
         Text("五十音快速输入", style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(8.dp))
-        
+
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(6.dp),
@@ -91,10 +93,9 @@ fun DictScreen(viewModel: DictViewModel) {
                     onClick = {
                         text += kana
                         viewModel.search(text)
-                    },
-                    modifier = Modifier.padding(2.dp)
+                    }
                 ) {
-                    Text(kana, style = MaterialTheme.typography.bodyMedium)
+                    Text(kana)
                 }
             }
         }
