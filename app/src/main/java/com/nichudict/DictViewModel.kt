@@ -30,23 +30,26 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val db = dbHelper.openDatabase()
+                
+                // 1. 修改表名为 entries，列名改为 word 和 html
                 val cursor = db.rawQuery(
                     """
-                    SELECT word, reading, meaning 
-                    FROM dictionary 
-                    WHERE word LIKE ? OR reading LIKE ? OR meaning LIKE ?
+                    SELECT word, html 
+                    FROM entries 
+                    WHERE word LIKE ? OR html LIKE ?
                     LIMIT 50
                     """.trimIndent(),
-                    arrayOf("%$query%", "%$query%", "%$query%")
+                    arrayOf("%$query%", "%$query%") // 因为只查两列，所以这里变成两个参数
                 )
 
                 val tempResults = mutableListOf<DictionaryEntry>()
                 while (cursor.moveToNext()) {
+                    // 2. 将游标读取的数据装载到 DictionaryEntry 里
                     tempResults.add(
                         DictionaryEntry(
-                            cursor.getString(0),
-                            cursor.getString(1),
-                            cursor.getString(2)
+                            word = cursor.getString(0) ?: "",
+                            reading = "", // 你的数据库没有独立发音字段了，这里先留空
+                            meaning = cursor.getString(1) ?: "" // 将 html 列的内容作为解释
                         )
                     )
                 }
@@ -59,6 +62,7 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                     isLoading.value = false
                 }
                 
+                            
             } catch (e: Exception) {
                 // 【神级调试技巧】拦截闪退！把错误直接显示在手机屏幕上
                 e.printStackTrace()
