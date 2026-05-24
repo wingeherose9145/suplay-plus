@@ -26,12 +26,12 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
         isLoading.value = true
         results.clear()
 
-        // 使用协程在后台线程执行数据库操作，防止界面卡死
+        // 使用协程在后台线程执行数据库操作
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val db = dbHelper.openDatabase()
                 
-                // 【核心修改】：SQL 查询语句已适配 entries 表和 content 列
+                // 执行查询，查询 word 或 content
                 val cursor = db.rawQuery(
                     """
                     SELECT word, content 
@@ -44,12 +44,11 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
 
                 val tempResults = mutableListOf<DictionaryEntry>()
                 while (cursor.moveToNext()) {
-                    // getString(0) 是 word，getString(1) 是 content
                     tempResults.add(
                         DictionaryEntry(
                             word = cursor.getString(0) ?: "",
-                            reading = "", // 数据库中没有读音列，留空
-                            meaning = cursor.getString(1) ?: ""
+                            reading = "", 
+                            content = cursor.getString(1) ?: "" // 【关键修改】：这里现在是 content
                         )
                     )
                 }
@@ -67,12 +66,12 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                 withContext(Dispatchers.Main) {
                     isLoading.value = false
                     results.clear()
-                    // 报错时显示信息，方便排查
+                    // 报错时显示信息
                     results.add(
                         DictionaryEntry(
                             word = "查询失败",
                             reading = "",
-                            meaning = "错误原因: ${e.localizedMessage}"
+                            content = "错误原因: ${e.localizedMessage ?: "未知错误"}" // 【关键修改】：这里也必须是 content
                         )
                     )
                 }
