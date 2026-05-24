@@ -1,6 +1,5 @@
-// Top-level build file
 plugins {
-    id 'com.android.application' version '8.6.0' apply false  // 降到稳定版 8.6.0
+    id 'com.android.application' version '8.5.0' apply false   // 进一步降到更稳定版本
     id 'org.jetbrains.kotlin.android' version '2.0.0' apply false
 }
 
