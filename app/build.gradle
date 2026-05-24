@@ -55,7 +55,7 @@ dependencies {
     // MDX 支持
     implementation 'com.github.KnIfER:mdict-java:master-SNAPSHOT'
 
-    // Room（可选，后续转 SQLite 用）
+    // Room（可选）
     implementation "androidx.room:room-runtime:2.6.1"
     kapt "androidx.room:room-compiler:2.6.1"
 
