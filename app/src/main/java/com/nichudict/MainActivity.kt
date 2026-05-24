@@ -1,5 +1,9 @@
 package com.nichudict
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -7,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -16,11 +21,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
-// 假名辅助工具
+class MainActivity : ComponentActivity() {
+    private val viewModel: DictViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                    DictScreen(viewModel)
+                }
+            }
+        }
+    }
+}
+
+// 简单假名切换工具
 fun toggleKana(text: String, isKatakana: Boolean): String {
     return text.map { char ->
         if (isKatakana) {
-            // 简单的平转片逻辑 (涵盖大部分常用)
             if (char in 'ぁ'..'ん') char + ('ァ' - 'ぁ') else char
         } else {
             if (char in 'ァ'..'ン') char - ('ァ' - 'ぁ') else char
@@ -43,28 +62,34 @@ fun DictScreen(viewModel: DictViewModel) {
     )
 
     Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
-        // 搜索框
+        // 1. 搜索框
         OutlinedTextField(
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
             label = { Text("搜索") },
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            trailingIcon = {
+                if (text.isNotEmpty()) {
+                    IconButton(onClick = { text = ""; viewModel.search("") }) { Text("✕") }
+                }
+            }
         )
 
-        // 搜索结果
+        // 2. 搜索结果
         LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             items(viewModel.results) { entry ->
                 Card(modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
                     Column(modifier = Modifier.padding(8.dp)) {
+                        // 确保此处调用的是 .content，与数据库一致
                         Text(entry.word, style = MaterialTheme.typography.titleMedium)
-                        Text(entry.meaning, style = MaterialTheme.typography.bodyMedium)
+                        Text(entry.content, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
         }
 
-        // 键盘区
+        // 3. 五十音键盘 (底部固定)
         LazyVerticalGrid(
             columns = GridCells.Fixed(5),
             modifier = Modifier.height(300.dp),
@@ -74,7 +99,6 @@ fun DictScreen(viewModel: DictViewModel) {
             items(50) { index ->
                 val key = baseKeys[index]
                 
-                // 功能键逻辑
                 when (index) {
                     36 -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
                     38 -> KeyButton("←/CLR", isSpecial = true, 
@@ -86,7 +110,7 @@ fun DictScreen(viewModel: DictViewModel) {
                     else -> if (key.isNotEmpty()) {
                         KeyButton(if(isKatakana) toggleKana(key, true) else key, onClick = {
                             var char = if(isKatakana) toggleKana(key, true) else key
-                            if(modifierMode == 1) char = "っ"
+                            if(modifierMode == 1) char += "っ"
                             if(modifierMode == 2) char += "゛"
                             text += char
                             viewModel.search(text)
@@ -98,7 +122,7 @@ fun DictScreen(viewModel: DictViewModel) {
     }
 }
 
-// 修复后的 KeyButton，使用 Surface 替代 Button，彻底解决点击冲突
+// 自定义按键组件，使用Box+pointerInput避免点击冲突
 @Composable
 fun KeyButton(text: String, isSpecial: Boolean = false, onClick: () -> Unit = {}, onDoubleTap: () -> Unit = {}) {
     Box(
