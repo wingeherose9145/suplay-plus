@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// 循环变换算法
+// 循环变换逻辑保持不变
 fun cycleKana(current: String): String {
     if (current.isEmpty()) return ""
     val lastChar = current.last()
@@ -100,7 +100,7 @@ fun DictScreen(viewModel: DictViewModel) {
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
             placeholder = { Text("输入关键词...") },
-            modifier = Modifier.fillMaxWidth().height(60.dp),
+            modifier = Modifier.fillMaxWidth().height(56.dp),
             singleLine = true
         )
 
@@ -111,7 +111,7 @@ fun DictScreen(viewModel: DictViewModel) {
                         .pointerInput(Unit) {
                             detectTapGestures(onLongPress = {
                                 clipboardManager.setText(AnnotatedString(entry.word + ": " + entry.content))
-                                Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "已复制", Toast.LENGTH_SHORT).show()
                             })
                         },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
@@ -119,19 +119,21 @@ fun DictScreen(viewModel: DictViewModel) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(entry.word, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.height(4.dp))
-                        Text(entry.content, style = MaterialTheme.typography.bodyMedium)
+                        // 放大字号至 16.sp
+                        Text(entry.content, style = MaterialTheme.typography.bodyMedium, fontSize = 16.sp)
                     }
                 }
             }
         }
 
-        Box(modifier = Modifier.height(480.dp).fillMaxWidth()) {
+        // 键盘区：高度限制在 420.dp
+        Box(modifier = Modifier.height(420.dp).fillMaxWidth()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 modifier = Modifier.fillMaxSize(),
                 userScrollEnabled = false,
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 items(baseKeys.size) { index ->
                     val rawKey = baseKeys[index]
@@ -157,8 +159,8 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(60.dp) // 【放大1.5倍以上】：已设置为 60.dp
-            .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+            .height(42.dp) // 调整为 42.dp 确保 10 行能刚好塞进 420.dp
+            .border(0.5.dp, Color.Gray, RoundedCornerShape(4.dp))
             .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -168,6 +170,6 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(label, fontSize = 18.sp, style = MaterialTheme.typography.labelLarge)
+        Text(label, fontSize = 16.sp, style = MaterialTheme.typography.labelLarge)
     }
 }
