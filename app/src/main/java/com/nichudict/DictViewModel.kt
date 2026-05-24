@@ -1,25 +1,16 @@
 package com.nichudict
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 
-class DictViewModel : ViewModel() {
+class DictViewModel(application: Application) : AndroidViewModel(application) {
     val searchText = mutableStateOf("")
     val results = mutableStateListOf<DictionaryEntry>()
     val isLoading = mutableStateOf(false)
 
-    // 示例数据（你可以后续替换为真实大词典）
-    private val dictionary = listOf(
-        DictionaryEntry("食べる", "たべる", "吃；食用"),
-        DictionaryEntry("学校", "がっこう", "学校"),
-        DictionaryEntry("美しい", "うつくしい", "美丽的；美好的"),
-        DictionaryEntry("こんにちは", "こんにちは", "你好"),
-        DictionaryEntry("ありがとう", "ありがとう", "谢谢"),
-        DictionaryEntry("日本", "にほん", "日本"),
-        DictionaryEntry("勉強", "べんきょう", "学习；用功"),
-        DictionaryEntry("友達", "ともだち", "朋友"),
-    )
+    private val dbHelper = DictionaryDatabase(application)
 
     fun search(query: String) {
         searchText.value = query
@@ -31,15 +22,28 @@ class DictViewModel : ViewModel() {
         isLoading.value = true
         results.clear()
 
-        val lowerQuery = query.trim().lowercase()
-        results.addAll(
-            dictionary.filter {
-                it.word.contains(lowerQuery, ignoreCase = true) ||
-                it.reading.contains(lowerQuery, ignoreCase = true) ||
-                it.meaning.contains(lowerQuery, ignoreCase = true)
-            }
+        val db = dbHelper.openDatabase()
+        val cursor = db.rawQuery(
+            """
+            SELECT word, reading, meaning 
+            FROM dictionary 
+            WHERE word LIKE ? OR reading LIKE ? OR meaning LIKE ?
+            LIMIT 50
+            """.trimIndent(),
+            arrayOf("%$query%", "%$query%", "%$query%")
         )
 
+        while (cursor.moveToNext()) {
+            results.add(
+                DictionaryEntry(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2)
+                )
+            )
+        }
+        cursor.close()
+        db.close()
         isLoading.value = false
     }
 }
