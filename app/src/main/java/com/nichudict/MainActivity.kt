@@ -39,12 +39,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// 循环变换逻辑保持不变
+// (此处保留原本的 cycleKana 和 convertKana 函数，无需更改)
 fun cycleKana(current: String): String {
     if (current.isEmpty()) return ""
     val lastChar = current.last()
     val fullText = current.dropLast(1)
-    
     val cycles = listOf(
         listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
         listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
@@ -59,7 +58,6 @@ fun cycleKana(current: String): String {
         listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
         listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
     )
-
     val targetList = cycles.find { it.contains(lastChar) }
     return if (targetList != null) {
         val nextIndex = (targetList.indexOf(lastChar) + 1) % targetList.size
@@ -83,31 +81,26 @@ fun DictScreen(viewModel: DictViewModel) {
     val context = LocalContext.current
 
     val baseKeys = listOf(
-        "あ", "い", "う", "え", "お",
-        "か", "き", "く", "け", "こ", 
-        "さ", "し", "す", "せ", "そ",
-        "た", "ち", "つ", "て", "と",
-        "な", "に", "ぬ", "ね", "の",
-        "は", "ひ", "ふ", "へ", "ほ",
-        "ま", "み", "む", "め", "も",
-        "や", "ー", "ゆ", "DEL", "よ",
-        "ら", "り", "る", "れ", "ろ",
-        "わ", "を", "ん", "KANA", "CYC"
+        "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ", 
+        "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
+        "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ",
+        "ま", "み", "む", "め", "も", "や", "ー", "ゆ", "DEL", "よ",
+        "ら", "り", "る", "れ", "ろ", "わ", "を", "ん", "KANA", "CYC"
     )
 
-    Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
+    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp)) {
         OutlinedTextField(
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
             placeholder = { Text("输入关键词...") },
-            modifier = Modifier.fillMaxWidth().height(56.dp),
+            modifier = Modifier.fillMaxWidth().height(50.dp),
             singleLine = true
         )
 
         LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             items(viewModel.results) { entry ->
                 Card(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
                         .pointerInput(Unit) {
                             detectTapGestures(onLongPress = {
                                 clipboardManager.setText(AnnotatedString(entry.word + ": " + entry.content))
@@ -116,33 +109,30 @@ fun DictScreen(viewModel: DictViewModel) {
                         },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
+                    Column(modifier = Modifier.padding(10.dp)) {
                         Text(entry.word, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-                        Spacer(modifier = Modifier.height(4.dp))
-                        // 放大字号至 16.sp
+                        Spacer(modifier = Modifier.height(2.dp))
                         Text(entry.content, style = MaterialTheme.typography.bodyMedium, fontSize = 16.sp)
                     }
                 }
             }
         }
 
-        // 键盘区：高度限制在 420.dp
-        Box(modifier = Modifier.height(420.dp).fillMaxWidth()) {
+        // 紧凑键盘区：400.dp 总高，无间距，每个键 40.dp 高度
+        Box(modifier = Modifier.height(400.dp).fillMaxWidth()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 modifier = Modifier.fillMaxSize(),
                 userScrollEnabled = false,
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                verticalArrangement = Arrangement.spacedBy(0.dp),
+                horizontalArrangement = Arrangement.spacedBy(0.dp)
             ) {
                 items(baseKeys.size) { index ->
                     val rawKey = baseKeys[index]
                     val displayKey = if (rawKey.length == 1) convertKana(rawKey, isKatakana) else rawKey
                     
                     when (rawKey) {
-                        "DEL" -> KeyButton("←/CLR", isSpecial = true, 
-                            onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } },
-                            onDoubleTap = { text = ""; viewModel.search("") })
+                        "DEL" -> KeyButton("←/CLR", isSpecial = true, onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } }, onDoubleTap = { text = ""; viewModel.search("") })
                         "KANA" -> KeyButton(if(isKatakana) "片" else "平", true, onClick = { isKatakana = !isKatakana })
                         "CYC" -> KeyButton("促/浊", true, onClick = { text = cycleKana(text); viewModel.search(text) })
                         "ー" -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
@@ -159,14 +149,11 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(42.dp) // 调整为 42.dp 确保 10 行能刚好塞进 420.dp
-            .border(0.5.dp, Color.Gray, RoundedCornerShape(4.dp))
+            .height(40.dp) // 降低高度至40，确保护航10行
+            .border(0.5.dp, Color.Gray, RoundedCornerShape(0.dp)) // 设为0.dp让布局更紧凑
             .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
             .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { onClick() },
-                    onDoubleTap = { onDoubleTap() }
-                )
+                detectTapGestures(onTap = { onClick() }, onDoubleTap = { onDoubleTap() })
             },
         contentAlignment = Alignment.Center
     ) {
