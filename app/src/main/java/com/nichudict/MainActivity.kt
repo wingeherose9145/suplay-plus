@@ -225,7 +225,7 @@ fun DictScreen(viewModel: DictViewModel) {
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp),
+                .height(50.dp),
 
             colors = OutlinedTextFieldDefaults.colors()
         )
@@ -300,7 +300,7 @@ fun DictScreen(viewModel: DictViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(360.dp)
+                .height(400.dp)
         ) {
 
             LazyVerticalGrid(
@@ -324,7 +324,7 @@ fun DictScreen(viewModel: DictViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(32.dp)
+                            .height(40.dp)
                             .padding(2.dp)
                     ) {
 
