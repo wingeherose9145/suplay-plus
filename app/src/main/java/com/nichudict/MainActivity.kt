@@ -219,13 +219,13 @@ fun DictScreen(viewModel: DictViewModel) {
             shape = RoundedCornerShape(16.dp),
 
             textStyle = TextStyle(
-                fontSize = 22.sp,
+                fontSize = 20.sp,
                 textAlign = TextAlign.Center
             ),
 
             modifier = Modifier
                 .fillMaxWidth()
-                .height(68.dp),
+                .height(60.dp),
 
             colors = OutlinedTextFieldDefaults.colors()
         )
@@ -300,7 +300,7 @@ fun DictScreen(viewModel: DictViewModel) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(500.dp)
+                .height(360.dp)
         ) {
 
             LazyVerticalGrid(
@@ -324,8 +324,8 @@ fun DictScreen(viewModel: DictViewModel) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(78.dp)
-                            .padding(4.dp)
+                            .height(32.dp)
+                            .padding(2.dp)
                     ) {
 
                         when (rawKey) {
