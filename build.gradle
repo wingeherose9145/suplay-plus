@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application' version '8.5.0' apply false   // 进一步降到更稳定版本
+    id 'com.android.application' version '8.5.0' apply false
     id 'org.jetbrains.kotlin.android' version '2.0.0' apply false
 }
 
