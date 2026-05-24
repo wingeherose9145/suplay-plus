@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// (此处保留原本的 cycleKana 和 convertKana 函数，无需更改)
+// ... (cycleKana 和 convertKana 函数保持不变) ...
 fun cycleKana(current: String): String {
     if (current.isEmpty()) return ""
     val lastChar = current.last()
@@ -89,15 +89,18 @@ fun DictScreen(viewModel: DictViewModel) {
     )
 
     Column(modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp)) {
+        // 搜索框：高度固定，字号放大
         OutlinedTextField(
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
-            placeholder = { Text("输入关键词...") },
-            modifier = Modifier.fillMaxWidth().height(50.dp),
-            singleLine = true
+            placeholder = { Text("搜索...", fontSize = 18.sp) },
+            modifier = Modifier.fillMaxWidth().height(55.dp),
+            singleLine = true,
+            textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp)
         )
 
-        LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
+        // 结果显示区：使用 weight(0.4f) 缩小，给下方键盘留出更多空间
+        LazyColumn(modifier = Modifier.weight(0.4f).padding(vertical = 4.dp)) {
             items(viewModel.results) { entry ->
                 Card(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)
@@ -111,32 +114,34 @@ fun DictScreen(viewModel: DictViewModel) {
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Text(entry.word, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-                        Spacer(modifier = Modifier.height(2.dp))
                         Text(entry.content, style = MaterialTheme.typography.bodyMedium, fontSize = 16.sp)
                     }
                 }
             }
         }
 
-        // 紧凑键盘区：400.dp 总高，无间距，每个键 40.dp 高度
+        // 键盘区：固定高度，圆角外观
         Box(modifier = Modifier.height(400.dp).fillMaxWidth()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 modifier = Modifier.fillMaxSize(),
                 userScrollEnabled = false,
-                verticalArrangement = Arrangement.spacedBy(0.dp),
-                horizontalArrangement = Arrangement.spacedBy(0.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 items(baseKeys.size) { index ->
                     val rawKey = baseKeys[index]
                     val displayKey = if (rawKey.length == 1) convertKana(rawKey, isKatakana) else rawKey
                     
-                    when (rawKey) {
-                        "DEL" -> KeyButton("←/CLR", isSpecial = true, onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } }, onDoubleTap = { text = ""; viewModel.search("") })
-                        "KANA" -> KeyButton(if(isKatakana) "片" else "平", true, onClick = { isKatakana = !isKatakana })
-                        "CYC" -> KeyButton("促/浊", true, onClick = { text = cycleKana(text); viewModel.search(text) })
-                        "ー" -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
-                        else -> KeyButton(displayKey, onClick = { text += displayKey; viewModel.search(text) })
+                    // 按钮内部逻辑
+                    Box(modifier = Modifier.padding(2.dp)) { // 增加 padding 营造独立感
+                        when (rawKey) {
+                            "DEL" -> KeyButton("←", isSpecial = true, onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } }, onDoubleTap = { text = ""; viewModel.search("") })
+                            "KANA" -> KeyButton(if(isKatakana) "片" else "平", true, onClick = { isKatakana = !isKatakana })
+                            "CYC" -> KeyButton("促/浊", true, onClick = { text = cycleKana(text); viewModel.search(text) })
+                            "ー" -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
+                            else -> KeyButton(displayKey, onClick = { text += displayKey; viewModel.search(text) })
+                        }
                     }
                 }
             }
@@ -149,14 +154,14 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp) // 降低高度至40，确保护航10行
-            .border(0.5.dp, Color.Gray, RoundedCornerShape(0.dp)) // 设为0.dp让布局更紧凑
-            .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
+            .height(36.dp) // 高度缩小，确保护航 10 行不溢出
+            .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface, RoundedCornerShape(6.dp))
+            .border(0.5.dp, Color.Gray, RoundedCornerShape(6.dp)) // 圆角边框
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { onClick() }, onDoubleTap = { onDoubleTap() })
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(label, fontSize = 16.sp, style = MaterialTheme.typography.labelLarge)
+        Text(label, fontSize = 16.sp)
     }
 }
