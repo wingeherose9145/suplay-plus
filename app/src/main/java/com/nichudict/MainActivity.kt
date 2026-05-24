@@ -1,11 +1,11 @@
 package com.nichudict
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -36,13 +39,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// 五十音循环变换逻辑
+// 循环变换算法
 fun cycleKana(current: String): String {
     if (current.isEmpty()) return ""
     val lastChar = current.last()
     val fullText = current.dropLast(1)
     
-    // 定义循环表 (平假名 & 片假名)
     val cycles = listOf(
         listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
         listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
@@ -53,7 +55,7 @@ fun cycleKana(current: String): String {
         listOf('ア', 'ァ'), listOf('イ', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
         listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'グ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
         listOf('サ', 'ザ'), listOf('シ', 'ジ'), listOf('ス', 'ズ'), listOf('セ', 'ゼ'), listOf('ソ', 'ゾ'),
-        listOf('塔', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'デ'), listOf('ト', 'ド'),
+        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'デ'), listOf('ト', 'ド'),
         listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
         listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
     )
@@ -62,12 +64,9 @@ fun cycleKana(current: String): String {
     return if (targetList != null) {
         val nextIndex = (targetList.indexOf(lastChar) + 1) % targetList.size
         fullText + targetList[nextIndex]
-    } else {
-        current // 如果没找到匹配项（如“ん”），保持不变
-    }
+    } else current
 }
 
-// 平片假名转换
 fun convertKana(text: String, toKatakana: Boolean): String {
     return text.map { char ->
         if (toKatakana && char in 'ぁ'..'ん') char + ('ァ' - 'ぁ')
@@ -80,55 +79,59 @@ fun convertKana(text: String, toKatakana: Boolean): String {
 fun DictScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
     var isKatakana by remember { mutableStateOf(false) }
+    val clipboardManager = LocalClipboardManager.current
+    val context = LocalContext.current
 
-    // 50音基础数据 (10行5列)
     val baseKeys = listOf(
         "あ", "い", "う", "え", "お",
-        "か", "き", "く", "け", "こ",
+        "か", "き", "く", "け", "こ", 
         "さ", "し", "す", "せ", "そ",
         "た", "ち", "つ", "て", "と",
         "な", "に", "ぬ", "ね", "の",
         "は", "ひ", "ふ", "へ", "ほ",
         "ま", "み", "む", "め", "も",
-        "や", "ー", "ゆ", "DEL", "よ", // 第8行插槽: index 36=长音, 38=删除/清空
+        "や", "ー", "ゆ", "DEL", "よ",
         "ら", "り", "る", "れ", "ろ",
-        "わ", "を", "ん", "KANA", "CYC" // 第10行插槽: index 48=切换, 49=循环
+        "わ", "を", "ん", "KANA", "CYC"
     )
 
     Column(modifier = Modifier.fillMaxSize().padding(4.dp)) {
-        // 1. 搜索框 (无标题)
         OutlinedTextField(
             value = text,
             onValueChange = { text = it; viewModel.search(it) },
-            placeholder = { Text("输入日语或中文检索...") },
-            modifier = Modifier.fillMaxWidth().height(56.dp),
-            singleLine = true,
-            shape = RoundedCornerShape(8.dp)
+            placeholder = { Text("输入关键词...") },
+            modifier = Modifier.fillMaxWidth().height(60.dp),
+            singleLine = true
         )
 
-        // 2. 搜索结果区 (缩小显示，占据剩余空间)
         LazyColumn(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             items(viewModel.results) { entry ->
                 Card(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)
+                        .pointerInput(Unit) {
+                            detectTapGestures(onLongPress = {
+                                clipboardManager.setText(AnnotatedString(entry.word + ": " + entry.content))
+                                Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
+                            })
+                        },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
-                    Column(modifier = Modifier.padding(8.dp)) {
-                        Text(entry.word, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary)
-                        Text(entry.content, style = MaterialTheme.typography.bodySmall, fontSize = 13.sp)
+                    Column(modifier = Modifier.padding(12.dp)) {
+                        Text(entry.word, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(entry.content, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }
         }
 
-        // 3. 紧致五十音键盘 (固定高度，无需滑动)
-        Box(modifier = Modifier.height(340.dp).fillMaxWidth()) {
+        Box(modifier = Modifier.height(480.dp).fillMaxWidth()) {
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
                 modifier = Modifier.fillMaxSize(),
-                userScrollEnabled = false, // 禁止滚动，确保全部显示
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                userScrollEnabled = false,
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(baseKeys.size) { index ->
                     val rawKey = baseKeys[index]
@@ -141,12 +144,7 @@ fun DictScreen(viewModel: DictViewModel) {
                         "KANA" -> KeyButton(if(isKatakana) "片" else "平", true, onClick = { isKatakana = !isKatakana })
                         "CYC" -> KeyButton("促/浊", true, onClick = { text = cycleKana(text); viewModel.search(text) })
                         "ー" -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
-                        else -> if (rawKey.isNotEmpty()) {
-                            KeyButton(displayKey, onClick = { 
-                                text += displayKey
-                                viewModel.search(text) 
-                            })
-                        }
+                        else -> KeyButton(displayKey, onClick = { text += displayKey; viewModel.search(text) })
                     }
                 }
             }
@@ -159,8 +157,8 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(32.dp) // 降低高度实现紧凑布局
-            .border(0.5.dp, Color.LightGray, RoundedCornerShape(4.dp))
+            .height(60.dp) // 【放大1.5倍以上】：已设置为 60.dp
+            .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
             .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
             .pointerInput(Unit) {
                 detectTapGestures(
@@ -170,6 +168,6 @@ fun KeyButton(label: String, isSpecial: Boolean = false, onClick: () -> Unit = {
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(label, fontSize = 14.sp, style = MaterialTheme.typography.labelSmall)
+        Text(label, fontSize = 18.sp, style = MaterialTheme.typography.labelLarge)
     }
 }
