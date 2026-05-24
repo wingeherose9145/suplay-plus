@@ -1,15 +1,7 @@
 // Top-level build file
 plugins {
-    id 'com.android.application' version '8.7.0' apply false
+    id 'com.android.application' version '8.6.0' apply false  // 降到稳定版 8.6.0
     id 'org.jetbrains.kotlin.android' version '2.0.0' apply false
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }   // 重要：支持 KnIfER/mdix-java
-    }
 }
 
 tasks.register('clean', Delete) {
