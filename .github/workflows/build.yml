@@ -30,6 +30,18 @@ jobs:
 
       - name: Grant execute permission
         run: chmod +x gradlew
+      
+      # ===== 插入的词库下载与解压步骤开始 =====
+      - name: Download and extract database
+        run: |
+          mkdir -p app/src/main/assets
+          wget -O nichudict.zip "https://github.com/wingeherose9145/suplay-plus/releases/download/v0.1/nichudict.zip"
+          unzip nichudict.zip -d app/src/main/assets/
+          rm nichudict.zip
+      # ===== 插入的词库下载与解压步骤结束 =====
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace --info
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace --info
