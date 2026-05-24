@@ -43,10 +43,8 @@ fun DictScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
     
     val gojuon = listOf(
-        "あ", "い", "う", "え", "お",
-        "か", "き", "く", "け", "こ",
-        "さ", "し", "す", "せ", "そ",
-        "た", "ち", "つ", "て", "と"
+        "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
+        "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と"
     )
 
     Column(
@@ -65,7 +63,7 @@ fun DictScreen(viewModel: DictViewModel) {
             color = MaterialTheme.colorScheme.primary
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
             value = text,
@@ -78,15 +76,16 @@ fun DictScreen(viewModel: DictViewModel) {
             singleLine = true
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text("五十音快速输入", style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(8.dp))
 
+        // 使用 experimental 的 FlowRow
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             gojuon.forEach { kana ->
                 Button(
