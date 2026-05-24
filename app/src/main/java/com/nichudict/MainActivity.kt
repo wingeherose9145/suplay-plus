@@ -1,14 +1,18 @@
 package com.nichudict
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 
@@ -30,7 +34,6 @@ fun DictScreen(viewModel: DictViewModel) {
     var isKatakana by remember { mutableStateOf(false) }
     var modifierMode by remember { mutableStateOf(0) } // 0:正常, 1:促音, 2:浊音
 
-    // 五十音基础布局 (50个位置)
     val baseKeys = listOf(
         "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
         "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
@@ -64,32 +67,30 @@ fun DictScreen(viewModel: DictViewModel) {
         // 键盘区
         LazyVerticalGrid(
             columns = GridCells.Fixed(5),
-            modifier = Modifier.height(320.dp),
+            modifier = Modifier.height(300.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             items(50) { index ->
                 val key = baseKeys[index]
                 
-                // 处理特殊功能键位
+                // 功能键逻辑
                 when (index) {
-                    36 -> KeyButton("ー") { text += "ー"; viewModel.search(text) }
-                    38 -> KeyButton("←/CLR", isSpecial = true, onClick = {
-                        // 通过 pointerInput 处理单击/双击
-                    }, onDoubleTap = { text = ""; viewModel.search("") }, 
-                       onTap = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } })
-                    48 -> KeyButton(if(isKatakana) "片" else "平", true) { isKatakana = !isKatakana }
-                    49 -> KeyButton(when(modifierMode){ 0->"促/浊"; 1->"促"; 2->"浊"; else->"促/浊" }, true) { 
-                        modifierMode = (modifierMode + 1) % 3 
-                    }
+                    36 -> KeyButton("ー", onClick = { text += "ー"; viewModel.search(text) })
+                    38 -> KeyButton("←/CLR", isSpecial = true, 
+                        onClick = { if(text.isNotEmpty()) { text = text.dropLast(1); viewModel.search(text) } },
+                        onDoubleTap = { text = ""; viewModel.search("") })
+                    48 -> KeyButton(if(isKatakana) "片" else "平", isSpecial = true, onClick = { isKatakana = !isKatakana })
+                    49 -> KeyButton(when(modifierMode){ 0->"促/浊"; 1->"促"; 2->"浊"; else->"促/浊" }, isSpecial = true, 
+                        onClick = { modifierMode = (modifierMode + 1) % 3 })
                     else -> if (key.isNotEmpty()) {
-                        KeyButton(if(isKatakana) toggleKana(key, true) else key) {
+                        KeyButton(if(isKatakana) toggleKana(key, true) else key, onClick = {
                             var char = if(isKatakana) toggleKana(key, true) else key
-                            if(modifierMode == 1) char = "っ" // 简单示例
-                            if(modifierMode == 2) char += "゛" // 简单示例
+                            if(modifierMode == 1) char = "っ"
+                            if(modifierMode == 2) char += "゛"
                             text += char
                             viewModel.search(text)
-                        }
+                        })
                     } else { Box(Modifier) }
                 }
             }
@@ -97,14 +98,23 @@ fun DictScreen(viewModel: DictViewModel) {
     }
 }
 
+// 修复后的 KeyButton，使用 Surface 替代 Button，彻底解决点击冲突
 @Composable
-fun KeyButton(text: String, isSpecial: Boolean = false, onClick: () -> Unit = {}, onTap: () -> Unit = {}, onDoubleTap: () -> Unit = {}) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth().height(50.dp).padding(1.dp).pointerInput(Unit) {
-            detectTapGestures(onTap = { onTap() }, onDoubleTap = { onDoubleTap() })
-        },
-        colors = ButtonDefaults.buttonColors(containerColor = if(isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.primaryContainer)
+fun KeyButton(text: String, isSpecial: Boolean = false, onClick: () -> Unit = {}, onDoubleTap: () -> Unit = {}) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+            .padding(1.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(4.dp))
+            .background(if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.primaryContainer)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onClick() },
+                    onDoubleTap = { onDoubleTap() }
+                )
+            },
+        contentAlignment = Alignment.Center
     ) {
         Text(text, style = MaterialTheme.typography.labelLarge)
     }
