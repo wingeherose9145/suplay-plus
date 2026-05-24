@@ -1,3 +1,19 @@
-// settings.gradle
-rootProject.name = "日中词典"  // 或 "NichuDict" / "日汉离线词典"
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }   // 用于 mdict-java
+    }
+}
+
+rootProject.name = "NichuDict"
 include ':app'
