@@ -1,0 +1,11 @@
+SQLCREATE TABLE dictionary (
+    word TEXT,
+    reading TEXT,
+    meaning TEXT
+);
+
+INSERT INTO dictionary (word, reading, meaning) VALUES 
+('食べる', 'たべる', '吃；食用'),
+('学校', 'がっこう', '学校'),
+('美しい', 'うつくしい', '美丽的'),
+('日本', 'にほん', '日本');
