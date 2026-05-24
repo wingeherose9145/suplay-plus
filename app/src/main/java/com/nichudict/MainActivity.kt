@@ -3,11 +3,6 @@
 package com.nichudict
 
 import android.os.Bundle
-// ... 你原有的其他代码保持不变 ...
-
-package com.nichudict
-
-import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -20,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+
 
 class MainActivity : ComponentActivity() {
     private val viewModel: DictViewModel by viewModels()
