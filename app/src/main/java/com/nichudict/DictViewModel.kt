@@ -30,22 +30,31 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val db = dbHelper.openDatabase()
                 
-                // 修改为适配小词库 (dict 表)
+                // 极致优化版 SQL：不再查询 html 字段，避免乱序；严格按匹配精准度排序
                 val sql = """
                     SELECT word, reading, html 
                     FROM dict 
-                    WHERE word LIKE ? OR html LIKE ? 
+                    WHERE word = ? OR word LIKE ? OR word LIKE ?
                     ORDER BY 
                         (CASE 
-                            WHEN word = ? THEN 1 
-                            WHEN word LIKE ? THEN 2 
-                            ELSE 3 
+                            WHEN word = ? THEN 1            -- 完全相等权重最高
+                            WHEN word LIKE ? THEN 2         -- 前缀匹配次之 (例如输入 うえ 匹配 うえの)
+                            ELSE 3                          -- 包含匹配权重最低
                         END), 
+                        LENGTH(word) ASC,                   -- 词条越短越精准，防止长词干扰
                         word ASC
                     LIMIT 50
                 """.trimIndent()
                 
-                val args = arrayOf("%$query%", "%$query%", query, "$query%")
+                // 参数依次对应 SQL 中的 ? 号
+                val args = arrayOf(
+                    query,          // word = ?
+                    "$query%",      // word LIKE ? (前缀)
+                    "%$query%",     // word LIKE ? (包含)
+                    query,          // WHEN word = ?
+                    "$query%"       // WHEN word LIKE ?
+                )
+                
                 val cursor = db.rawQuery(sql, args)
 
                 val tempResults = mutableListOf<DictionaryEntry>()
@@ -53,8 +62,8 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                     tempResults.add(
                         DictionaryEntry(
                             word = cursor.getString(0) ?: "",
-                            reading = cursor.getString(1) ?: "",   // 使用 reading 字段
-                            content = cursor.getString(2) ?: ""    // 使用 html 字段
+                            reading = cursor.getString(1) ?: "",   
+                            content = cursor.getString(2) ?: ""    
                         )
                     )
                 }
