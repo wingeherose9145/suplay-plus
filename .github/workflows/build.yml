@@ -1,12 +1,12 @@
-name: Build Full Dictionary (Direct Upload)
+name: Build Full Dictionary (Text Stream)
 
 on:
   workflow_dispatch:
     inputs:
-      dictionary_text:
-        description: '请点击下方“Choose File”上传你的大体积 mdx 文本/文件'
+      base64_string:
+        description: '请直接在下方框中粘贴你复制的 Base64 长文本'
         required: true
-        type: file
+        type: string
 
 jobs:
   build-mdict:
@@ -15,10 +15,10 @@ jobs:
       - name: 1. 拉取仓库代码
         uses: actions/checkout@v4
 
-      - name: 2. 获取你上传的大文件
+      - name: 2. 还原还原大体积 MDX 文件
         run: |
-          # 这一步会直接把你在网页上提交的那个 43.8M 文件接到服务器中
-          mv "${{ inputs.dictionary_text }}" ./xsjrihanshuangjie.mdx
+          # 将输入的文本长流解码并恢复成原本的二进制 mdx 文件
+          echo "${{ github.event.inputs.base64_string }}" | base64 --decode > ./xsjrihanshuangjie.mdx
 
       - name: 3. 安装 Python 环境
         uses: actions/setup-python@v5
@@ -33,21 +33,20 @@ jobs:
         run: |
           mkdir -p output
           
-          # 判断文件类型并处理
-          # 如果是纯文本源码则编译，如果是已经编译好的二进制则直接复制
+          # 自动判断并处理文件
           if file ./xsjrihanshuangjie.mdx | grep -q "text"; then
             mdict --db output/xsjrihanshuangjie.mdx --pack xsjrihanshuangjie.mdx
           else
             cp xsjrihanshuangjie.mdx output/
           fi
           
-          # 打包资源（如果没有 resources 文件夹会自动跳过）
+          # 打包资源（如果有 resources 文件夹）
           if [ -d "resources" ]; then
             mdict --db output/xsjrihanshuangjie.mdd --pack resources/
           fi
           
-          # 复制配置文件
-          cp xinrihanshuangjie.css output/xsjrihanshuangjie.css || cp *.css output/ 2>/dev/null || true
+          # 自动匹配并复制 CSS
+          cp *.css output/xsjrihanshuangjie.css 2>/dev/null || cp *.css output/ 2>/dev/null || true
 
       - name: 6. 导出最终成品
         uses: actions/upload-artifact@v4
