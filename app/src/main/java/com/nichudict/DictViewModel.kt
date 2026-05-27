@@ -26,19 +26,15 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
         isLoading.value = true
         results.clear()
 
-        // 使用协程在后台线程执行数据库操作
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val db = dbHelper.openDatabase()
                 
-                // 【逻辑优化】：SQL 排序逻辑
-                // 1. 完全匹配结果 (Rank 1)
-                // 2. 以搜索词开头的结果 (Rank 2)
-                // 3. 包含搜索词的结果 (Rank 3)
+                // 修改为适配小词库 (dict 表)
                 val sql = """
-                    SELECT word, content 
-                    FROM entries 
-                    WHERE word LIKE ? OR content LIKE ? 
+                    SELECT word, reading, html 
+                    FROM dict 
+                    WHERE word LIKE ? OR html LIKE ? 
                     ORDER BY 
                         (CASE 
                             WHEN word = ? THEN 1 
@@ -49,7 +45,6 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                     LIMIT 50
                 """.trimIndent()
                 
-                // 参数对应：Like模糊匹配1，Like模糊匹配2，完全匹配，开头匹配
                 val args = arrayOf("%$query%", "%$query%", query, "$query%")
                 val cursor = db.rawQuery(sql, args)
 
@@ -58,15 +53,14 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                     tempResults.add(
                         DictionaryEntry(
                             word = cursor.getString(0) ?: "",
-                            reading = "", 
-                            content = cursor.getString(1) ?: "" // 使用 content 字段
+                            reading = cursor.getString(1) ?: "",   // 使用 reading 字段
+                            content = cursor.getString(2) ?: ""    // 使用 html 字段
                         )
                     )
                 }
                 cursor.close()
                 db.close()
                 
-                // 回到主线程更新 UI
                 withContext(Dispatchers.Main) {
                     results.addAll(tempResults)
                     isLoading.value = false
