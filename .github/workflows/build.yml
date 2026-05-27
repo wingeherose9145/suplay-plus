@@ -10,14 +10,14 @@ jobs:
       - name: 1. 拉取仓库代码
         uses: actions/checkout@v4
 
-      - name: 2. 从 Release 自动下载 43.8M 的大文件
+      - name: 2. 从最新的 Release 自动下载大文件
         run: |
-          echo "开始从本仓库的 Release 中下载大文件..."
-          # 使用 GitHub 官方自带工具下载 v2.0 Tag 下的 mdx 文件
-          gh release download v1.0.0 -p "xsjrihanshuangjie.mdx" --repo ${{ github.repository }}
+          echo "开始从本仓库最新的 Release 中下载大文件..."
+          # 去掉固定的 v1.0.0，改为直接下载最新发布的 Release 里的 mdx 文件
+          gh release download --pattern "xsjrihanshuangjie.mdx" --repo ${{ github.repository }}
           echo "下载成功！"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 赋予服务器下载权限
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 3. 安装 Python 环境
         uses: actions/setup-python@v5
