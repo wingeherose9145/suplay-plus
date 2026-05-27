@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 }
 
 // ----------------------------------------------------
-// 完全还原你的原版核心算法：平假名/片假名、浊音/半浊音/促音循环
+// 核心算法：平假名/片假名、浊音/半浊音/促音循环
 // ----------------------------------------------------
 
 fun cycleKana(current: String): String {
@@ -70,7 +70,7 @@ fun cycleKana(current: String): String {
         listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'グ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
         listOf('サ', 'ザ'), listOf('シ', 'ジ'), listOf('ス', 'ズ'), listOf('セ', 'ゼ'), listOf('ソ', 'ゾ'),
         listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'デ'), listOf('ト', 'ド'),
-        listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
+        listOf('ハ', 'ば', 'ぱ'), listOf('ヒ', 'び', 'ぴ'), listOf('フ', 'ぶ', 'ぷ'), listOf('ヘ', 'べ', 'ぺ'), listOf('ホ', 'ぼ', 'ぽ'),
         listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
     )
 
@@ -115,7 +115,6 @@ fun DictScreen(viewModel: DictViewModel) {
         selectedEntry = if (viewModel.results.isNotEmpty()) viewModel.results.first() else null
     }
 
-    // 完美还原你的 5 列按键布局
     val baseKeys = listOf(
         "あ", "い", "う", "え", "お",
         "か", "き", "く", "け", "こ",
@@ -134,7 +133,7 @@ fun DictScreen(viewModel: DictViewModel) {
             .fillMaxSize()
             .padding(6.dp)
     ) {
-        // 1. 还原：原版带圆角的搜索输入框
+        // 1. 搜索输入框优化：去掉闪烁光标，杜绝系统键盘弹窗
         OutlinedTextField(
             value = text,
             onValueChange = {
@@ -143,6 +142,7 @@ fun DictScreen(viewModel: DictViewModel) {
             },
             placeholder = { Text("搜索...", fontSize = 16.sp) },
             singleLine = true,
+            readOnly = true, // ✨ 核心优化：只读模式，彻底封死手机系统自带键盘的弹窗干扰
             shape = RoundedCornerShape(16.dp),
             textStyle = TextStyle(
                 fontSize = 22.sp,
@@ -151,12 +151,16 @@ fun DictScreen(viewModel: DictViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
-            colors = OutlinedTextFieldDefaults.colors()
+            colors = OutlinedTextFieldDefaults.colors(
+                cursorColor = Color.Transparent, // ✨ 核心优化：把光标颜色设为完全透明，彻底去掉闪烁竖线
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = Color.Gray
+            )
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // 2. 优化：防 OOM 崩溃的内容显示区
+        // 2. 内容显示区
         Box(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             if (viewModel.isLoading.value) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -183,7 +187,7 @@ fun DictScreen(viewModel: DictViewModel) {
                         }
                     }
 
-                    // 核心黑科技：网页级 HTML 渲染引擎（自带长按复制文字功能）
+                    // 网页级 HTML 渲染引擎
                     selectedEntry?.let { entry ->
                         DictionaryHtmlViewer(
                             htmlContent = entry.content,
@@ -196,7 +200,7 @@ fun DictScreen(viewModel: DictViewModel) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        // 3. 还原：原版 5 列多功能日文键盘
+        // 3. 5 列多功能日文键盘
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -208,7 +212,6 @@ fun DictScreen(viewModel: DictViewModel) {
                 userScrollEnabled = false
             ) {
                 items(baseKeys) { rawKey ->
-                    // 自动转换平假名/片假名显示
                     val displayKey = if (rawKey.length == 1) convertKana(rawKey, isKatakana) else rawKey
 
                     Box(
@@ -277,13 +280,6 @@ fun DictScreen(viewModel: DictViewModel) {
     }
 }
 
-// ----------------------------------------------------
-// 组件区
-// ----------------------------------------------------
-
-/**
- * 原版按钮组件完全还原：长宽、字号、圆角、甚至边框阴影
- */
 @Composable
 fun KeyButton(
     label: String,
@@ -315,10 +311,6 @@ fun KeyButton(
     }
 }
 
-/**
- * 安全渲染复杂网页排版的组件
- * （WebView 原生支持在界面上长按选中并复制释义中的任意一段文字，体验比整段强制复制更好）
- */
 @Composable
 fun DictionaryHtmlViewer(htmlContent: String, modifier: Modifier = Modifier) {
     AndroidView(
