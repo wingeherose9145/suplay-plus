@@ -1,4 +1,4 @@
-name: Build APK with Full Dictionary
+name: Build APK (MDX to SQLite Auto-Convert)
 
 on:
   workflow_dispatch: # 允许网页端手动一键运行
@@ -12,7 +12,7 @@ jobs:
 
       - name: 2. 从最新的 Release 自动下载大文件
         run: |
-          echo "开始从本仓库最新的 Release 中下载大文件..."
+          echo "开始从本仓库最新的 Release 中下载 MDX 词库..."
           gh release download --pattern "xsjrihanshuangjie.mdx" --repo ${{ github.repository }}
           echo "下载成功！"
         env:
@@ -23,49 +23,103 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 4. 安装 Mdict 打包工具
+      - name: 4. 安装 Mdict 解析工具
         run: |
           pip install mdict-utils
 
-      - name: 5. 编译词库并直接内置到 Android Assets 目录
+      - name: 5. 将 MDX 转换为 SQLite (核心黑科技)
         run: |
-          # 创建 Android 标准的 assets 静态资源目录
+          echo "正在解包 MDX 文件..."
+          mkdir -p extracted
+          # 将 mdx 解包为纯文本格式
+          mdict -x xsjrihanshuangjie.mdx -d extracted/
+          
+          # 确保安卓的 assets 目录存在
           mkdir -p app/src/main/assets/
           
-          # 自动判断并处理 MDX 文件，直接生成到内置目录
-          if file ./xsjrihanshuangjie.mdx | grep -q "text"; then
-            mdict --db app/src/main/assets/xsjrihanshuangjie.mdx --pack xsjrihanshuangjie.mdx
-          else
-            cp xsjrihanshuangjie.mdx app/src/main/assets/
-          fi
-          
-          # 打包资源 MDD（如果有 resources 文件夹）直接到内置目录
-          if [ -d "resources" ]; then
-            mdict --db app/src/main/assets/xsjrihanshuangjie.mdd --pack resources/
-          fi
-          
-          # 自动匹配并复制 CSS 到内置目录
-          cp *.css app/src/main/assets/xsjrihanshuangjie.css 2>/dev/null || cp *.css app/src/main/assets/ 2>/dev/null || true
-          
-          echo "【检查】词库文件已成功塞入内置 assets 目录："
-          ls -l app/src/main/assets/
+          echo "开始执行 Python 转换脚本，生成 nichudict.db..."
+          cat << 'EOF' > convert.py
+          import sqlite3
+          import glob
 
-      - name: 6. 设置 Java 环境 (编译 Android 所需)
+          # 寻找解包出来的 txt 文件
+          txt_files = glob.glob('extracted/*.txt')
+          if not txt_files:
+              print("错误：没有找到解包的 txt 文件！")
+              exit(1)
+          
+          txt_file = txt_files[0]
+          db_path = 'app/src/main/assets/nichudict.db'
+          
+          conn = sqlite3.connect(db_path)
+          c = conn.cursor()
+          
+          # 按照 DictViewModel.kt 的要求创建 entries 表
+          c.execute('CREATE TABLE IF NOT EXISTS entries (word TEXT, content TEXT)')
+          
+          count = 0
+          batch_data = []
+          
+          # 逐行读取解析，防止大词库撑爆内存
+          with open(txt_file, 'r', encoding='utf-8') as f:
+              word = ""
+              content_lines = []
+              
+              for line in f:
+                  line = line.strip('\r\n')
+                  if line == '</>':  # MDX 词条的分隔符
+                      if word:
+                          batch_data.append((word, '\n'.join(content_lines)))
+                          count += 1
+                          # 每 2 万条写入一次数据库，加快速度
+                          if count % 20000 == 0:
+                              c.executemany('INSERT INTO entries (word, content) VALUES (?, ?)', batch_data)
+                              batch_data = []
+                              print(f"已处理 {count} 条词汇...")
+                      word = ""
+                      content_lines = []
+                  elif not word:
+                      word = line
+                  else:
+                      content_lines.append(line)
+              
+              # 插入最后剩余的词条
+              if batch_data:
+                  c.executemany('INSERT INTO entries (word, content) VALUES (?, ?)', batch_data)
+          
+          # 【极其重要】给 word 列创建索引，否则安卓端搜索会卡死！
+          print("正在为安卓端创建搜索索引...")
+          c.execute('CREATE INDEX IF NOT EXISTS idx_word ON entries(word)')
+          
+          conn.commit()
+          conn.close()
+          print(f"✅ 转换大功告成！共成功写入 {count} 条完整词汇到 SQLite。")
+          EOF
+          
+          # 运行这段 Python 代码
+          python convert.py
+          
+          # 清理临时文件，减小打包负担
+          rm -rf extracted xsjrihanshuangjie.mdx convert.py
+          
+          echo "【检查】当前 assets 目录下的文件："
+          ls -lh app/src/main/assets/
+
+      - name: 6. 设置 Java 环境
         uses: actions/setup-java@v4
         with:
-          java-version: '17' # 现代 Android 项目通用的 JDK 17
+          java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: 7. 赋予 Gradle 脚本执行权限
+      - name: 7. 赋予 Gradle 权限
         run: chmod +x gradlew
 
-      - name: 8. 编译 Android APK (Debug 测试版)
-        # 提示：使用 assembleDebug 编译可以避开配置签名证书（Signing Key），确保云端百分百打包成功
+      - name: 8. 编译 Android APK (自带数据库版)
         run: ./gradlew assembleDebug
 
-      - name: 9. 导出最终集成了完整词库的 APK 成品
+      - name: 9. 导出最终成果
         uses: actions/upload-artifact@v4
         with:
-          name: Full-Version-Suplay-Plus-APK
+          name: Full-Version-App-APK
           path: app/build/outputs/apk/debug/*.apk
