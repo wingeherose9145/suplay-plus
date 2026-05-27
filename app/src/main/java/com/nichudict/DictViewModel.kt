@@ -16,12 +16,40 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dbHelper = DictionaryDatabase(application)
 
-    // 将平假名高效转换为片假名，用于协同双检索
+    // 使用最精准的明文表转换平假名到片假名
     private fun toKatakana(text: String): String {
-        return text.map { char ->
-            if (char in 'ぁ'..'ん') char + ('ァ' - 'ぁ') else char
-        }.joinToString("")
-    }
+
+    val hira =
+        "ぁあぃいぅうぇえぉおゔ" +
+        "かがきぎくぐけげこご" +
+        "さざしじすずせぜそぞ" +
+        "ただちぢっつづてでとど" +
+        "なにぬねの" +
+        "はばぱひびぴふぶぷへべぺほぼぽ" +
+        "まみむめも" +
+        "ゃやゅゆょよ" +
+        "らりるれろ" +
+        "ゎわをん" +
+        "ゕゖ"
+
+    val kata =
+        "ァアィイゥウェエォオヴ" +
+        "カガキギクグケゲコゴ" +
+        "サザシジスズセゼソゾ" +
+        "タダチヂッツヅテデトド" +
+        "ナニヌネノ" +
+        "ハバパヒビピフブプヘベペホボポ" +
+        "マミムメモ" +
+        "ャヤュユョヨ" +
+        "ラリルレロ" +
+        "ヮワヲン" +
+        "ヵヶ"
+
+    return text.map { char ->
+        val idx = hira.indexOf(char)
+        if (idx != -1) kata[idx] else char
+    }.joinToString("")
+}
 
     fun search(query: String) {
         val trimmedQuery = query.trim()
@@ -40,7 +68,7 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                 val db = dbHelper.openDatabase()
                 val katakanaQuery = toKatakana(trimmedQuery)
                 
-                // 彻底精简并收紧匹配规则，不允许大跨度模糊词霸屏
+                // 彻底锁定：完全匹配 > 声调序号智能过滤 > 普通前缀
                 val sql = """
                     SELECT word, reading, html 
                     FROM dict 
@@ -50,17 +78,11 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                        OR word LIKE ?
                     ORDER BY 
                         (CASE 
-                            -- 1. 绝对相等（全字精准命中）
                             WHEN word = ? OR word = ? THEN 1
-                            
-                            -- 2. 携带声调/词性后缀的词条（小学馆特性：如输入 うえ 匹配 うえ① 或 うえ【上】）
                             WHEN word LIKE ? AND LENGTH(word) <= LENGTH(?) + 4 THEN 2
                             WHEN word LIKE ? AND LENGTH(word) <= LENGTH(?) + 4 THEN 3
-                            
-                            -- 3. 普通前缀匹配（如输入 うえ 匹配 うえの）
                             WHEN word LIKE ? THEN 4
                             WHEN word LIKE ? THEN 5
-                            
                             ELSE 6
                         END), 
                         LENGTH(word) ASC, 
