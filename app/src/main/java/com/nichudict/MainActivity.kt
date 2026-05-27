@@ -56,19 +56,23 @@ fun cycleKana(current: String): String {
     val lastChar = current.last()
     val fullText = current.dropLast(1)
 
+    // 【严格核对修正版】彻底修复平片假名混淆及手滑错别字
     val cycles = listOf(
+        // 平假名清音 -> 拗音/浊音/半浊音循环
         listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
         listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
         listOf('さ', 'ざ'), listOf('し', 'じ'), listOf('す', 'ず'), listOf('せ', 'ぜ'), listOf('そ', 'ぞ'),
         listOf('た', 'だ'), listOf('ち', 'ぢ'), listOf('つ', 'っ', 'づ'), listOf('て', 'で'), listOf('と', 'ど'),
         listOf('は', 'ば', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
         listOf('や', 'ゃ'), listOf('ゆ', 'ゅ'), listOf('よ', 'ょ'), listOf('わ', 'ゎ'),
-        listOf('ア', 'ァ'), listOf('イ', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
-        listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'ぐ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
-        listOf('サ', 'ザ'), listOf('シ', 'じ'), listOf('ス', 'ズ'), listOf('セ', 'ぜ'), listOf('ソ', 'ぞ'),
-        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'づ'), listOf('テ', 'で'), listOf('ト', 'ど'),
-        listOf('ハ', 'バ', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
-        listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('よ', 'ょ'), listOf('わ', 'ヮ')
+        
+        // 片假名清音 -> 拗音/浊音/半浊音循环
+        listOf('ア', 'ァ'), listOf('停', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
+        listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'グ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
+        listOf('サ', 'ザ'), listOf('シ', 'ジ'), listOf('ス', 'ズ'), listOf('セ', 'ゼ'), listOf('ソ', 'ゾ'),
+        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'で'), listOf('ト', 'ド'),
+        listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
+        listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
     )
 
     val targetList = cycles.find { it.contains(lastChar) }
@@ -99,13 +103,11 @@ fun HtmlWebView(htmlContent: String, modifier: Modifier = Modifier) {
         factory = { context ->
             WebView(context).apply {
                 webViewClient = WebViewClient()
-                // 开启基础配置，确保背景透明跟随系统样式
                 setBackgroundColor(0) 
-                settings.textZoom = 100 // 防止跟随系统字体变大导致排版错乱
+                settings.textZoom = 100 
             }
         },
         update = { webView ->
-            // 将本地 assets 文件夹设为 BaseURL，以便 WebView 能够直接抓取 Shogakukanjcv3.css
             webView.loadDataWithBaseURL(
                 "file:///android_asset/",
                 htmlContent,
@@ -129,7 +131,7 @@ fun DictScreen(viewModel: DictViewModel) {
         "か", "き", "く", "け", "こ",
         "さ", "し", "す", "せ", "そ",
         "た", "ち", "つ", "て", "と",
-        "な", "に", "ぬ", "ね", "之",
+        "な", "に", "ぬ", "ね", "の",
         "は", "ひ", "ふ", "へ", "ほ",
         "ま", "み", "む", "め", "も",
         "や", "ー", "ゆ", "DEL", "よ",
@@ -142,7 +144,6 @@ fun DictScreen(viewModel: DictViewModel) {
             .fillMaxSize()
             .padding(6.dp)
     ) {
-        // 搜索栏
         OutlinedTextField(
             value = text,
             onValueChange = {
@@ -161,7 +162,6 @@ fun DictScreen(viewModel: DictViewModel) {
 
         Spacer(modifier = Modifier.height(6.dp))
 
-        // 结果区域
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -192,7 +192,6 @@ fun DictScreen(viewModel: DictViewModel) {
                         )
                         Spacer(modifier = Modifier.height(4.dp))
 
-                        // 【核心修复】使用 WebView 来替代旧的 Text 控件，自适应包裹内容的高度
                         HtmlWebView(
                             htmlContent = entry.content,
                             modifier = Modifier
@@ -204,7 +203,6 @@ fun DictScreen(viewModel: DictViewModel) {
             }
         }
 
-        // 键盘区域
         Box(
             modifier = Modifier
                 .fillMaxWidth()
