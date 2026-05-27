@@ -16,7 +16,7 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dbHelper = DictionaryDatabase(application)
 
-    // 辅助函数：将平假名转换为片假名
+    // 将平假名高效转换为片假名，用于协同双检索
     private fun toKatakana(text: String): String {
         return text.map { char ->
             if (char in 'ぁ'..'ん') char + ('ァ' - 'ぁ') else char
@@ -24,7 +24,6 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun search(query: String) {
-        // 1. 清除两端空格
         val trimmedQuery = query.trim()
         searchText.value = trimmedQuery
         
@@ -39,11 +38,9 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val db = dbHelper.openDatabase()
-                
-                // 2. 准备片假名副本，实现假名协同搜索
                 val katakanaQuery = toKatakana(trimmedQuery)
                 
-                // 3. 终极精准权重 SQL 算法
+                // 彻底精简并收紧匹配规则，不允许大跨度模糊词霸屏
                 val sql = """
                     SELECT word, reading, html 
                     FROM dict 
@@ -51,41 +48,37 @@ class DictViewModel(application: Application) : AndroidViewModel(application) {
                        OR word = ?
                        OR word LIKE ? 
                        OR word LIKE ?
-                       OR reading LIKE ?
                     ORDER BY 
                         (CASE 
-                            -- 1. 完全相等的词条（最高权重）
+                            -- 1. 绝对相等（全字精准命中）
                             WHEN word = ? OR word = ? THEN 1
                             
-                            -- 2. 带声调或汉字后缀的精准词条 (例如输入 うえ 匹配 うえ① 或 うえ【上】)
+                            -- 2. 携带声调/词性后缀的词条（小学馆特性：如输入 うえ 匹配 うえ① 或 うえ【上】）
                             WHEN word LIKE ? AND LENGTH(word) <= LENGTH(?) + 4 THEN 2
                             WHEN word LIKE ? AND LENGTH(word) <= LENGTH(?) + 4 THEN 3
                             
-                            -- 3. 普通前缀匹配 (例如输入 うえ 匹配 うえの)
+                            -- 3. 普通前缀匹配（如输入 うえ 匹配 うえの）
                             WHEN word LIKE ? THEN 4
                             WHEN word LIKE ? THEN 5
                             
-                            -- 4. 读音/包含匹配（最低权重）
                             ELSE 6
                         END), 
-                        LENGTH(word) ASC, -- 越短越精准，防止长词霸屏
+                        LENGTH(word) ASC, 
                         word ASC
-                    LIMIT 40
+                    LIMIT 30
                 """.trimIndent()
                 
-                // 4. 严格对应 SQL 中的 ? 号绑定参数
                 val args = arrayOf(
-                    trimmedQuery,      // word = ? (平假名完全匹配)
-                    katakanaQuery,     // word = ? (片假名完全匹配)
-                    "$trimmedQuery%",  // word LIKE ? (平假名前缀)
-                    "$katakanaQuery%", // word LIKE ? (片假名前缀)
-                    "%$trimmedQuery%", // reading LIKE ? (读音包含)
+                    trimmedQuery,      // word = ?
+                    katakanaQuery,     // word = ?
+                    "$trimmedQuery%",  // word LIKE ?
+                    "$katakanaQuery%", // word LIKE ?
                     
                     trimmedQuery,      // WHEN word = ?
                     katakanaQuery,     // OR word = ?
-                    "$trimmedQuery%",  // WHEN word LIKE ? (平假名智能前缀)
+                    "$trimmedQuery%",  // WHEN word LIKE ?
                     trimmedQuery,      // LENGTH(?)
-                    "$katakanaQuery%", // WHEN word LIKE ? (片假名智能前缀)
+                    "$katakanaQuery%", // WHEN word LIKE ?
                     katakanaQuery,     // LENGTH(?)
                     "$trimmedQuery%",  // WHEN word LIKE ?
                     "$katakanaQuery%"  // WHEN word LIKE ?
