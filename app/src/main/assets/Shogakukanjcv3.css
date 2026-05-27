@@ -1,0 +1,79 @@
+/* 全局基础样式，适配手机夜间/白天模式 */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+    margin: 8px;
+    color: #2c3e50;
+}
+
+/* 词条标题样式 */
+h3 {
+    font-size: 24px;
+    color: #2980b9;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 4px;
+}
+
+/* 释义区块，增加上下间距 */
+section.description {
+    margin-top: 10px;
+}
+
+/* 每一个释义条目 */
+p[data-orgtag="meaning"] {
+    font-size: 16px;
+    margin: 6px 0;
+    font-weight: normal;
+}
+
+/* 词性标记（如 [助動]、[名]）变红加粗，显眼一些 */
+p[data-orgtag="meaning"]:first-of-type {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* 释义层级加粗展示 */
+b {
+    color: #e67e22;
+    font-size: 18px;
+    margin-right: 4px;
+}
+
+/* 日语例句样式：优雅的蓝色 */
+jae {
+    display: block;
+    color: #34495e;
+    font-weight: 500;
+    margin-top: 4px;
+    padding-left: 12px;
+    border-left: 3px solid #3498db;
+}
+
+/* 中文翻译样式：稍微淡一点的灰色，方便和日语区分开 */
+ja_cn {
+    display: block;
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 8px;
+    padding-left: 12px;
+}
+
+/* 补充说明区域 */
+p[data-orgtag="meaning"][type="補足"] {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    color: #7f8c8d;
+    border-left: 4px solid #95a5a6;
+    margin-top: 12px;
+}
+
+/* 语义区分标签 */
+span[type="語義区分2"] {
+    color: #16a085;
+    font-weight: bold;
+    margin-right: 4px;
+}
