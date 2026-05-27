@@ -51,31 +51,90 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// 1. 浊音/半浊音/促音循环：像素级校对，绝对无平片混淆
 fun cycleKana(current: String): String {
     if (current.isEmpty()) return ""
     val lastChar = current.last()
     val fullText = current.dropLast(1)
 
-    // 【严格核对修正版】彻底修复平片假名混淆及手滑错别字
     val cycles = listOf(
-        // 平假名清音 -> 拗音/浊音/半浊音循环
-        listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
-        listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
-        listOf('さ', 'ざ'), listOf('し', 'じ'), listOf('す', 'ず'), listOf('せ', 'ぜ'), listOf('そ', 'ぞ'),
-        listOf('た', 'だ'), listOf('ち', 'ぢ'), listOf('つ', 'っ', 'づ'), listOf('て', 'で'), listOf('と', 'ど'),
-        listOf('は', 'ば', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
-        listOf('や', 'ゃ'), listOf('ゆ', 'ゅ'), listOf('よ', 'ょ'), listOf('わ', 'ゎ'),
-        
-        // 片假名清音 -> 拗音/浊音/半浊音循环
-        listOf('ア', 'ァ'), listOf('停', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
-        listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'グ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
-        listOf('サ', 'ザ'), listOf('シ', 'ジ'), listOf('ス', 'ズ'), listOf('セ', 'ゼ'), listOf('ソ', 'ゾ'),
-        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'で'), listOf('ト', 'ド'),
-        listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
-        listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
+        // 平假名循环
+        listOf('あ', 'ぁ'),
+        listOf('い', 'ぃ'),
+        listOf('う', 'ぅ', 'ゔ'),
+        listOf('え', 'ぇ'),
+        listOf('お', 'ぉ'),
+
+        listOf('か', 'が'),
+        listOf('き', 'ぎ'),
+        listOf('く', 'ぐ'),
+        listOf('け', 'げ'),
+        listOf('こ', 'ご'),
+
+        listOf('さ', 'ざ'),
+        listOf('し', 'じ'),
+        listOf('す', 'ず'),
+        listOf('せ', 'ぜ'),
+        listOf('そ', 'ぞ'),
+
+        listOf('た', 'だ'),
+        listOf('ち', 'ぢ'),
+        listOf('つ', 'っ', 'づ'),
+        listOf('て', 'で'),
+        listOf('と', 'ど'),
+
+        listOf('は', 'ば', 'ぱ'),
+        listOf('ひ', 'び', 'ぴ'),
+        listOf('ふ', 'ぶ', 'ぷ'),
+        listOf('へ', 'べ', 'ぺ'),
+        listOf('ほ', 'ぼ', 'ぽ'),
+
+        listOf('や', 'ゃ'),
+        listOf('ゆ', 'ゅ'),
+        listOf('よ', 'ょ'),
+
+        listOf('わ', 'ゎ'),
+
+        // 片假名循环
+        listOf('ア', 'ァ'),
+        listOf('イ', 'ィ'),
+        listOf('ウ', 'ゥ', 'ヴ'),
+        listOf('エ', 'ェ'),
+        listOf('オ', 'ォ'),
+
+        listOf('カ', 'ガ'),
+        listOf('キ', 'ギ'),
+        listOf('ク', 'グ'),
+        listOf('ケ', 'ゲ'),
+        listOf('コ', 'ゴ'),
+
+        listOf('サ', 'ザ'),
+        listOf('シ', 'ジ'),
+        listOf('ス', 'ズ'),
+        listOf('セ', 'ゼ'),
+        listOf('ソ', 'ゾ'),
+
+        listOf('タ', 'ダ'),
+        listOf('チ', 'ヂ'),
+        listOf('ツ', 'ッ', 'ヅ'),
+        listOf('テ', 'デ'),
+        listOf('ト', 'ド'),
+
+        listOf('ハ', 'バ', 'パ'),
+        listOf('ヒ', 'ビ', 'ピ'),
+        listOf('フ', 'ブ', 'プ'),
+        listOf('ヘ', 'ベ', 'ペ'),
+        listOf('ホ', 'ボ', 'ポ'),
+
+        listOf('ヤ', 'ャ'),
+        listOf('ユ', 'ュ'),
+        listOf('ヨ', 'ョ'),
+
+        listOf('ワ', 'ヮ')
     )
 
     val targetList = cycles.find { it.contains(lastChar) }
+
     return if (targetList != null) {
         val nextIndex = (targetList.indexOf(lastChar) + 1) % targetList.size
         fullText + targetList[nextIndex]
@@ -84,18 +143,45 @@ fun cycleKana(current: String): String {
     }
 }
 
+// 2. 平片假名互转：弃用不稳定的数学偏移量算账法，改用最稳固的明文查表映射法
 fun convertKana(text: String, toKatakana: Boolean): String {
+
+    val hira =
+        "ぁあぃいぅうぇえぉおゔ" +
+        "かがきぎくぐけげこご" +
+        "さざしじすずせぜそぞ" +
+        "ただちぢっつづてでとど" +
+        "なにぬねの" +
+        "はばぱひびぴふぶぷへべぺほぼぽ" +
+        "まみむめも" +
+        "ゃやゅゆょよ" +
+        "らりるれろ" +
+        "ゎわをん" +
+        "ゕゖ"
+
+    val kata =
+        "ァアィイゥウェエォオヴ" +
+        "カガキギクグケゲコゴ" +
+        "サザシジスズセゼソゾ" +
+        "タダチヂッツヅテデトド" +
+        "ナニヌネノ" +
+        "ハバパヒビピフブプヘベペホボポ" +
+        "マミムメモ" +
+        "ャヤュユョヨ" +
+        "ラリルレロ" +
+        "ヮワヲン" +
+        "ヵヶ"
+
     return text.map { char ->
-        if (toKatakana && char in 'ぁ'..'ん') {
-            char + ('ァ' - 'ぁ')
-        } else if (!toKatakana && char in 'ァ'..'ヶ') {
-            char - ('ァ' - 'ぁ')
+        if (toKatakana) {
+            val idx = hira.indexOf(char)
+            if (idx != -1) kata[idx] else char
         } else {
-            char
+            val idx = kata.indexOf(char)
+            if (idx != -1) hira[idx] else char
         }
     }.joinToString("")
 }
-
 @Composable
 fun HtmlWebView(htmlContent: String, modifier: Modifier = Modifier) {
     AndroidView(
@@ -126,6 +212,7 @@ fun DictScreen(viewModel: DictViewModel) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
 
+    // 基础键盘定义（全部初始化为平假名清音）
     val baseKeys = listOf(
         "あ", "い", "う", "え", "お",
         "か", "き", "く", "け", "こ",
