@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(Material3Api::class)
+@OptIn(ExperimentalMaterial3Api::class) // 💡 修复：更改为正确的 Material 3 实验性 API 注解
 @Composable
 fun DictionaryMainScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
@@ -130,7 +130,7 @@ fun DictionaryMainScreen(viewModel: DictViewModel) {
                 }
             } else {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    // 候选词横向快捷切词栏（极其精美且节省空间）
+                    // 候选词横向快捷切词栏
                     LazyRow(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -158,7 +158,7 @@ fun DictionaryMainScreen(viewModel: DictViewModel) {
                             .background(Color.LightGray.copy(alpha = 0.5f))
                     )
 
-                    // 核心黑科技：WebView HTML 渲染引擎，完美解析内嵌图、排版、样式
+                    // WebView HTML 渲染引擎，完美解析内嵌图、排版、样式
                     selectedEntry?.let { entry ->
                         DictionaryHtmlViewer(
                             htmlContent = entry.content,
@@ -174,7 +174,6 @@ fun DictionaryMainScreen(viewModel: DictViewModel) {
         Spacer(modifier = Modifier.height(8.dp))
 
         // 3. 底部自定义软键盘区（10列标准网格）
-        // 💡 提示：你可以自由修改下面数组里字符的排列顺序，以完全还原你本来的键盘布局！
         val keys = listOf(
             "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
             "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
@@ -223,25 +222,21 @@ fun DictionaryMainScreen(viewModel: DictViewModel) {
 }
 
 /**
- * 专门用于完美加载并渲染词典复杂 HTML 文本的本地浏览器组件
+ * 用于加载并渲染词典 HTML 文本的浏览器组件
  */
 @Composable
 fun DictionaryHtmlViewer(htmlContent: String, modifier: Modifier = Modifier) {
     AndroidView(
         factory = { context ->
             WebView(context).apply {
-                settings.allowFileAccess = true        // 开启本地文件访问权限
-                settings.domStorageEnabled = true       // 开启DOM缓存机制
-                settings.javaScriptEnabled = false      // 词典数据一般不含复杂JS，关闭更安全流畅
-                
-                setBackgroundColor(0)                  // 强制背景完全透明，完美融入你的App背景色
-                
+                settings.allowFileAccess = true        
+                settings.domStorageEnabled = true       
+                settings.javaScriptEnabled = false      
+                setBackgroundColor(0)                  
                 webViewClient = WebViewClient()
             }
         },
         update = { webView ->
-            // 核心黑科技：以本地 assets 文件夹作为根路径加载 HTML
-            // 这能让网页内的 href="xinrihanshuangjie.css" 自动、准确地找到并使用你内置的样式文件！
             webView.loadDataWithBaseURL(
                 "file:///android_asset/",
                 htmlContent,
@@ -264,7 +259,7 @@ fun KeyButton(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .height(38.dp) // 精准微调高度，完美适配底部网格
+            .height(38.dp) 
             .background(
                 color = if (isSpecial) {
                     MaterialTheme.colorScheme.secondaryContainer
@@ -288,7 +283,7 @@ fun KeyButton(
     ) {
         Text(
             text = label,
-            fontSize = if (label.length > 1) 14.sp else 18.sp, // 自动缩小“清空/退格”等长文本字体
+            fontSize = if (label.length > 1) { 14.sp } else { 18.sp }, 
             style = MaterialTheme.typography.labelLarge
         )
     }
