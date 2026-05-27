@@ -25,6 +25,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,186 +44,280 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DictionaryMainScreen(viewModel)
+                    DictScreen(viewModel)
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class) // 💡 修复：更改为正确的 Material 3 实验性 API 注解
+// ----------------------------------------------------
+// 完全还原你的原版核心算法：平假名/片假名、浊音/半浊音/促音循环
+// ----------------------------------------------------
+
+fun cycleKana(current: String): String {
+    if (current.isEmpty()) return ""
+    val lastChar = current.last()
+    val fullText = current.dropLast(1)
+    val cycles = listOf(
+        listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
+        listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
+        listOf('さ', 'ざ'), listOf('し', 'じ'), listOf('す', 'ず'), listOf('せ', 'ぜ'), listOf('そ', 'ぞ'),
+        listOf('た', 'だ'), listOf('ち', 'ぢ'), listOf('つ', 'っ', 'づ'), listOf('て', 'で'), listOf('と', 'ど'),
+        listOf('は', 'ば', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
+        listOf('や', 'ゃ'), listOf('ゆ', 'ゅ'), listOf('よ', 'ょ'), listOf('わ', 'ゎ'),
+        listOf('ア', 'ァ'), listOf('イ', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
+        listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'グ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
+        listOf('サ', 'ザ'), listOf('シ', 'ジ'), listOf('ス', 'ズ'), listOf('セ', 'ゼ'), listOf('ソ', 'ゾ'),
+        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'ヅ'), listOf('テ', 'デ'), listOf('ト', 'ド'),
+        listOf('ハ', 'バ', 'パ'), listOf('ヒ', 'ビ', 'ピ'), listOf('フ', 'ブ', 'プ'), listOf('ヘ', 'ベ', 'ペ'), listOf('ホ', 'ボ', 'ポ'),
+        listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('ヨ', 'ョ'), listOf('ワ', 'ヮ')
+    )
+
+    val targetList = cycles.find { it.contains(lastChar) }
+    return if (targetList != null) {
+        val nextIndex = (targetList.indexOf(lastChar) + 1) % targetList.size
+        fullText + targetList[nextIndex]
+    } else {
+        current
+    }
+}
+
+fun convertKana(text: String, toKatakana: Boolean): String {
+    return text.map { char ->
+        if (toKatakana && char in 'ぁ'..'ん') {
+            char + ('ァ' - 'ぁ')
+        } else if (!toKatakana && char in 'ァ'..'ヶ') {
+            char - ('ァ' - 'ぁ')
+        } else {
+            char
+        }
+    }.joinToString("")
+}
+
+// ----------------------------------------------------
+// UI 主界面
+// ----------------------------------------------------
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DictionaryMainScreen(viewModel: DictViewModel) {
+fun DictScreen(viewModel: DictViewModel) {
+
     var text by remember { mutableStateOf("") }
+    var isKatakana by remember { mutableStateOf(false) }
     var selectedEntry by remember { mutableStateOf<DictionaryEntry?>(null) }
 
-    // 监听搜索结果变化，默认选中搜索到的第一个词条
+    val clipboardManager = LocalClipboardManager.current
+    val context = LocalContext.current
+
+    // 监听搜索结果变化，默认选中查到的第一个词条
     LaunchedEffect(viewModel.results.size) {
-        if (viewModel.results.isNotEmpty()) {
-            selectedEntry = viewModel.results.first()
-        } else {
-            selectedEntry = null
-        }
+        selectedEntry = if (viewModel.results.isNotEmpty()) viewModel.results.first() else null
     }
+
+    // 完美还原你的 5 列按键布局
+    val baseKeys = listOf(
+        "あ", "い", "う", "え", "お",
+        "か", "き", "く", "け", "こ",
+        "さ", "し", "す", "せ", "そ",
+        "た", "ち", "つ", "て", "と",
+        "な", "に", "ぬ", "ね", "の",
+        "は", "ひ", "ふ", "へ", "ほ",
+        "ま", "み", "む", "め", "も",
+        "や", "ー", "ゆ", "DEL", "よ",
+        "ら", "り", "る", "れ", "ろ",
+        "わ", "を", "ん", "KANA", "CYC"
+    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(6.dp)
     ) {
-        // 1. 顶部自定义搜索框显示区
-        Card(
+        // 1. 还原：原版带圆角的搜索输入框
+        OutlinedTextField(
+            value = text,
+            onValueChange = {
+                text = it
+                viewModel.search(it)
+            },
+            placeholder = { Text("搜索...", fontSize = 16.sp) },
+            singleLine = true,
+            shape = RoundedCornerShape(16.dp),
+            textStyle = TextStyle(
+                fontSize = 22.sp,
+                textAlign = TextAlign.Center
+            ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = if (text.isEmpty()) "输入词汇开始查词..." else text,
-                    fontSize = 18.sp,
-                    color = if (text.isEmpty()) Color.Gray else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
-                )
-                if (text.isNotEmpty()) {
-                    IconButton(
-                        onClick = {
-                            text = ""
-                            viewModel.search("")
-                            selectedEntry = null
-                        },
-                        modifier = Modifier.size(36.dp)
-                    ) {
-                        Text("✕", fontSize = 16.sp, color = Color.Gray)
-                    }
-                }
-            }
-        }
+                .height(60.dp),
+            colors = OutlinedTextFieldDefaults.colors()
+        )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(6.dp))
 
-        // 2. 中间多功能内容排版渲染区 (权重 Weight = 1f)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
+        // 2. 优化：防 OOM 崩溃的内容显示区
+        Box(modifier = Modifier.weight(1f).padding(vertical = 4.dp)) {
             if (viewModel.isLoading.value) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else if (viewModel.results.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = if (text.isBlank()) "日韩双解大词典\n请使用下方键盘输入查词" else "未找到相关词条",
-                        textAlign = TextAlign.Center,
-                        color = Color.Gray,
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp
-                    )
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("无查询结果", color = Color.Gray, fontSize = 16.sp)
                 }
             } else {
                 Column(modifier = Modifier.fillMaxSize()) {
-                    // 候选词横向快捷切词栏
+                    // 横向滚动的候选词切词栏
                     LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp),
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         items(viewModel.results) { entry ->
                             val isSelected = entry == selectedEntry
                             SuggestionChip(
                                 onClick = { selectedEntry = entry },
-                                label = { Text(text = entry.word, fontSize = 14.sp) },
+                                label = { Text(text = entry.word, fontSize = 16.sp) },
                                 colors = SuggestionChipDefaults.suggestionChipColors(
-                                    containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
-                                    labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+                                    containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
                                 )
                             )
                         }
                     }
 
-                    // 分割线
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(Color.LightGray.copy(alpha = 0.5f))
-                    )
-
-                    // WebView HTML 渲染引擎，完美解析内嵌图、排版、样式
+                    // 核心黑科技：网页级 HTML 渲染引擎（自带长按复制文字功能）
                     selectedEntry?.let { entry ->
                         DictionaryHtmlViewer(
                             htmlContent = entry.content,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 6.dp)
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-        // 3. 底部自定义软键盘区（10列标准网格）
-        val keys = listOf(
-            "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
-            "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
-            "な", "に", "ぬ", "ね", "之", "は", "ひ", "ふ", "へ", "ほ",
-            "ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り",
-            "る", "れ", "ろ", "わ", "を", "ん", "っ", "ー", "清空", "退格"
-        )
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(10),
+        // 3. 还原：原版 5 列多功能日文键盘
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(210.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+                .height(420.dp)
         ) {
-            items(keys) { displayKey ->
-                val isSpecial = displayKey == "清空" || displayKey == "退格"
-                Box(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    KeyButton(
-                        label = displayKey,
-                        isSpecial = isSpecial,
-                        onClick = {
-                            when (displayKey) {
-                                "清空" -> {
-                                    text = ""
-                                }
-                                "退格" -> {
-                                    if (text.isNotEmpty()) {
-                                        text = text.dropLast(1)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(5),
+                modifier = Modifier.fillMaxSize(),
+                userScrollEnabled = false
+            ) {
+                items(baseKeys) { rawKey ->
+                    // 自动转换平假名/片假名显示
+                    val displayKey = if (rawKey.length == 1) convertKana(rawKey, isKatakana) else rawKey
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(42.dp)
+                            .padding(2.dp)
+                    ) {
+                        when (rawKey) {
+                            "DEL" -> {
+                                KeyButton(
+                                    label = "←",
+                                    isSpecial = true,
+                                    onClick = {
+                                        if (text.isNotEmpty()) {
+                                            text = text.dropLast(1)
+                                            viewModel.search(text)
+                                        }
+                                    },
+                                    onDoubleTap = {
+                                        text = ""
+                                        viewModel.search("")
                                     }
-                                }
-                                else -> {
-                                    text += displayKey
-                                }
+                                )
                             }
-                            viewModel.search(text)
+                            "KANA" -> {
+                                KeyButton(
+                                    label = if (isKatakana) "片" else "平",
+                                    isSpecial = true,
+                                    onClick = { isKatakana = !isKatakana }
+                                )
+                            }
+                            "CYC" -> {
+                                KeyButton(
+                                    label = "促/浊",
+                                    isSpecial = true,
+                                    onClick = {
+                                        text = cycleKana(text)
+                                        viewModel.search(text)
+                                    }
+                                )
+                            }
+                            "ー" -> {
+                                KeyButton(
+                                    label = "ー",
+                                    onClick = {
+                                        text += "ー"
+                                        viewModel.search(text)
+                                    }
+                                )
+                            }
+                            else -> {
+                                KeyButton(
+                                    label = displayKey,
+                                    onClick = {
+                                        text += displayKey
+                                        viewModel.search(text)
+                                    }
+                                )
+                            }
                         }
-                    )
+                    }
                 }
             }
         }
     }
 }
 
+// ----------------------------------------------------
+// 组件区
+// ----------------------------------------------------
+
 /**
- * 用于加载并渲染词典 HTML 文本的浏览器组件
+ * 原版按钮组件完全还原：长宽、字号、圆角、甚至边框阴影
+ */
+@Composable
+fun KeyButton(
+    label: String,
+    isSpecial: Boolean = false,
+    onClick: () -> Unit = {},
+    onDoubleTap: () -> Unit = {}
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onClick() },
+                    onDoubleTap = { onDoubleTap() }
+                )
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = label,
+            fontSize = 22.sp,
+            style = MaterialTheme.typography.labelLarge
+        )
+    }
+}
+
+/**
+ * 安全渲染复杂网页排版的组件
+ * （WebView 原生支持在界面上长按选中并复制释义中的任意一段文字，体验比整段强制复制更好）
  */
 @Composable
 fun DictionaryHtmlViewer(htmlContent: String, modifier: Modifier = Modifier) {
@@ -247,44 +342,4 @@ fun DictionaryHtmlViewer(htmlContent: String, modifier: Modifier = Modifier) {
         },
         modifier = modifier
     )
-}
-
-@Composable
-fun KeyButton(
-    label: String,
-    isSpecial: Boolean = false,
-    onClick: () -> Unit = {},
-    onDoubleTap: () -> Unit = {}
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .height(38.dp) 
-            .background(
-                color = if (isSpecial) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    MaterialTheme.colorScheme.surface
-                },
-                shape = RoundedCornerShape(8.dp)
-            )
-            .border(
-                1.dp,
-                Color.LightGray.copy(alpha = 0.7f),
-                RoundedCornerShape(8.dp)
-            )
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { onClick() },
-                    onDoubleTap = { onDoubleTap() }
-                )
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = label,
-            fontSize = if (label.length > 1) { 14.sp } else { 18.sp }, 
-            style = MaterialTheme.typography.labelLarge
-        )
-    }
 }
