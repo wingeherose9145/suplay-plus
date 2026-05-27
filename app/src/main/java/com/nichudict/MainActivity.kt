@@ -1,6 +1,8 @@
 package com.nichudict
 
 import android.os.Bundle
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,10 +25,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 
 class MainActivity : ComponentActivity() {
 
@@ -41,442 +43,252 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    DictScreen(viewModel)
+                    DictionaryMainScreen(viewModel)
                 }
             }
         }
     }
 }
 
-fun cycleKana(current: String): String {
-
-    if (current.isEmpty()) return ""
-
-    val lastChar = current.last()
-    val fullText = current.dropLast(1)
-
-    val cycles = listOf(
-
-        listOf('あ', 'ぁ'),
-        listOf('い', 'ぃ'),
-        listOf('う', 'ぅ'),
-        listOf('え', 'ぇ'),
-        listOf('お', 'ぉ'),
-
-        listOf('か', 'が'),
-        listOf('き', 'ぎ'),
-        listOf('く', 'ぐ'),
-        listOf('け', 'げ'),
-        listOf('こ', 'ご'),
-
-        listOf('さ', 'ざ'),
-        listOf('し', 'じ'),
-        listOf('す', 'ず'),
-        listOf('せ', 'ぜ'),
-        listOf('そ', 'ぞ'),
-
-        listOf('た', 'だ'),
-        listOf('ち', 'ぢ'),
-        listOf('つ', 'っ', 'づ'),
-        listOf('て', 'で'),
-        listOf('と', 'ど'),
-
-        listOf('は', 'ば', 'ぱ'),
-        listOf('ひ', 'び', 'ぴ'),
-        listOf('ふ', 'ぶ', 'ぷ'),
-        listOf('へ', 'べ', 'ぺ'),
-        listOf('ほ', 'ぼ', 'ぽ'),
-
-        listOf('や', 'ゃ'),
-        listOf('ゆ', 'ゅ'),
-        listOf('よ', 'ょ'),
-        listOf('わ', 'ゎ'),
-
-        listOf('ア', 'ァ'),
-        listOf('イ', 'ィ'),
-        listOf('ウ', 'ゥ'),
-        listOf('エ', 'ェ'),
-        listOf('オ', 'ォ'),
-
-        listOf('カ', 'ガ'),
-        listOf('キ', 'ギ'),
-        listOf('ク', 'グ'),
-        listOf('ケ', 'ゲ'),
-        listOf('コ', 'ゴ'),
-
-        listOf('サ', 'ザ'),
-        listOf('シ', 'ジ'),
-        listOf('ス', 'ズ'),
-        listOf('セ', 'ゼ'),
-        listOf('ソ', 'ゾ'),
-
-        listOf('タ', 'ダ'),
-        listOf('チ', 'ヂ'),
-        listOf('ツ', 'ッ', 'ヅ'),
-        listOf('テ', 'デ'),
-        listOf('ト', 'ド'),
-
-        listOf('ハ', 'バ', 'パ'),
-        listOf('ヒ', 'ビ', 'ピ'),
-        listOf('フ', 'ブ', 'プ'),
-        listOf('ヘ', 'ベ', 'ペ'),
-        listOf('ホ', 'ボ', 'ポ'),
-
-        listOf('ヤ', 'ャ'),
-        listOf('ユ', 'ュ'),
-        listOf('ヨ', 'ョ'),
-        listOf('ワ', 'ヮ')
-    )
-
-    val targetList = cycles.find { it.contains(lastChar) }
-
-    return if (targetList != null) {
-
-        val nextIndex =
-            (targetList.indexOf(lastChar) + 1) % targetList.size
-
-        fullText + targetList[nextIndex]
-
-    } else {
-        current
-    }
-}
-
-fun convertKana(
-    text: String,
-    toKatakana: Boolean
-): String {
-
-    return text.map { char ->
-
-        if (toKatakana && char in 'ぁ'..'ん') {
-            char + ('ァ' - 'ぁ')
-        } else if (!toKatakana && char in 'ァ'..'ヶ') {
-            char - ('ァ' - 'ぁ')
-        } else {
-            char
-        }
-
-    }.joinToString("")
-}
-
+@OptIn(Material3Api::class)
 @Composable
-fun DictScreen(viewModel: DictViewModel) {
-
+fun DictionaryMainScreen(viewModel: DictViewModel) {
     var text by remember { mutableStateOf("") }
+    var selectedEntry by remember { mutableStateOf<DictionaryEntry?>(null) }
 
-    var isKatakana by remember {
-        mutableStateOf(false)
+    // 监听搜索结果变化，默认选中搜索到的第一个词条
+    LaunchedEffect(viewModel.results.size) {
+        if (viewModel.results.isNotEmpty()) {
+            selectedEntry = viewModel.results.first()
+        } else {
+            selectedEntry = null
+        }
     }
-
-    val clipboardManager =
-        LocalClipboardManager.current
-
-    val context = LocalContext.current
-
-    val baseKeys = listOf(
-
-        "あ", "い", "う", "え", "お",
-        "か", "き", "く", "け", "こ",
-
-        "さ", "し", "す", "せ", "そ",
-        "た", "ち", "つ", "て", "と",
-
-        "な", "に", "ぬ", "ね", "の",
-        "は", "ひ", "ふ", "へ", "ほ",
-
-        "ま", "み", "む", "め", "も",
-        "や", "ー", "ゆ", "DEL", "よ",
-
-        "ら", "り", "る", "れ", "ろ",
-        "わ", "を", "ん", "KANA", "CYC"
-    )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(6.dp)
+            .padding(8.dp)
     ) {
-
-        // 搜索栏
-        OutlinedTextField(
-            value = text,
-
-            onValueChange = {
-                text = it
-                viewModel.search(it)
-            },
-
-            placeholder = {
-                Text(
-                    "搜索...",
-                    fontSize = 16.sp
-                )
-            },
-
-            singleLine = true,
-
-            shape = RoundedCornerShape(16.dp),
-
-            textStyle = TextStyle(
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center
-            ),
-
+        // 1. 顶部自定义搜索框显示区
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp),
-
-            colors = OutlinedTextFieldDefaults.colors()
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        // 结果区域
-        LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 4.dp)
+                .height(54.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
         ) {
-
-            items(viewModel.results) { entry ->
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp)
-                        .pointerInput(Unit) {
-
-                            detectTapGestures(
-
-                                onLongPress = {
-
-                                    clipboardManager.setText(
-                                        AnnotatedString(
-                                            entry.word + ": " + entry.content
-                                        )
-                                    )
-
-                                    Toast.makeText(
-                                        context,
-                                        "已复制",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            )
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = if (text.isEmpty()) "输入词汇开始查词..." else text,
+                    fontSize = 18.sp,
+                    color = if (text.isEmpty()) Color.Gray else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f)
+                )
+                if (text.isNotEmpty()) {
+                    IconButton(
+                        onClick = {
+                            text = ""
+                            viewModel.search("")
+                            selectedEntry = null
                         },
-
-                    colors = CardDefaults.cardColors(
-                        containerColor =
-                        MaterialTheme.colorScheme.surfaceVariant
-                    )
-                ) {
-
-                    Column(
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier.size(36.dp)
                     ) {
+                        Text("✕", fontSize = 16.sp, color = Color.Gray)
+                    }
+                }
+            }
+        }
 
-                        Text(
-                            text = entry.word,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary
-                        )
+        Spacer(modifier = Modifier.height(8.dp))
 
-                        Spacer(
-                            modifier = Modifier.height(4.dp)
-                        )
+        // 2. 中间多功能内容排版渲染区 (权重 Weight = 1f)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            if (viewModel.isLoading.value) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (viewModel.results.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (text.isBlank()) "日韩双解大词典\n请使用下方键盘输入查词" else "未找到相关词条",
+                        textAlign = TextAlign.Center,
+                        color = Color.Gray,
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp
+                    )
+                }
+            } else {
+                Column(modifier = Modifier.fillMaxSize()) {
+                    // 候选词横向快捷切词栏（极其精美且节省空间）
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(viewModel.results) { entry ->
+                            val isSelected = entry == selectedEntry
+                            SuggestionChip(
+                                onClick = { selectedEntry = entry },
+                                label = { Text(text = entry.word, fontSize = 14.sp) },
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                                    labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+                                )
+                            )
+                        }
+                    }
 
-                        Text(
-                            text = entry.content,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontSize = 16.sp
+                    // 分割线
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(Color.LightGray.copy(alpha = 0.5f))
+                    )
+
+                    // 核心黑科技：WebView HTML 渲染引擎，完美解析内嵌图、排版、样式
+                    selectedEntry?.let { entry ->
+                        DictionaryHtmlViewer(
+                            htmlContent = entry.content,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 6.dp)
                         )
                     }
                 }
             }
         }
 
-        // 键盘区域
-        Box(
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // 3. 底部自定义软键盘区（10列标准网格）
+        // 💡 提示：你可以自由修改下面数组里字符的排列顺序，以完全还原你本来的键盘布局！
+        val keys = listOf(
+            "あ", "い", "う", "え", "お", "か", "き", "く", "け", "こ",
+            "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と",
+            "な", "に", "ぬ", "ね", "之", "は", "ひ", "ふ", "へ", "ほ",
+            "ま", "み", "む", "め", "も", "や", "ゆ", "よ", "ら", "り",
+            "る", "れ", "ろ", "わ", "を", "ん", "っ", "ー", "清空", "退格"
+        )
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(10),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(420.dp)
+                .height(210.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(5),
-
-                modifier = Modifier.fillMaxSize(),
-
-                userScrollEnabled = false
-            ) {
-
-                items(baseKeys) { rawKey ->
-
-                    val displayKey =
-
-                        if (rawKey.length == 1) {
-                            convertKana(rawKey, isKatakana)
-                        } else {
-                            rawKey
+            items(keys) { displayKey ->
+                val isSpecial = displayKey == "清空" || displayKey == "退格"
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    KeyButton(
+                        label = displayKey,
+                        isSpecial = isSpecial,
+                        onClick = {
+                            when (displayKey) {
+                                "清空" -> {
+                                    text = ""
+                                }
+                                "退格" -> {
+                                    if (text.isNotEmpty()) {
+                                        text = text.dropLast(1)
+                                    }
+                                }
+                                else -> {
+                                    text += displayKey
+                                }
+                            }
+                            viewModel.search(text)
                         }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(42.dp)
-                            .padding(2.dp)
-                    ) {
-
-                        when (rawKey) {
-
-                            "DEL" -> {
-
-                                KeyButton(
-                                    label = "←",
-                                    isSpecial = true,
-
-                                    onClick = {
-
-                                        if (text.isNotEmpty()) {
-
-                                            text = text.dropLast(1)
-
-                                            viewModel.search(text)
-                                        }
-                                    },
-
-                                    onDoubleTap = {
-
-                                        text = ""
-
-                                        viewModel.search("")
-                                    }
-                                )
-                            }
-
-                            "KANA" -> {
-
-                                KeyButton(
-                                    label =
-                                    if (isKatakana) "片" else "平",
-
-                                    isSpecial = true,
-
-                                    onClick = {
-                                        isKatakana = !isKatakana
-                                    }
-                                )
-                            }
-
-                            "CYC" -> {
-
-                                KeyButton(
-                                    label = "促/浊",
-
-                                    isSpecial = true,
-
-                                    onClick = {
-
-                                        text = cycleKana(text)
-
-                                        viewModel.search(text)
-                                    }
-                                )
-                            }
-
-                            "ー" -> {
-
-                                KeyButton(
-                                    label = "ー",
-
-                                    onClick = {
-
-                                        text += "ー"
-
-                                        viewModel.search(text)
-                                    }
-                                )
-                            }
-
-                            else -> {
-
-                                KeyButton(
-                                    label = displayKey,
-
-                                    onClick = {
-
-                                        text += displayKey
-
-                                        viewModel.search(text)
-                                    }
-                                )
-                            }
-                        }
-                    }
+                    )
                 }
             }
         }
     }
+}
+
+/**
+ * 专门用于完美加载并渲染词典复杂 HTML 文本的本地浏览器组件
+ */
+@Composable
+fun DictionaryHtmlViewer(htmlContent: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        factory = { context ->
+            WebView(context).apply {
+                settings.allowFileAccess = true        // 开启本地文件访问权限
+                settings.domStorageEnabled = true       // 开启DOM缓存机制
+                settings.javaScriptEnabled = false      // 词典数据一般不含复杂JS，关闭更安全流畅
+                
+                setBackgroundColor(0)                  // 强制背景完全透明，完美融入你的App背景色
+                
+                webViewClient = WebViewClient()
+            }
+        },
+        update = { webView ->
+            // 核心黑科技：以本地 assets 文件夹作为根路径加载 HTML
+            // 这能让网页内的 href="xinrihanshuangjie.css" 自动、准确地找到并使用你内置的样式文件！
+            webView.loadDataWithBaseURL(
+                "file:///android_asset/",
+                htmlContent,
+                "text/html",
+                "utf-8",
+                null
+            )
+        },
+        modifier = modifier
+    )
 }
 
 @Composable
 fun KeyButton(
     label: String,
-
     isSpecial: Boolean = false,
-
     onClick: () -> Unit = {},
-
     onDoubleTap: () -> Unit = {}
 ) {
-
     Box(
-
         modifier = Modifier
-
             .fillMaxSize()
-
+            .height(38.dp) // 精准微调高度，完美适配底部网格
             .background(
-                color =
-
-                if (isSpecial) {
+                color = if (isSpecial) {
                     MaterialTheme.colorScheme.secondaryContainer
                 } else {
                     MaterialTheme.colorScheme.surface
                 },
-
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(8.dp)
             )
-
             .border(
                 1.dp,
-                Color.LightGray,
-                RoundedCornerShape(12.dp)
+                Color.LightGray.copy(alpha = 0.7f),
+                RoundedCornerShape(8.dp)
             )
-
             .pointerInput(Unit) {
-
                 detectTapGestures(
-
-                    onTap = {
-                        onClick()
-                    },
-
-                    onDoubleTap = {
-                        onDoubleTap()
-                    }
+                    onTap = { onClick() },
+                    onDoubleTap = { onDoubleTap() }
                 )
             },
-
         contentAlignment = Alignment.Center
     ) {
-
         Text(
             text = label,
-
-            fontSize = 22.sp,
-
+            fontSize = if (label.length > 1) 14.sp else 18.sp, // 自动缩小“清空/退格”等长文本字体
             style = MaterialTheme.typography.labelLarge
         )
     }
