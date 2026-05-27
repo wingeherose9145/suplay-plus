@@ -1,53 +1,56 @@
-name: Android CI & Release
+name: Build Full Dictionary (Direct Upload)
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      dictionary_text:
+        description: '请点击下方“Choose File”上传你的大体积 mdx 文本/文件'
+        required: true
+        type: file
 
 jobs:
-  build:
+  build-mdict:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: 1. 拉取仓库代码
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Grant execute permission
-        run: chmod +x gradlew
-      
-      # ===== 插入的词库下载与解压步骤开始 =====
-      - name: Download and extract database
+      - name: 2. 获取你上传的大文件
         run: |
-          mkdir -p app/src/main/assets
-          wget -O nichudict.zip "https://github.com/wingeherose9145/suplay-plus/releases/download/v0.1/nichudict.zip"
-          unzip nichudict.zip -d app/src/main/assets/
-          rm nichudict.zip
-      # ===== 插入的词库下载与解压步骤结束 =====
+          # 这一步会直接把你在网页上提交的那个 43.8M 文件接到服务器中
+          mv "${{ inputs.dictionary_text }}" ./xsjrihanshuangjie.mdx
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace --info
+      - name: 3. 安装 Python 环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace --info
+      - name: 4. 安装 Mdict 打包工具
+        run: |
+          pip install mdict-utils
 
-      - name: Upload Debug APK
+      - name: 5. 编译与打包
+        run: |
+          mkdir -p output
+          
+          # 判断文件类型并处理
+          # 如果是纯文本源码则编译，如果是已经编译好的二进制则直接复制
+          if file ./xsjrihanshuangjie.mdx | grep -q "text"; then
+            mdict --db output/xsjrihanshuangjie.mdx --pack xsjrihanshuangjie.mdx
+          else
+            cp xsjrihanshuangjie.mdx output/
+          fi
+          
+          # 打包资源（如果没有 resources 文件夹会自动跳过）
+          if [ -d "resources" ]; then
+            mdict --db output/xsjrihanshuangjie.mdd --pack resources/
+          fi
+          
+          # 复制配置文件
+          cp xinrihanshuangjie.css output/xsjrihanshuangjie.css || cp *.css output/ 2>/dev/null || true
+
+      - name: 6. 导出最终成品
         uses: actions/upload-artifact@v4
         with:
-          name: NichuDict-debug
-          path: app/build/outputs/apk/debug/*.apk
+          name: Full-Version-Dictionary
+          path: output/
