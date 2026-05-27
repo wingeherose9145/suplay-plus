@@ -1,6 +1,8 @@
 package com.nichudict
 
 import android.os.Bundle
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 
 class MainActivity : ComponentActivity() {
 
@@ -49,106 +52,36 @@ class MainActivity : ComponentActivity() {
 }
 
 fun cycleKana(current: String): String {
-
     if (current.isEmpty()) return ""
-
     val lastChar = current.last()
     val fullText = current.dropLast(1)
 
     val cycles = listOf(
-
-        listOf('あ', 'ぁ'),
-        listOf('い', 'ぃ'),
-        listOf('う', 'ぅ'),
-        listOf('え', 'ぇ'),
-        listOf('お', 'ぉ'),
-
-        listOf('か', 'が'),
-        listOf('き', 'ぎ'),
-        listOf('く', 'ぐ'),
-        listOf('け', 'げ'),
-        listOf('こ', 'ご'),
-
-        listOf('さ', 'ざ'),
-        listOf('し', 'じ'),
-        listOf('す', 'ず'),
-        listOf('せ', 'ぜ'),
-        listOf('そ', 'ぞ'),
-
-        listOf('た', 'だ'),
-        listOf('ち', 'ぢ'),
-        listOf('つ', 'っ', 'づ'),
-        listOf('て', 'で'),
-        listOf('と', 'ど'),
-
-        listOf('は', 'ば', 'ぱ'),
-        listOf('ひ', 'び', 'ぴ'),
-        listOf('ふ', 'ぶ', 'ぷ'),
-        listOf('へ', 'べ', 'ぺ'),
-        listOf('ほ', 'ぼ', 'ぽ'),
-
-        listOf('や', 'ゃ'),
-        listOf('ゆ', 'ゅ'),
-        listOf('よ', 'ょ'),
-        listOf('わ', 'ゎ'),
-
-        listOf('ア', 'ァ'),
-        listOf('イ', 'ィ'),
-        listOf('ウ', 'ゥ'),
-        listOf('エ', 'ェ'),
-        listOf('オ', 'ォ'),
-
-        listOf('カ', 'ガ'),
-        listOf('キ', 'ギ'),
-        listOf('ク', 'グ'),
-        listOf('ケ', 'ゲ'),
-        listOf('コ', 'ゴ'),
-
-        listOf('サ', 'ザ'),
-        listOf('シ', 'ジ'),
-        listOf('ス', 'ズ'),
-        listOf('セ', 'ゼ'),
-        listOf('ソ', 'ゾ'),
-
-        listOf('タ', 'ダ'),
-        listOf('チ', 'ヂ'),
-        listOf('ツ', 'ッ', 'ヅ'),
-        listOf('テ', 'デ'),
-        listOf('ト', 'ド'),
-
-        listOf('ハ', 'バ', 'パ'),
-        listOf('ヒ', 'ビ', 'ピ'),
-        listOf('フ', 'ブ', 'プ'),
-        listOf('ヘ', 'ベ', 'ペ'),
-        listOf('ホ', 'ボ', 'ポ'),
-
-        listOf('ヤ', 'ャ'),
-        listOf('ユ', 'ュ'),
-        listOf('ヨ', 'ョ'),
-        listOf('ワ', 'ヮ')
+        listOf('あ', 'ぁ'), listOf('い', 'ぃ'), listOf('う', 'ぅ'), listOf('え', 'ぇ'), listOf('お', 'ぉ'),
+        listOf('か', 'が'), listOf('き', 'ぎ'), listOf('く', 'ぐ'), listOf('け', 'げ'), listOf('こ', 'ご'),
+        listOf('さ', 'ざ'), listOf('し', 'じ'), listOf('す', 'ず'), listOf('せ', 'ぜ'), listOf('そ', 'ぞ'),
+        listOf('た', 'だ'), listOf('ち', 'ぢ'), listOf('つ', 'っ', 'づ'), listOf('て', 'で'), listOf('と', 'ど'),
+        listOf('は', 'ば', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
+        listOf('や', 'ゃ'), listOf('ゆ', 'ゅ'), listOf('よ', 'ょ'), listOf('わ', 'ゎ'),
+        listOf('ア', 'ァ'), listOf('イ', 'ィ'), listOf('ウ', 'ゥ'), listOf('エ', 'ェ'), listOf('オ', 'ォ'),
+        listOf('カ', 'ガ'), listOf('キ', 'ギ'), listOf('ク', 'ぐ'), listOf('ケ', 'ゲ'), listOf('コ', 'ゴ'),
+        listOf('サ', 'ザ'), listOf('シ', 'じ'), listOf('ス', 'ズ'), listOf('セ', 'ぜ'), listOf('ソ', 'ぞ'),
+        listOf('タ', 'ダ'), listOf('チ', 'ヂ'), listOf('ツ', 'ッ', 'づ'), listOf('テ', 'で'), listOf('ト', 'ど'),
+        listOf('ハ', 'バ', 'ぱ'), listOf('ひ', 'び', 'ぴ'), listOf('ふ', 'ぶ', 'ぷ'), listOf('へ', 'べ', 'ぺ'), listOf('ほ', 'ぼ', 'ぽ'),
+        listOf('ヤ', 'ャ'), listOf('ユ', 'ュ'), listOf('よ', 'ょ'), listOf('わ', 'ヮ')
     )
 
     val targetList = cycles.find { it.contains(lastChar) }
-
     return if (targetList != null) {
-
-        val nextIndex =
-            (targetList.indexOf(lastChar) + 1) % targetList.size
-
+        val nextIndex = (targetList.indexOf(lastChar) + 1) % targetList.size
         fullText + targetList[nextIndex]
-
     } else {
         current
     }
 }
 
-fun convertKana(
-    text: String,
-    toKatakana: Boolean
-): String {
-
+fun convertKana(text: String, toKatakana: Boolean): String {
     return text.map { char ->
-
         if (toKatakana && char in 'ぁ'..'ん') {
             char + ('ァ' - 'ぁ')
         } else if (!toKatakana && char in 'ァ'..'ヶ') {
@@ -156,38 +89,50 @@ fun convertKana(
         } else {
             char
         }
-
     }.joinToString("")
 }
 
 @Composable
+fun HtmlWebView(htmlContent: String, modifier: Modifier = Modifier) {
+    AndroidView(
+        modifier = modifier,
+        factory = { context ->
+            WebView(context).apply {
+                webViewClient = WebViewClient()
+                // 开启基础配置，确保背景透明跟随系统样式
+                setBackgroundColor(0) 
+                settings.textZoom = 100 // 防止跟随系统字体变大导致排版错乱
+            }
+        },
+        update = { webView ->
+            // 将本地 assets 文件夹设为 BaseURL，以便 WebView 能够直接抓取 Shogakukanjcv3.css
+            webView.loadDataWithBaseURL(
+                "file:///android_asset/",
+                htmlContent,
+                "text/html",
+                "UTF-8",
+                null
+            )
+        }
+    )
+}
+
+@Composable
 fun DictScreen(viewModel: DictViewModel) {
-
     var text by remember { mutableStateOf("") }
-
-    var isKatakana by remember {
-        mutableStateOf(false)
-    }
-
-    val clipboardManager =
-        LocalClipboardManager.current
-
+    var isKatakana by remember { mutableStateOf(false) }
+    val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
 
     val baseKeys = listOf(
-
         "あ", "い", "う", "え", "お",
         "か", "き", "く", "け", "こ",
-
         "さ", "し", "す", "せ", "そ",
         "た", "ち", "つ", "て", "と",
-
-        "な", "に", "ぬ", "ね", "の",
+        "な", "に", "ぬ", "ね", "之",
         "は", "ひ", "ふ", "へ", "ほ",
-
         "ま", "み", "む", "め", "も",
         "や", "ー", "ゆ", "DEL", "よ",
-
         "ら", "り", "る", "れ", "ろ",
         "わ", "を", "ん", "KANA", "CYC"
     )
@@ -197,36 +142,20 @@ fun DictScreen(viewModel: DictViewModel) {
             .fillMaxSize()
             .padding(6.dp)
     ) {
-
         // 搜索栏
         OutlinedTextField(
             value = text,
-
             onValueChange = {
                 text = it
                 viewModel.search(it)
             },
-
-            placeholder = {
-                Text(
-                    "搜索...",
-                    fontSize = 16.sp
-                )
-            },
-
+            placeholder = { Text("搜索...", fontSize = 16.sp) },
             singleLine = true,
-
             shape = RoundedCornerShape(16.dp),
-
-            textStyle = TextStyle(
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center
-            ),
-
+            textStyle = TextStyle(fontSize = 22.sp, textAlign = TextAlign.Center),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp),
-
             colors = OutlinedTextFieldDefaults.colors()
         )
 
@@ -238,58 +167,37 @@ fun DictScreen(viewModel: DictViewModel) {
                 .weight(1f)
                 .padding(vertical = 4.dp)
         ) {
-
             items(viewModel.results) { entry ->
-
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 6.dp)
                         .pointerInput(Unit) {
-
                             detectTapGestures(
-
                                 onLongPress = {
-
-                                    clipboardManager.setText(
-                                        AnnotatedString(
-                                            entry.word + ": " + entry.content
-                                        )
-                                    )
-
-                                    Toast.makeText(
-                                        context,
-                                        "已复制",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    clipboardManager.setText(AnnotatedString(entry.word + ": " + entry.content))
+                                    Toast.makeText(context, "已复制", Toast.LENGTH_SHORT).show()
                                 }
                             )
                         },
-
                     colors = CardDefaults.cardColors(
-                        containerColor =
-                        MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 ) {
-
-                    Column(
-                        modifier = Modifier.padding(12.dp)
-                    ) {
-
+                    Column(modifier = Modifier.padding(12.dp)) {
                         Text(
                             text = entry.word,
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.primary
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
 
-                        Spacer(
-                            modifier = Modifier.height(4.dp)
-                        )
-
-                        Text(
-                            text = entry.content,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontSize = 16.sp
+                        // 【核心修复】使用 WebView 来替代旧的 Text 控件，自适应包裹内容的高度
+                        HtmlWebView(
+                            htmlContent = entry.content,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
                         )
                     }
                 }
@@ -302,24 +210,17 @@ fun DictScreen(viewModel: DictViewModel) {
                 .fillMaxWidth()
                 .height(420.dp)
         ) {
-
             LazyVerticalGrid(
                 columns = GridCells.Fixed(5),
-
                 modifier = Modifier.fillMaxSize(),
-
                 userScrollEnabled = false
             ) {
-
                 items(baseKeys) { rawKey ->
-
-                    val displayKey =
-
-                        if (rawKey.length == 1) {
-                            convertKana(rawKey, isKatakana)
-                        } else {
-                            rawKey
-                        }
+                    val displayKey = if (rawKey.length == 1) {
+                        convertKana(rawKey, isKatakana)
+                    } else {
+                        rawKey
+                    }
 
                     Box(
                         modifier = Modifier
@@ -327,87 +228,54 @@ fun DictScreen(viewModel: DictViewModel) {
                             .height(42.dp)
                             .padding(2.dp)
                     ) {
-
                         when (rawKey) {
-
                             "DEL" -> {
-
                                 KeyButton(
                                     label = "←",
                                     isSpecial = true,
-
                                     onClick = {
-
                                         if (text.isNotEmpty()) {
-
                                             text = text.dropLast(1)
-
                                             viewModel.search(text)
                                         }
                                     },
-
                                     onDoubleTap = {
-
                                         text = ""
-
                                         viewModel.search("")
                                     }
                                 )
                             }
-
                             "KANA" -> {
-
                                 KeyButton(
-                                    label =
-                                    if (isKatakana) "片" else "平",
-
+                                    label = if (isKatakana) "片" else "平",
                                     isSpecial = true,
-
-                                    onClick = {
-                                        isKatakana = !isKatakana
-                                    }
+                                    onClick = { isKatakana = !isKatakana }
                                 )
                             }
-
                             "CYC" -> {
-
                                 KeyButton(
                                     label = "促/浊",
-
                                     isSpecial = true,
-
                                     onClick = {
-
                                         text = cycleKana(text)
-
                                         viewModel.search(text)
                                     }
                                 )
                             }
-
                             "ー" -> {
-
                                 KeyButton(
                                     label = "ー",
-
                                     onClick = {
-
                                         text += "ー"
-
                                         viewModel.search(text)
                                     }
                                 )
                             }
-
                             else -> {
-
                                 KeyButton(
                                     label = displayKey,
-
                                     onClick = {
-
                                         text += displayKey
-
                                         viewModel.search(text)
                                     }
                                 )
@@ -423,60 +291,29 @@ fun DictScreen(viewModel: DictViewModel) {
 @Composable
 fun KeyButton(
     label: String,
-
     isSpecial: Boolean = false,
-
     onClick: () -> Unit = {},
-
     onDoubleTap: () -> Unit = {}
 ) {
-
     Box(
-
         modifier = Modifier
-
             .fillMaxSize()
-
             .background(
-                color =
-
-                if (isSpecial) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    MaterialTheme.colorScheme.surface
-                },
-
+                color = if (isSpecial) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(12.dp)
             )
-
-            .border(
-                1.dp,
-                Color.LightGray,
-                RoundedCornerShape(12.dp)
-            )
-
+            .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
             .pointerInput(Unit) {
-
                 detectTapGestures(
-
-                    onTap = {
-                        onClick()
-                    },
-
-                    onDoubleTap = {
-                        onDoubleTap()
-                    }
+                    onTap = { onClick() },
+                    onDoubleTap = { onDoubleTap() }
                 )
             },
-
         contentAlignment = Alignment.Center
     ) {
-
         Text(
             text = label,
-
             fontSize = 22.sp,
-
             style = MaterialTheme.typography.labelLarge
         )
     }
